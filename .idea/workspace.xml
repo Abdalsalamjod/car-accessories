@@ -4,34 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4600014-5527-487d-a1a4-82e62e42c04f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Application/LoggerUtility.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Application/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Application/Services/SignIn.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Application/Services/SignUp.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Application/entities/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/Application/AdminTest/ChangePassword.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/Application/AdminTest/CreatAcconts.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/Application/AdminTest/DeleteAccount.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/Application/AdminTest/EditAccount.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/Application/AdminTest/ViewAccountInformation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/Application/ConfigurationTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/Application/SignInTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/Application/SignUpTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/features/Adminfeatures/ChangePassword.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/features/Adminfeatures/CreatAccounts.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/features/Adminfeatures/DeleteAccount.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/features/Adminfeatures/EditAccount.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/features/Adminfeatures/ViewAccountInformation.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/features/SignIn.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/features/SignUp.feature" afterDir="false" />
+    <list default="true" id="f4600014-5527-487d-a1a4-82e62e42c04f" name="Changes" comment="fix Initial commit">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,6 +22,24 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;abdalsalam-jodalah&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="7aa1b729-2548-49d4-b075-bb4c62bbeb3d" />
+        <option name="url" value="https://github.com/abdalsalam-jodalah/car-accessories.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
@@ -57,25 +50,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/abdalsalam/Documents/car-accessories test for me&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;onboarding.tips.debug.path&quot;: &quot;/Users/abdalsalam/Documents/car-accessories/src/main/java/Application/Main.java&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "/Users/abdalsalam/Documents/car-accessories",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "onboarding.tips.debug.path": "/Users/abdalsalam/Documents/car-accessories/src/main/java/Application/Main.java",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/test/resources/features/Adminfeatures" />
@@ -145,7 +139,26 @@
       <workItem from="1697649092131" duration="2000" />
       <workItem from="1697649223774" duration="5475000" />
       <workItem from="1697709855088" duration="31033000" />
+      <workItem from="1697804810494" duration="1557000" />
+      <workItem from="1697810060209" duration="374000" />
     </task>
+    <task id="LOCAL-00001" summary="Initial commit">
+      <option name="closed" value="true" />
+      <created>1697809256931</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1697809256931</updated>
+    </task>
+    <task id="LOCAL-00002" summary="fix Initial commit">
+      <option name="closed" value="true" />
+      <created>1697809788248</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1697809788248</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -161,5 +174,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Initial commit" />
+    <MESSAGE value="fix Initial commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix Initial commit" />
   </component>
 </project>

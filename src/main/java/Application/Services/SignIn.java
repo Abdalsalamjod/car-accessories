@@ -1,4 +1,4 @@
-package Application;
+package Application.Services;
 
 public class SignIn {
     public boolean signedIn;

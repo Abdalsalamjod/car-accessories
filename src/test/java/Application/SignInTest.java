@@ -1,5 +1,6 @@
 package Application;
 
+import Application.Services.SignIn;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -9,59 +10,59 @@ import java.util.logging.Logger;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class SignIn {
+public class SignInTest {
     private static Logger logger = LoggerUtility.getLogger();
-    boolean regsterd=false;
+    SignIn signIn ;
+    public SignInTest() {
+        signIn=new SignIn();
+    }
 
-    boolean Valid=false;
 
 
     @Given("the user accesses the sign-in command")
     public void theUserAccessesTheSignInCommand() {
-
-        assertFalse(regsterd);
-        logger.info("you are accesses the sign-in command "+"\n");
+        assertFalse(signIn.signedIn);
+        logger.info("Please Enter your Email and password\n");
     }
 
+    @When("the user enters {string} , {string}")
+    public void theUserEnters(String string, String string2) {
+        signIn.email=string;
+        signIn.password=string2;
 
-    @When("the user enters valid login information {string}, {string}")
-    public void theUserEntersValidLoginInformation(String string, String string2) {
-
-
-        logger.info( string+" "+ string2  +"\n");
-        if (string.equals("valid@example.com") && string2.equals("validpass") )
-            Valid=true;
-        assertTrue(Valid);
+        logger.info( "Email: "+signIn.email+ "\nPassword: "+signIn.password+"\n");
+        signIn.valid= signIn.email.equals("valid@example.com") && signIn.password.equals("validpass");
     }
-    @When("confirms the login")
-    public void confirmsTheLogin() {
-        logger.info("welcome "+"\n");
-    }
+//    @When("confirms the login")
+//    public void confirmsTheLogin() {
+////        assertTrue(signIn.valid);
+//        logger.info(signIn.getMessage());
+//    }
+
     @Then("the user should be successfully logged in")
     public void theUserShouldBeSuccessfullyLoggedIn() {
-        regsterd  =true;
+        logger.info(signIn.getMessage());
+        signIn.signedIn  =true;
+        assertTrue(signIn.signedIn);
+
     }
     @Then("should be redirected to the user dashboard")
     public void shouldBeRedirectedToTheUserDashboard() {
+
         logger.info("you are in user dashboard "+"\n");
     }
 
 
 
-
-
-
-    @When("the user enters {string} and {string}")
-    public void theUserEntersAnd(String string, String string2) {
-        logger.info( string+" "+ string2  +"\n");
-    }
-
     @Then("the system should display an error message {string}")
     public void theSystemShouldDisplayAnErrorMessage(String string) {
-        logger.info( string+"\n");    }
+        logger.info( string+"\n");
+    }
+
     @Then("the user should not be logged in")
     public void theUserShouldNotBeLoggedIn() {
-        regsterd=false;
+        signIn.signedIn=false;
+        assertFalse( signIn.signedIn);
     }
 
 }

@@ -1,4 +1,4 @@
-package UniversityProjects.SoftwareProject;
+package Application;
 
 
 import io.cucumber.junit.Cucumber;
@@ -7,10 +7,10 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-  features = "src/test/resources/cases",
+  features = "src/test/resources/features",
   monochrome = true,
   snippets = CucumberOptions.SnippetType.CAMELCASE,
-  glue = {"UniversityProjects.SoftwareProject"},
+  glue = {"Application"},
   plugin = {"summary", "html:target/cucumber/test-summary.html"}
 )
 public class ConfigurationTest {

@@ -1,2 +1,4 @@
-package Application.entities;public class User {
+package Application.entities;
+
+public class User {
 }

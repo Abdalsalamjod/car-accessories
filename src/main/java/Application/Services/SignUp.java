@@ -25,7 +25,10 @@ public class SignUp {
             message = "Invalid email address\n";
         } else if (!isExistEmail(this.email)) {
             message = "Email address is already in use\n";
-        } else {
+        } else if(email==null || email.equals(" ")){
+            message ="Empty, not valid empty Email";
+        }
+        else {
             message = "Successful Registration, you are welcome\n";
         }
         return message;
@@ -33,7 +36,7 @@ public class SignUp {
 
 
     public void validation(String email, String password) {
-        valid= isValidEmail(email) && isExistEmail(email);
+        valid= isValidEmail(email) && isExistEmail(email) && ( email != null) && (!email.equals(" ") );
     }
 
     public static boolean isValidEmail(String email) {

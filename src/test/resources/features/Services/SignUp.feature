@@ -18,3 +18,5 @@ Feature: User Sign-Up
       | invalid_email       | validpass     |
       | valid@example.com   | shortpass     |
       | user@example.com    | validpassword |
+      |                     |               |
+

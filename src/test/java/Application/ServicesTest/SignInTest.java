@@ -1,5 +1,6 @@
-package Application;
+package Application.ServicesTest;
 
+import Application.LoggerUtility;
 import Application.Services.SignIn;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -46,11 +47,11 @@ public class SignInTest {
         assertTrue(signIn.signedIn);
 
     }
-    @Then("should be redirected to the user dashboard")
-    public void shouldBeRedirectedToTheUserDashboard() {
-
-        logger.info("you are in user dashboard "+"\n");
-    }
+//    @Then("should be redirected to the user dashboard")
+//    public void shouldBeRedirectedToTheUserDashboard() {
+//
+//        logger.info("you are in user dashboard "+"\n");
+//    }
 
 
 

@@ -7,11 +7,13 @@ Feature: User Login
     Then the user should be successfully logged in
     And should be redirected to the user dashboard
 
+Feature: User Login
+
   Scenario Outline: User login with invalid credentials
     Given the user accesses the sign-in command
     When the user enters "<username>" , "<password>"
-#    And confirms the login
-    Then the system should display an error message '<error_message>'
+    #    And confirms the login
+    Then the system should display an error message "<error_message>"
     And the user should not be logged in
 
     Examples:
@@ -19,10 +21,4 @@ Feature: User Login
       | invaliduser    | invalid   | Invalid username    |
       | validuser      | wrongpass | Invalid password    |
       | nonexisting    | secret    | User does not exist |
-
-  Scenario: User login with invalid credentials
-    Given the user accesses the sign-in command
-    When the user enters ' ' , ''
-#    And confirms the login
-    Then the system should display an error message 'error_message'
-    And the user should not be logged in
+      |                |           | error_message       |

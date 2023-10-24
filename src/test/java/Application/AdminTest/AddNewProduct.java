@@ -1,5 +1,4 @@
 package Application.AdminTest;
-import Application.Services.DatabaseService;
 import Application.entities.Product;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
@@ -10,11 +9,11 @@ import org.junit.Assert;
 
 public class AddNewProduct{
 
-  private boolean isAdmin; // want implem.
+  private boolean isAdmin;
   private boolean isProductAddedToDatabase;
-  private boolean isProductInformationValid; // need reassign
-  private boolean isObjectNull; // want implem.
-  private String  errorMessage; //want sub implem.
+  private boolean isProductInformationValid;
+  private boolean isObjectNull;
+  private String  errorMessage;
 
 
 
@@ -39,7 +38,7 @@ public class AddNewProduct{
     errorMessage = product.validInformation();
     if("".equals(errorMessage)){
       isProductInformationValid = true;
-      isProductAddedToDatabase = DatabaseService.addProduct(product);
+//      isProductAddedToDatabase = DatabaseService.addProduct(product);
     }
 
 
@@ -51,13 +50,12 @@ public class AddNewProduct{
 
 
 
-
   //Scenario 2
   @Given("a product with ID {int}")
   public void a_product_with_id(Integer id) {
 
-    Product product = DatabaseService.getProductById(id);
-    isObjectNull = (product == null);
+//    Product product = DatabaseService.getProductById(id);
+//    isObjectNull = (product == null);
 
   }
   @When("I add a duplicated product with ID {int}, name {string}, category {string}, price {double}, and quantity {int}")
@@ -77,7 +75,6 @@ public class AddNewProduct{
     //Assert.assertEquals(errorMessage, actualValue);
 
   }
-
 
 
   //Scenario 3

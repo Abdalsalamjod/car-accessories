@@ -56,67 +56,69 @@ public class DatabaseService {
 
   }
 
+
   //add new object to the database (static -> call it from class name)
-  public static <T> void addObject(T object, String tableName){
-    try{
+  public  <T> boolean addObject(T object, String tableName) throws SQLException{
+    StringBuilder insertQuery = new StringBuilder("INSERT INTO " + tableName + " (");
 
-
-      StringBuilder insertQuery = new StringBuilder("INSERT INTO " + tableName + " (");
-
-      //get the fields names (class must have getters)
-      Field[] fields = object.getClass().getDeclaredFields();
-      for (int i = 0; i < fields.length; i++) {
-        insertQuery.append(fields[i].getName());
-        if (i < fields.length - 1) {
-          insertQuery.append(", ");
-        }
+    //get the fields names (class must have getters)
+    Field[] fields = object.getClass().getDeclaredFields();
+    for (int i = 0; i < fields.length; i++) {
+      insertQuery.append(fields[i].getName());
+      if (i < fields.length - 1) {
+        insertQuery.append(", ");
       }
-
-
-      //add ? in the VALUES (?, ?, ?) -> PreparedStatement
-      insertQuery.append(") VALUES (");
-      for (int i = 0; i < fields.length; i++) {
-        insertQuery.append("?");
-        if (i < fields.length - 1) {
-          insertQuery.append(", ");
-        }
-      }
-      insertQuery.append(")");
-
-      //replace ? with actual values
-      PreparedStatement statement = connection.prepareStatement(insertQuery.toString());
-      for (int i = 0; i < fields.length; i++) {
-        fields[i].setAccessible(true);
-        statement.setObject(i + 1, fields[i].get(object));
-      }
-
-      //execute updates
-      statement.executeUpdate();
-      statement.close();
-
-    }catch ( Exception e ){
-      e.printStackTrace();
     }
+
+
+    //add ? in the VALUES (?, ?, ?) -> PreparedStatement
+    insertQuery.append(") VALUES (");
+    for (int i = 0; i < fields.length; i++) {
+      insertQuery.append("?");
+      if (i < fields.length - 1) {
+        insertQuery.append(", ");
+      }
+    }
+    insertQuery.append(")");
+
+    //replace ? with actual values
+    PreparedStatement statement = connection.prepareStatement(insertQuery.toString());
+    for (int i = 0; i < fields.length; i++) {
+      fields[i].setAccessible(true);
+      try {
+        statement.setObject(i + 1, fields[i].get(object));
+      } catch ( IllegalAccessException e ) {
+        throw new RuntimeException(e);
+      }
+    }
+
+    //execute updates
+    statement.executeUpdate();
+    statement.close();
+    return true;
+
   }
 
   //delete object based on id (static -> call it from class name)
-  public static void deleteObject(int id, String tableName) throws SQLException {
+  public boolean deleteObject(int id, String tableName) throws SQLException{
 
-    String deleteQuery = "DELETE FROM " + tableName + " WHERE id = ?";
-    PreparedStatement statement = connection.prepareStatement(deleteQuery);
-    statement.setInt(1, id);
 
-    statement.executeUpdate();
-    statement.close();
+      String deleteQuery = "DELETE FROM " + tableName + " WHERE id = ?";
+      PreparedStatement statement = connection.prepareStatement(deleteQuery);
+      statement.setInt(1, id);
+
+      statement.executeUpdate();
+      statement.close();
+      return true;
+
   }
-
 
 
   //update object base on id (static -> call it from class name)
   /*(object -> new instance with type of the object you need to update,
     set id to be equal to the id in the record in the database you need to update)
     (tableName -> table name in the database which contains the record you want to update)
-    (primaryKeyField -> the primary key in the table contains the record you want to update*/
+    (primaryKeyField -> the name of the primary key in the table contains the record you want to update*/
   public static <T> void updateObject(T object, String tableName, String primaryKeyField){
 
     try{
@@ -168,24 +170,6 @@ public class DatabaseService {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   public static void main(String[] args) throws SQLException {
 
 
@@ -211,13 +195,13 @@ public class DatabaseService {
 
     //add new object
     Product productToBeAdded = new Product(4, "new", "new", 20.0, 20);
-    DatabaseService.addObject(productToBeAdded, "Product");
+    dbs.addObject(productToBeAdded, "Product");
 
     //delete an object
-    DatabaseService.deleteObject(4, "Product");
+    dbs.deleteObject(4, "Product");
 
     //update an object
-    Product p = new Product(1, "Spoiler", "exterior", 45.0, 10);
+    Product p = new Product(1, "Spoiler", "exterior", 20.0, 5);
     DatabaseService.updateObject(p, "Product", "id");
 
 

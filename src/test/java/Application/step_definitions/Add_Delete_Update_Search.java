@@ -1,8 +1,8 @@
 package Application.step_definitions;
 
 import Application.Services.DatabaseService;
-import Application.entities.Product;
-import Application.interfaces_implementators.UserDefinedTypes.ProductResultHandler;
+import Application.Entities.Product;
+import Application.DataBase.UserDefinedTypes.ProductResultHandler;
 import io.cucumber.java.AfterAll;
 import io.cucumber.java.Before;
 import io.cucumber.java.BeforeAll;

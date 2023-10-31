@@ -1,6 +1,7 @@
-package Application.interfaces_implementators.UserDefinedTypes;
-import Application.entities.Product;
-import Application.interfaces_implementators.QueryResultHandler;
+package Application.DataBase.UserDefinedTypes;
+import Application.DataBase.QueryResultHandler;
+import Application.Entities.Product;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 

@@ -1,6 +1,5 @@
 package Application.Services;
-import Application.entities.User;
-import javax.swing.JOptionPane;
+import Application.Entities.User;
 
 public class SignUp {
 

@@ -1,7 +1,7 @@
-package Application.entities;
+package Application.Entities;
 
-import Application.InstallationRequest;
-import Application.Order;
+import Application.Services.InstallationRequest;
+import Application.Services.Order;
 
 import java.util.List;
 import java.util.ArrayList;

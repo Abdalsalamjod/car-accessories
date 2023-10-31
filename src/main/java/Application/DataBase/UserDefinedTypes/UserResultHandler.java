@@ -1,7 +1,4 @@
-package Application.interfaces_implementators.UserDefinedTypes;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
+package Application.DataBase.UserDefinedTypes;
 
 //public class UserResultHandler implements QueryResultHandler<User> {
 //  @Override

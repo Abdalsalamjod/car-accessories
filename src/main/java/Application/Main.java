@@ -4,7 +4,7 @@ import Application.Services.MessagesGenerator;
 import Application.Services.SignIn;
 import Application.Services.SignUp;
 import Application.Services.ValidationUser;
-import Application.entities.User;
+import Application.Entities.User;
 
 import java.util.Scanner;
 import java.util.logging.Logger;

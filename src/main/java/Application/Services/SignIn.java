@@ -1,6 +1,6 @@
 package Application.Services;
 
-import Application.entities.User;
+import Application.Entities.User;
 
 public class SignIn {
     public String email;

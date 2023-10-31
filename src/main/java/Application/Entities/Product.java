@@ -1,4 +1,4 @@
-package Application.entities;
+package Application.Entities;
 
 public class Product {
 

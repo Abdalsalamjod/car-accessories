@@ -1,6 +1,6 @@
 package Application.Services;
 
-import Application.entities.User;
+import Application.Entities.User;
 
 public class LogOut {
         public User performLogout(User user) {

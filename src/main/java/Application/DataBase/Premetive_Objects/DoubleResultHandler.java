@@ -1,5 +1,6 @@
-package Application.interfaces_implementators.Premetive_Objects;
-import Application.interfaces_implementators.QueryResultHandler;
+package Application.DataBase.Premetive_Objects;
+import Application.DataBase.QueryResultHandler;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 

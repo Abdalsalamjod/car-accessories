@@ -1,7 +1,7 @@
-package Application;
+package Application.DataBase;
 
-import Application.entities.Profile;
-import Application.entities.User;
+import Application.Entities.Profile;
+import Application.Entities.User;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;

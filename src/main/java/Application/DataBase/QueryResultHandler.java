@@ -1,4 +1,4 @@
-package Application.interfaces_implementators;
+package Application.DataBase;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 

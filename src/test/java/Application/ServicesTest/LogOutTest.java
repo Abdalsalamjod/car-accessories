@@ -2,8 +2,7 @@ package Application.ServicesTest;
 
 import Application.LoggerUtility;
 import Application.Services.LogOut;
-import Application.Services.SignIn;
-import Application.entities.User;
+import Application.Entities.User;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;

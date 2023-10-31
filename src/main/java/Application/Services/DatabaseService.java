@@ -1,10 +1,10 @@
 package Application.Services;
-import Application.entities.Product;
-import Application.interfaces_implementators.Premetive_Objects.IntResultHandler;
-import Application.interfaces_implementators.Premetive_Objects.ResultSetResultHandler;
-import Application.interfaces_implementators.Premetive_Objects.StringResultHandler;
-import Application.interfaces_implementators.QueryResultHandler;
-import Application.interfaces_implementators.UserDefinedTypes.ProductResultHandler;
+import Application.Entities.Product;
+import Application.DataBase.Premetive_Objects.IntResultHandler;
+import Application.DataBase.Premetive_Objects.ResultSetResultHandler;
+import Application.DataBase.Premetive_Objects.StringResultHandler;
+import Application.DataBase.QueryResultHandler;
+import Application.DataBase.UserDefinedTypes.ProductResultHandler;
 import java.lang.reflect.Field;
 import java.sql.*;
 

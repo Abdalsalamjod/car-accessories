@@ -6,7 +6,7 @@ import Application.Services.SignUp;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
-
+import Application.Services.MessagesGenerator;
 import java.util.logging.Logger;
 
 import static Application.Services.ValidationUser.validation;

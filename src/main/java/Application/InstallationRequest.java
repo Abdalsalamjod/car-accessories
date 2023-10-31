@@ -1,2 +1,4 @@
-package Application;public class InstallationRequest {
+package Application;
+
+public class InstallationRequest {
 }

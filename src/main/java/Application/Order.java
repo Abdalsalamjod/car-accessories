@@ -1,2 +1,4 @@
-package Application;public class Order {
+package Application;
+
+public class Order {
 }

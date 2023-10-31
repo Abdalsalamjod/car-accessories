@@ -1,5 +1,6 @@
 package Application.ServicesTest;
 import Application.LoggerUtility;
+import Application.Services.MessagesGenerator;
 import Application.Services.SignIn;
 import Application.Services.SignUp;
 import io.cucumber.java.en.Given;
@@ -8,19 +9,21 @@ import io.cucumber.java.en.Then;
 
 import java.util.logging.Logger;
 
+import static Application.Services.ValidationUser.validation;
 import static org.junit.Assert.*;
 
 public class SignUpTest {
 
     private static final Logger logger = LoggerUtility.getLogger();
     SignUp signUp;
-    SignIn signIn;
+//    SignIn signIn;
     public SignUpTest(SignUp signUp, SignIn signIn) {
         this.signUp = signUp;
-        this.signIn = signIn;
+//        this.signIn = signIn;
+        signUp.email   ="valid@example.com";
+        signUp.password ="validpass";
     }
-    String Email   ="valid@example.com";
-    String Password ="validpass";
+
     @Given("the user accesses the sign-up command")
     public void theUserAccessesTheSignUpCommand() {
         assertFalse(signUp.hasAccount);
@@ -28,45 +31,37 @@ public class SignUpTest {
     }
     @When("the user provides valid registration information")
     public void theUserProvidesValidRegistrationInformation() {
-        signUp.validation(Email,Password);
-        assertTrue(signUp.valid);
+       signUp.validationStatus = validation(signUp.email,signUp.password);
+        assertEquals(signUp.validationStatus,0);
     }
     @Then("the user should be registered successfully")
     public void theUserShouldBeRegisteredSuccessfully() {
-
-        signUp.creatAccount(Email,Password);
+        signUp.creatAccount();
         assertTrue( signUp.hasAccount);
     }
     @Then("should receive a confirmation message")
     public void shouldReceiveAConfirmationMessage() {
-        logger.info("");
+        logger.info(MessagesGenerator.SigningMessages(signUp.validationStatus));
     }
     @Then("should be redirected to the user dashboard")
     public void shouldBeRedirectedToTheUserDashboardd() {
-
-        signIn.valid=true;
-        signIn.signedIn=true;
-        signIn.email =signUp.email;
-        signIn.password=signUp.password;
-        signIn.getMessage();
+        signUp.performLogIn();
     }
 
 
 
     @When("the user provides {string}, {string}")
     public void theUserProvides(String Email, String Password)  {
-        signUp.validation(Email,Password);
-        assertFalse(signUp.valid);
+        signUp.validationStatus =validation(Email,Password);
+        assertNotEquals(signUp.validationStatus,0);
     }
     @Then("the system should respond with an error message")
     public void theSystemShouldRespondWithAnErrorMessage() {
-        signUp.email=Email;
-
-        logger.info(signUp.generateMessage());
+        logger.info(MessagesGenerator.SigningMessages(signUp.validationStatus));
     }
     @Then("the user should not be registered")
     public void theUserShouldNotBeRegistered() {
-        signIn.signedIn=false;
+
     }
 }
 

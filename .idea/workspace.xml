@@ -5,37 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f4600014-5527-487d-a1a4-82e62e42c04f" name="Changes" comment="fix signUp">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Application/Services/MainUtility.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Application/DataBase/UserDefinedTypes/UserResultHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Application/DataBase/UserDefinedTypes/UserResultHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Application/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Application/Main.java" afterDir="false" />
-
-      <change beforePath="$PROJECT_DIR$/src/main/java/Application/Services/SignIn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Application/Services/SignIn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Application/Services/MessagesGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Application/Services/MessagesGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Application/Services/SignUp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Application/Services/SignUp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Application/entities/Profile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Application/entities/Profile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Application/entities/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Application/entities/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/Application/AdminTest/CommonAdminMethodsTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/Application/AdminTest/CommonAdminMethodsTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/Application/CommonUserTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/Application/ServicesTest/LogOutTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/Application/ServicesTest/LogOutTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/Application/ServicesTest/SignInTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/Application/ServicesTest/SignInTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/Application/ServicesTest/SignUpTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/Application/ServicesTest/SignUpTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/features/Services/LogOut.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/Services/LogOut.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/features/Services/SignIn.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/Services/SignIn.feature" afterDir="false" />
-    </list>
-    <list default="true" id="f4600014-5527-487d-a1a4-82e62e42c04f" name="Changes" comment="fix Initial commit">
-      <change afterPath="$PROJECT_DIR$/src/test/java/step_definitions/Add_Delete_Update_Search.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Application/Services/DatabaseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Application/Services/DatabaseService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/Application/AdminTest/AddNewProduct.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/Application/AdminTest/DeleteProduct.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/Application/AdminTest/SearchForProduct.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/Application/AdminTest/UpdateProduct.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/ConfigurationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ConfigurationTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/features/Adminfeatures/AddNewProduct.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/AddNewProduct.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/features/Adminfeatures/DeleteProduct.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/DeleteProduct.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/features/Adminfeatures/SearchForProduct.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/SearchForProduct.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/features/Adminfeatures/UpdateProduct.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/UpdateProduct.feature" afterDir="false" />
-
+      <change beforePath="$PROJECT_DIR$/src/main/java/Application/Services/ValidationUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Application/Services/ValidationUser.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,12 +21,17 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
         <option value="AnnotationType" />
+        <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="dev" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="UPDATE_TYPE" value="REBASE" />
   </component>
@@ -95,9 +75,6 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/abdalsalam/Desktop/car-accessories-copy&quot;,
-
-    &quot;git-widget-placeholder&quot;: &quot;shehab-kharaz-dev&quot;,
     &quot;last_opened_file_path&quot;: &quot;F:/car-accessories/src/test/resources/features&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -142,9 +119,6 @@
       <recent name="Application" />
     </key>
   </component>
-
-  <component name="RunManager" selected="Cucumber Java.Feature: AddNewProduct"></component>
-
   <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Application.Main" />
@@ -159,7 +133,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-
     <configuration name="Feature: AddNewProduct" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java" nameIsGenerated="true">
       <option name="CUCUMBER_CORE_VERSION" value="5" />
       <option name="FILE_PATH" value="$PROJECT_DIR$/src/test/resources/features/Adminfeatures/AddNewProduct.feature" />
@@ -290,7 +263,8 @@
     </configuration>
     <recent_temporary>
       <list>
-
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Cucumber Java.Feature: SignUp" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Cucumber Java.Feature: SignUp" />
       </list>
@@ -326,6 +300,7 @@
       <workItem from="1698485135332" duration="1150000" />
       <workItem from="1698707403713" duration="2436000" />
       <workItem from="1700503191114" duration="2681000" />
+      <workItem from="1700597993688" duration="6557000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <option name="closed" value="true" />
@@ -381,7 +356,7 @@
     <MESSAGE value="fix Initial commit" />
     <MESSAGE value="fix git problem" />
     <MESSAGE value="fix signUp" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix signUp" />
+    <option name="LAST_COMMIT_MESSAGE" value="" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/car_accessories$Feature__DeleteProduct.ic" NAME="Feature: DeleteProduct Coverage Results" MODIFIED="1698277066871" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">

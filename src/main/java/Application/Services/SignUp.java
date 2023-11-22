@@ -16,6 +16,13 @@ public class SignUp {
         validationStatus =-1;
 
     }
+    public SignUp(String email, String password,boolean hasAccount, int validationStatus) {
+        this.email=email;
+        this.password=password;
+        this.validationStatus=validationStatus;
+        this.hasAccount=hasAccount;
+    }
+
 
     public void creatAccount() {
         if (validationStatus == 0) {

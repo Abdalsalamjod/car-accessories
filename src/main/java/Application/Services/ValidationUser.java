@@ -11,6 +11,7 @@ public class ValidationUser {
     public static final int INVALID_EMAIL = 2;
     public static final int EMAIL_NOT_EXIST = 3;
     public static final int INVALID_PASSWORD = 4;
+    public static final int INVALID = 5;
     public static final int OTHER_ERROR = -1;
 
     public static int validation(String email, String password) {

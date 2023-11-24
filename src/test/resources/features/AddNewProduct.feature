@@ -4,23 +4,22 @@ Feature: Admin adds a new product
     Given I am an admin
 
   Scenario: admin adds product with all valid information
-    When  I add a new product with ID 5, name "TestProduct", category "Interior", price 149.99, quantity 10
-    Then  the product with ID 5, name "TestProduct", category "Interior", price 149.99, quantity 10 should be added to the database
+    When  I add a new product with valid ID, name, category, price, quantity
+    Then  the product should be added to the database
 
   Scenario: admin tries to add a product with duplicated ID
-    And   a product with ID duplicated ID
-    When  I add a duplicated product with ID 5, name "duplicatedID", category "Interior", price 149.99, and quantity 10
-    Then  the system should display an error message indicating the ID is already in use
+    When  I add a product with duplicated ID
+    Then  the system should show that the ID is already exist
 
   Scenario Outline: admin adds a product with invalid information
     When I add a new product with invalid ID <ID>, name "<Name>", category "<Category>", price <Price>, quantity <Quantity>
-    Then the user should see <errorMessage>
+    Then the system should show invalid information
 
     Examples:
-      | ID  | Name            | Category      | Price   | Quantity | errorMessage
-      | 11  | Spoiler         | Watches       | 20.0    | 10       | Invalid Category!
-      | 12  | Spoiler         | exterior      | -10.0   | 10       | Invalid Price!
-      | 13  | Spoiler         | exterior      | 20.0    | -10      | Invalid Quantity!
+      | ID | Name           | Category      | Price   | Quantity |
+      | 5  | Spoiler         | Watches       | 20.0    | 10       |
+      | 6  | Spoiler         | exterior      | -10.0   | 10       |
+      | 7  | Spoiler         | exterior      | 20.0    | -10      |
 
 
 

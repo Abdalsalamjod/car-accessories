@@ -5,17 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f4600014-5527-487d-a1a4-82e62e42c04f" name="Changes" comment="fix signUp">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_20_11_2023__11_33_pm__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_20_11_2023__11_33_pm__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Application/Entities/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Application/Entities/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Application/Services/DatabaseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Application/Services/DatabaseService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/Application/step_definitions/Add_Delete_Update_Search.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/features/AddNewProduct.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/AddNewProduct.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/features/DeleteProduct.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/DeleteProduct.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/features/SearchForProduct.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/SearchForProduct.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/features/UpdateProduct.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/UpdateProduct.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Application/MainUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Application/MainUtility.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -449,7 +441,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="dev" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -461,17 +465,6 @@
     <MESSAGE value="fix git problem" />
     <MESSAGE value="fix signUp" />
     <option name="LAST_COMMIT_MESSAGE" value="" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/Application/step_definitions/ProductManipulation.java</url>
-          <line>94</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/car_accessories$Feature__DeleteProduct.ic" NAME="Feature: DeleteProduct Coverage Results" MODIFIED="1698277066871" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">

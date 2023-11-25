@@ -72,4 +72,11 @@ public class Product {
   public void setQuantity( Integer quantity ) {
     this.quantity = quantity;
   }
+
+
+  //To print the product
+  @Override
+  public String toString(){
+    return  "ID: " + this.id + ", Name: " + this.name + ", Category: " + this.category + ", Price: " + this.price + ", Quantity: " + this.quantity;
+  }
 }

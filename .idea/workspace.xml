@@ -16,6 +16,9 @@
       <change beforePath="$PROJECT_DIR$/src/test/resources/features/DeleteProduct.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/DeleteProduct.feature" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/resources/features/SearchForProduct.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/SearchForProduct.feature" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/resources/features/UpdateProduct.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/UpdateProduct.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/Application/ConfigurationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/Application/ConfigurationTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/Application/ServicesTest/SignUpTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/Application/ServicesTest/SignUpTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,6 +35,19 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <excluded-from-favorite>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="master" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </excluded-from-favorite>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
         <entry key="$PROJECT_DIR$" value="dev" />
@@ -90,8 +106,28 @@
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+    }
+    }></component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "dev",
+    "last_opened_file_path": "F:/car-accessories/src/test/resources/features",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "onboarding.tips.debug.path": "/Users/abdalsalam/Documents/car-accessories/src/main/java/Application/Main.java",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="Application" />
@@ -123,11 +159,14 @@
       <recent name="Application" />
     </key>
   </component>
-  <component name="RunManager" selected="Cucumber Java.Feature: AddNewProduct">
-    <configuration name="Feature: AddNewProduct (1)" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java" nameIsGenerated="true">
+  <component name="RunManager" selected="Cucumber Java.Feature: AddNewProduct"></component>
+  <configuration name="Feature: AddNewProduct (1)" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java" nameIsGenerated="true"></configuration>
       <option name="CUCUMBER_CORE_VERSION" value="5" />
       <option name="FILE_PATH" value="$PROJECT_DIR$/src/test/resources/features/AddNewProduct.feature" />
       <option name="MAIN_CLASS_NAME" value="io.cucumber.core.cli.Main" />
+  <component name="RunManager" selected="JUnit.ConfigurationTest">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Application.Main" />
       <module name="car-accessories" />
       <option name="PROGRAM_PARAMETERS" value=" --plugin org.jetbrains.plugins.cucumber.java.run.CucumberJvm5SMFormatter" />
       <option name="SUGGESTED_NAME" value="Feature: AddNewProduct" />
@@ -364,6 +403,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="ConfigurationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="car-accessories" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Application.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Application" />
+      <option name="MAIN_CLASS_NAME" value="Application.ConfigurationTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Cucumber Java.Scenario: searching for non-existing product by name" />
@@ -371,6 +425,11 @@
         <item itemvalue="Cucumber Java.Scenario: update existing product with invalid price or quantity" />
         <item itemvalue="Cucumber Java.Scenario: update existing product with invalid price and quantity" />
         <item itemvalue="Cucumber Java.Scenario: successful update process" />
+        <item itemvalue="JUnit.ConfigurationTest" />
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Cucumber Java.Feature: SignUp" />
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Cucumber Java.Feature: SignUp" />
       </list>
     </recent_temporary>
   </component>

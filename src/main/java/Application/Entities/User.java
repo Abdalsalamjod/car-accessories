@@ -1,5 +1,9 @@
 package Application.Entities;
 
+import Application.Services.DatabaseService;
+
+import java.util.Date;
+
 public class User {
     private String name;
     private String email;
@@ -30,6 +34,29 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public boolean makeRequest(Request request){
+
+        try{
+            DatabaseService dbs = new DatabaseService();
+            return dbs.addObject(request,"Request");
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean removeRequest(int id){
+        try{
+            DatabaseService dbs = new DatabaseService();
+            dbs.deleteObject(id, "Request");
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
     }
 
 

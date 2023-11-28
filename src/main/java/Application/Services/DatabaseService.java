@@ -5,13 +5,15 @@ import Application.DataBase.Premetive_Objects.ResultSetResultHandler;
 import Application.DataBase.Premetive_Objects.StringResultHandler;
 import Application.DataBase.QueryResultHandler;
 import Application.DataBase.UserDefinedTypes.ProductResultHandler;
+
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.sql.*;
 
 
 
 
-public class DatabaseService {
+public class DatabaseService implements Serializable {
 
   private static Connection connection;
   private static final String databaseNameAndUser = "sql12654012";
@@ -52,7 +54,7 @@ public class DatabaseService {
   }
 
 
-  //add new object to the database (static -> call it from class name)
+  //add new object to the database
   public  <T> boolean addObject(T object, String tableName) throws SQLException{
 
 
@@ -84,7 +86,7 @@ public class DatabaseService {
        fields[i].setAccessible(true);
        try {
          statement.setObject(i + 1, fields[i].get(object));
-       } catch ( IllegalAccessException e ) {
+       }catch (IllegalAccessException e) {
          throw new RuntimeException(e);
        }
      }

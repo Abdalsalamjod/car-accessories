@@ -1,9 +1,12 @@
 package Application;
 
+import Application.DataBase.Premetive_Objects.ResultSetResultHandler;
+import Application.DataBase.UserDefinedTypes.ProductResultHandler;
 import Application.Entities.Product;
 import Application.Entities.User;
 import Application.Services.*;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -41,12 +44,14 @@ public class MainUtility {
     }
 
     public static void manegerUtility(DatabaseService databaseService) {
+        String valid;
         while (true) {
             MessagesGenerator.listGenerator("productList");
             int option = scanner.nextInt();
             scanner.nextLine();  // Consume the newline
 
             switch (option) {
+
                 case 1:
                     logger.info("Enter product details:");
                     System.out.print("ID: ");
@@ -62,17 +67,21 @@ public class MainUtility {
                     int quantity = scanner.nextInt();
 
                     Product product = new Product(id, name, category, price, quantity);
+                    valid = product.validInformation();
+                    if(valid.equals("")){
 
-                    try {
-                        boolean productAdded = databaseService.addObject(product, "Product");
-                        if (productAdded) {
-                            logger.info("Product added successfully.");
-                        } else {
-                            logger.info("Failed to add the product.");
+                        try {
+                             databaseService.addObject(product, "Product");
+                             logger.info("Product added successfully.");
+
+                        } catch (SQLException e) {
+                            e.printStackTrace();
                         }
-                    } catch (SQLException e) {
-                        e.printStackTrace();
                     }
+                    else
+                        logger.info("Cannot add product, it seems that there is invalid information");
+
+
                     break;
 
                 case 2:
@@ -82,52 +91,107 @@ public class MainUtility {
                         boolean productDeleted = databaseService.deleteObject(deleteId, "Product");
                         if (productDeleted) {
                             logger.info("Product with ID " + deleteId + " deleted successfully.");
-                        } else {
-                            logger.info("Failed to delete the product.");
                         }
                     } catch (SQLException e) {
+                        logger.info("Failed to delete the product.");
                         e.printStackTrace();
                     }
                     break;
 
                 case 3:
-                    System.out.print("Enter the ID of the product to update: ");
+                    logger.info("Enter the ID of the product to update: ");
                     int updateId = scanner.nextInt();
                     scanner.nextLine();  // Consume the newline
-                    System.out.print("Enter the new price: ");
-                    double newPrice = scanner.nextDouble();
-                    System.out.print("Enter the new quantity: ");
-                    int newQuantity = scanner.nextInt();
 
-//                                    try {
-//                                        boolean productUpdated = databaseService.updateProduct(updateId, newPrice, newQuantity);
-//                                        if (productUpdated) {
-//                                            logger.info("Product with ID " + updateId + " updated successfully.");
-//                                        } else {
-//                                            logger.info("Failed to update the product.");
-//                                        }
-//                                    } catch (SQLException e) {
-//                                        e.printStackTrace();
-//                                    }
+                    try{
+
+                        Product returnedProduct = databaseService.executeQuery("SELECT * FROM Product WHERE id=" + updateId, new ProductResultHandler());
+                        System.out.println("The product:\n ID: " + returnedProduct.getId()+ "\nName: " + returnedProduct.getName() + "\nCategory: " + returnedProduct.getCategory() + "\nPrice: " + returnedProduct.getPrice() + "\nQuantity: " + returnedProduct.getQuantity());
+                        System.out.print("Please enter the new price: ");
+                        double updatedPrice = scanner.nextDouble();
+                        System.out.print("Please enter the new quantity: ");
+                        int updatedQuantity = scanner.nextInt();
+                        Product updatedProduct = new Product(returnedProduct.getId(), returnedProduct.getName(), returnedProduct.getCategory(), updatedPrice, updatedQuantity);
+                        valid = updatedProduct.validInformation();
+
+                        if(valid.equals("")){
+                            databaseService.updateObject(updatedProduct, "Product", "id");
+                            logger.info("\n" + "The product has updated successfully !");
+                        }
+                        else{
+                            logger.info("\n" + valid);
+                        }
+                    }catch ( Exception e ){
+                        logger.info("Cannot update product, it seems that the product you entered does not exist !");
+                        e.printStackTrace();
+                    }
+
                     break;
 
                 case 4:
-                    System.out.print("Enter the name or ID of the product to search: ");
-                    String searchTerm = scanner.nextLine();
+                    logger.info("Please choose how do you want to search:\n1-By ID\n2-By name\n3-By category\n4-By price range ");
+                    int scanned = scanner.nextInt();
+                    switch (scanned){
+                        case 1:
+                            logger.info("Please enter the ID: ");
+                            int ID = scanner.nextInt();
+                            try{
+                                Product returnedProduct = databaseService.executeQuery("SELECT * FROM Product WHERE id=" + ID, new ProductResultHandler());
+                                System.out.println(returnedProduct.toString());
+                            }catch ( SQLException e ){
+                                logger.info("Cannot get product, it seems that the product you entered does not exist !");
+                            }
+                            break;
+                        case 2:
+                            logger.info("Please enter the name: ");
+                            String name_2 = scanner.nextLine();
+                            try{
+                                Product returnedProduct = databaseService.executeQuery("SELECT * FROM Product WHERE name='" + name_2 + "'", new ProductResultHandler());
+                                System.out.println(returnedProduct.toString());
+                            }catch ( SQLException e ){
+                                logger.info("Cannot get product, it seems that the product you entered does not exist !");
+                            }
+                            break;
+                        case 3:
+                            logger.info("Please enter the category: ");
+                            String category_2 = scanner.nextLine();
+                            try{
+                                ResultSet rs = databaseService.executeQuery("SELECT * FROM Product WHERE category='" + category_2 + "'", new ResultSetResultHandler());
+                                while ( rs.next() ){
+                                    Product returnedProduct = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getInt(5));
+                                    System.out.println(returnedProduct);
+                                }
 
-//                                    try {
-//                                        List<Product> products = databaseService.searchProduct(searchTerm);
-//                                        if (products.isEmpty()) {
-//                                            logger.info("No products found matching the search term.");
-//                                        } else {
-//                                            logger.info("Products found:");
-//                                            for (Product p : products) {
-//                                                logger.info("ID: " + p.getId() + ", Name: " + p.getName() + ", Category: " + p.getCategory() + ", Price: " + p.getPrice() + ", Quantity: " + p.getQuantity());
-//                                            }
-//                                        }
-//                                    } catch (SQLException e) {
-//                                        e.printStackTrace();
-//                                    }
+                            }catch ( SQLException e ){
+                                logger.info("There is some error");
+                                e.printStackTrace();
+                            }
+                            break;
+                        case 4:
+                            logger.info("Please enter the lower price: ");
+                            double lowerPrice = scanner.nextDouble();
+                            logger.info("Please enter the upper price: ");
+                            double upperPrice = scanner.nextDouble();
+
+                            try{
+                                ResultSet rs = databaseService.executeQuery("SELECT * FROM Product WHERE price BETWEEN " + lowerPrice + " AND " + upperPrice, new ResultSetResultHandler());
+                                while ( rs.next() ){
+                                    Product returnedProduct = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getInt(5));
+                                    System.out.println(returnedProduct);
+                                }
+
+                            }catch ( SQLException e ){
+                                logger.info("There is some error");
+                                e.printStackTrace();
+                            }
+
+                        default:
+                            logger.info("Invalid option. Please select a valid option.");
+
+
+                    }
+
+
                     break;
 
                 case 5:

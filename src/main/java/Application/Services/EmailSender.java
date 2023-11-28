@@ -9,11 +9,9 @@ public class EmailSender {
 
   private static final String senderEmail = "s12027747@stu.najah.edu";
   private static final String password = "eicf ohjt igww owsa";
-  private static final String recipientEmail = "s12027747@stu.najah.edu";
 
 
-
-  public static void sendEmail(String subject, String body) {
+  public static boolean sendEmail(String recipientEmail, String subject, String body) {
 
     Properties properties = new Properties();
     properties.put("mail.smtp.host", "smtp.gmail.com");
@@ -39,9 +37,11 @@ public class EmailSender {
       message.setText(body);
 
       Transport.send(message);
+      return true;
 
     } catch (MessagingException e) {
       e.printStackTrace();
+      return false;
     }
   }
 

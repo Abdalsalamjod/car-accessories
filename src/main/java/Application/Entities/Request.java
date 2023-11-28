@@ -4,52 +4,59 @@ import java.util.Date;
 
 public class Request {
 
-  private Product product;
-  private User user;
+  private int id;
+  private int productId;
+  private String userId;
   private Date date;
   private String description;
 
 
   public Request(){
-    this.product = new Product();
-    this.date = new Date();
+    this.date = null;
     this.description = "";
-    this.user = new User();
+    this.userId = "";
+    this.productId = -1;
+    this.id = -1;
+
   }
-  public Request(Product product, User user, Date date, String description){
-    this.product = product;
-    this.user = user;
+  public Request(int id, int productId, String userId, Date date, String description){
+    this.id = id;
+    this.productId = productId;
+    this.userId = userId;
     this.date = date;
     this.description = description;
   }
 
-  public void setProduct( Product product ) {
-    this.product = product;
-  }
-  public void setUser( User user ) {
-    this.user = user;
-  }
-  public void setDate( Date date ) {
-    this.date = date;
-  }
-  public void setDescription( String description ) {
-    this.description = description;
-  }
 
 
-
-  public Product getProduct() {
-    return product;
+  public int getId() {
+    return id;
   }
-  public User getUser() {
-    return user;
+  public void setId( int id ) {
+    this.id = id;
+  }
+  public int getProductId() {
+    return productId;
+  }
+  public void setProductId( int productId ) {
+    this.productId = productId;
+  }
+  public String getUserId() {
+    return userId;
+  }
+  public void setUserId( String userId ) {
+    this.userId = userId;
   }
   public Date getDate() {
     return date;
   }
+  public void setDate( Date date ) {
+    this.date = date;
+  }
   public String getDescription() {
     return description;
   }
-
-
+  public void setDescription( String description ) {
+    this.description = description;
+  }
 }

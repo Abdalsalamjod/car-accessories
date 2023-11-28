@@ -5,20 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f4600014-5527-487d-a1a4-82e62e42c04f" name="Changes" comment="fix signUp">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_20_11_2023__11_33_pm__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_20_11_2023__11_33_pm__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_20_11_2023,_11_33_pm_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_20_11_2023__11_33_pm__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Application/Entities/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Application/Entities/Product.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Application/Entities/Request.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Application/Entities/Request.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Application/Entities/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Application/Entities/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Application/Services/DatabaseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Application/Services/DatabaseService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/Application/step_definitions/Add_Delete_Update_Search.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/features/AddNewProduct.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/AddNewProduct.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/features/DeleteProduct.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/DeleteProduct.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/features/SearchForProduct.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/SearchForProduct.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/features/UpdateProduct.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/UpdateProduct.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Application/Services/EmailSender.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Application/Services/EmailSender.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/Application/ConfigurationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/Application/ConfigurationTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/Application/ServicesTest/SignUpTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/Application/ServicesTest/SignUpTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/Application/step_definitions/InstallationRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/Application/step_definitions/InstallationRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/features/CreateNewInstallationRequest.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/CreateNewInstallationRequest.feature" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,19 +31,6 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <excluded-from-favorite>
-      <branch-storage>
-        <map>
-          <entry type="LOCAL">
-            <value>
-              <list>
-                <branch-info repo="$PROJECT_DIR$" source="master" />
-              </list>
-            </value>
-          </entry>
-        </map>
-      </branch-storage>
-    </excluded-from-favorite>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
         <entry key="$PROJECT_DIR$" value="dev" />
@@ -159,8 +142,8 @@
       <recent name="Application" />
     </key>
   </component>
-  <component name="RunManager" selected="Cucumber Java.Feature: AddNewProduct"></component>
-  <configuration name="Feature: AddNewProduct (1)" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java" nameIsGenerated="true"></configuration>
+  <component name="RunManager">
+    <configuration name="Feature: AddNewProduct (1)" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java" nameIsGenerated="true">
       <option name="CUCUMBER_CORE_VERSION" value="5" />
       <option name="FILE_PATH" value="$PROJECT_DIR$/src/test/resources/features/AddNewProduct.feature" />
       <option name="MAIN_CLASS_NAME" value="io.cucumber.core.cli.Main" />
@@ -207,6 +190,24 @@
       <module name="car-accessories" />
       <option name="PROGRAM_PARAMETERS" value=" --plugin org.jetbrains.plugins.cucumber.java.run.CucumberJvm5SMFormatter" />
       <option name="SUGGESTED_NAME" value="Feature: CreatAccounts" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_WORKING_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="io.cucumber.core.cli.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Feature: CreateNewInstallationRequest" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java" temporary="true" nameIsGenerated="true">
+      <option name="CUCUMBER_CORE_VERSION" value="5" />
+      <option name="FILE_PATH" value="$PROJECT_DIR$/src/test/resources/features/CreateNewInstallationRequest.feature" />
+      <option name="MAIN_CLASS_NAME" value="io.cucumber.core.cli.Main" />
+      <module name="car-accessories" />
+      <option name="PROGRAM_PARAMETERS" value=" --plugin org.jetbrains.plugins.cucumber.java.run.CucumberJvm5SMFormatter" />
+      <option name="SUGGESTED_NAME" value="Feature: CreateNewInstallationRequest" />
       <option name="WORKING_DIRECTORY" value="$MODULE_WORKING_DIR$" />
       <extension name="coverage">
         <pattern>
@@ -420,16 +421,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Cucumber Java.Feature: CreateNewInstallationRequest" />
         <item itemvalue="Cucumber Java.Scenario: searching for non-existing product by name" />
         <item itemvalue="Cucumber Java.Feature: SearchForProduct" />
         <item itemvalue="Cucumber Java.Scenario: update existing product with invalid price or quantity" />
         <item itemvalue="Cucumber Java.Scenario: update existing product with invalid price and quantity" />
-        <item itemvalue="Cucumber Java.Scenario: successful update process" />
-        <item itemvalue="JUnit.ConfigurationTest" />
-        <item itemvalue="Application.Main" />
-        <item itemvalue="Cucumber Java.Feature: SignUp" />
-        <item itemvalue="Application.Main" />
-        <item itemvalue="Cucumber Java.Feature: SignUp" />
       </list>
     </recent_temporary>
   </component>
@@ -508,7 +504,24 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="false" />
+                </map>
+              </option>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="dev" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>

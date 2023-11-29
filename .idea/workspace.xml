@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f4600014-5527-487d-a1a4-82e62e42c04f" name="Changes" comment="fix signUp">
+
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_20_11_2023,_11_33_pm_[Changes]/shelved.patch" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_20_11_2023__11_33_pm__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -15,6 +16,11 @@
       <change beforePath="$PROJECT_DIR$/src/test/java/Application/ConfigurationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/Application/ConfigurationTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/Application/step_definitions/InstallationRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/Application/step_definitions/InstallationRequest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/resources/features/CreateNewInstallationRequest.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/CreateNewInstallationRequest.feature" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/Application/ConfigurationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/Application/ConfigurationTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/Application/ServicesTest/SignUpTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/Application/ServicesTest/SignUpTest.java" afterDir="false" />
+>>>>>>> c58788e (Fix configuration tset)
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,6 +37,19 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <excluded-from-favorite>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="master" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </excluded-from-favorite>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
         <entry key="$PROJECT_DIR$" value="dev" />
@@ -71,6 +90,7 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
@@ -89,8 +109,7 @@
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
-    }
-    }></component>
+    ></component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
@@ -116,24 +135,11 @@
       <recent name="Application" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/test/resources/features" />
-      <recent name="$PROJECT_DIR$/src/test/resources/features/Services" />
-      <recent name="$PROJECT_DIR$/src/test/resources/features/Adminfeatures" />
-      <recent name="$PROJECT_DIR$/src/test/resources" />
-      <recent name="step_definitions" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\newfolder\car-accessories\src\test\resources\features" />
       <recent name="F:\car-accessories\src\test\resources\features" />
       <recent name="F:\car-accessories\src\main\java\Application\interfaces_implementators\UserDefinedTypes" />
       <recent name="F:\car-accessories\src\test\resources\features\GeneralFeatures" />
       <recent name="$PROJECT_DIR$/src/test/resources/features/Adminfeatures" />
-      <recent name="$PROJECT_DIR$/src/test/resources/features" />
-    </key>
-    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="step_definitions" />
-      <recent name="Application.interfaces_implementators.Premetive_Objects" />
-      <recent name="" />
-      <recent name="RunnerClass" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="Application" />
@@ -147,6 +153,8 @@
       <option name="CUCUMBER_CORE_VERSION" value="5" />
       <option name="FILE_PATH" value="$PROJECT_DIR$/src/test/resources/features/AddNewProduct.feature" />
       <option name="MAIN_CLASS_NAME" value="io.cucumber.core.cli.Main" />
+    </configuration>
+  </component>
   <component name="RunManager" selected="JUnit.ConfigurationTest">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Application.Main" />
@@ -317,26 +325,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Scenario: successful update process" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java" temporary="true" nameIsGenerated="true">
-      <option name="CUCUMBER_CORE_VERSION" value="5" />
-      <option name="FILE_PATH" value="$PROJECT_DIR$/src/test/resources/features/UpdateProduct.feature" />
-      <option name="GLUE" value="Application.step_definitions" />
-      <option name="MAIN_CLASS_NAME" value="io.cucumber.core.cli.Main" />
-      <module name="car-accessories" />
-      <option name="NAME_FILTER" value="^successful update process$" />
-      <option name="PROGRAM_PARAMETERS" value=" --plugin org.jetbrains.plugins.cucumber.java.run.CucumberJvm5SMFormatter --name &quot;^successful update process$&quot;" />
-      <option name="SUGGESTED_NAME" value="Scenario: successful update process" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_WORKING_DIR$" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="io.cucumber.core.cli.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="Scenario: update existing product with invalid price and quantity" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java" temporary="true" nameIsGenerated="true">
       <option name="CUCUMBER_CORE_VERSION" value="5" />
       <option name="FILE_PATH" value="$PROJECT_DIR$/src/test/resources/features/UpdateProduct.feature" />
@@ -426,6 +414,11 @@
         <item itemvalue="Cucumber Java.Feature: SearchForProduct" />
         <item itemvalue="Cucumber Java.Scenario: update existing product with invalid price or quantity" />
         <item itemvalue="Cucumber Java.Scenario: update existing product with invalid price and quantity" />
+        <item itemvalue="JUnit.ConfigurationTest" />
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Cucumber Java.Feature: SignUp" />
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Cucumber Java.Feature: SignUp" />
       </list>
     </recent_temporary>
   </component>
@@ -533,17 +526,6 @@
     <MESSAGE value="fix git problem" />
     <MESSAGE value="fix signUp" />
     <option name="LAST_COMMIT_MESSAGE" value="" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/Application/step_definitions/ProductManipulation.java</url>
-          <line>94</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/car_accessories$Feature__DeleteProduct.ic" NAME="Feature: DeleteProduct Coverage Results" MODIFIED="1698277066871" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">

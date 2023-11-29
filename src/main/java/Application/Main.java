@@ -46,10 +46,10 @@ public class Main {
                             case "user" ->{
                                 MainUtility.userUtility(databaseService);
                             }
-                            case "maneger" ->{
+                            case "admin" ->{
                                 MainUtility.manegerUtility(databaseService);
                             }
-                            case "inssaller" ->{
+                            case "installer" ->{
                                 MainUtility.installerUtility(databaseService);
                             }
                             default -> {

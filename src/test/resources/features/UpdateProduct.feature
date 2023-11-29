@@ -5,31 +5,33 @@ Feature: Admin updates a product
 
 
   Scenario Outline: successful update process
-    When I update the product with ID <ExistingID> to have a new name "<NewName>", category "<NewCategory>", price <NewPrice>, and quantity <NewQuantity>
+    And  a product with ID <ExistingID>, name "Existing Product", category "Interior", price 99.99, and quantity 5 exists
+    When I update the product with ID <ExistingID> to have a new price <NewPrice>, and quantity <NewQuantity>
     Then the product information should be updated in the database
 
     Examples:
-      | ExistingID | NewName    | NewCategory  | NewPrice  | NewQuantity |
-      | 1          | u-spoiler  | exterior     |  199.99   | 10          |
-      | 2          | u-steering | interior     |  29.25    | 20          |
-      | 3          | u-reverse  | electronics  |  50.0     | 8           |
+      | ExistingID |  NewPrice | NewQuantity |
+      | 12011111   |  199.99   | 10          |
+      | 12022222   |  29.99    | 20          |
+      | 12033333   |  50.0     | 8           |
 
 
 
-  Scenario Outline: update existing product with invalid price or quantity
-    When I update the product with ID <ExistingID>, name "<NewName>", category "<NewCategory>", price <NewPrice>, and quantity <NewQuantity> to have invalid data
-    Then the system should display error message
+  Scenario Outline: update existing product with invalid price and quantity
+    And a product with ID 12011111 exists
+    When I update the product with ID "<ExistingID>" to have a "<NewPrice>" and a "<NewQuantity>"
+    Then the system should display error "<message>"
 
     Examples:
-      | ExistingID | NewName         | NewCategory | NewPrice | NewQuantity |
-      | 1          | Spoiler         | exterior    | -20.0    | 10          |
-      | 2          | steering-cover  | interior    |  19.5    | -5          |
+      | ExistingID |  NewPrice | NewQuantity | message
+      | 12011111   |  -20.0    | 10          | Invalid Price!
+      | 12022222   |  19.5     | -5          | Invalid Quantity!
 
 
 
   Scenario: update a non-existing product
-    When I update a non existing product
-    Then the system should display that the product does not exist
+    When I update a product with ID 9999999 that does not exist with a new price 120.0 and new quantity 7
+    Then the system should display error message says that the product does not exist
 
 
 

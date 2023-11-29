@@ -5,27 +5,31 @@ import Application.Services.DatabaseService;
 import java.util.Date;
 
 public class User {
-    private String name;
     private String email;
     private String password;
     public String role;
+    public Profile profile;
     public boolean SignInStatus;
+
+
     public User() {
 
     }
-    public User(String email, String password, String role, boolean SignInStatus) {
+
+    public User(String email, String password, String role, boolean SignInStatus,Profile profile) {
         this.email=email;
         this.password=password;
         this.role=role;
         this.SignInStatus = SignInStatus;
-
+        this.profile = profile;
     }
+
+
+
 
     public boolean isSignInStatus() {return SignInStatus;}
 
-    public String getName() {
-        return name;
-    }
+
 
     public String getEmail() {
         return email;
@@ -60,11 +64,6 @@ public class User {
     }
 
 
-
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public void setEmail(String email) {
         this.email = email;

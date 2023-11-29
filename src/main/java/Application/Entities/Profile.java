@@ -7,20 +7,23 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class Profile {
-    private User user;
+    public int profileId;
+    public String Name;
+    public String phoneNumber;
+    public String location;
+
     private List<Order> orderHistory;
     private List<InstallationRequest> installationRequests;
 
-    public Profile(User user) {
-        this.user = user;
+    public Profile() {
+
         this.orderHistory = new ArrayList<>();
         this.installationRequests = new ArrayList<>();
     }
 
     // Methods to manage user profile
     public void updateUserProfile(String newEmail, String newPassword) {
-        user.setEmail(newEmail);
-        user.setPassword(newPassword);
+
     }
 
     // Methods to manage order history

@@ -16,9 +16,9 @@ public class LogOutTest {
     LogOut logOut;
     private static Logger logger = LoggerUtility.getLogger();
 
-    public LogOutTest(User user,LogOut logOut) {
-      this.user=user;
-      this.logOut=logOut;
+    public LogOutTest() {
+       user =new User();
+        logOut =new LogOut();
     }
 
     @Given("the user is logged in")

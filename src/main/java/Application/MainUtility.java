@@ -8,13 +8,14 @@ import Application.Services.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Scanner;
+import java.util.logging.Logger;
 
 
 import static Application.Main.scanner;
 import static Application.Services.MessagesGenerator.logger;
 
 public class MainUtility {
+
 
     public static int signUpUtility(String email,String password){
 
@@ -37,13 +38,42 @@ public class MainUtility {
         return validationStatus;
     }
 
-    public static void userUtility(DatabaseService databaseService ){
+    public static void userUtility(DatabaseService databaseService, User currentUser){
 
+        while (true) {
+            MessagesGenerator.listGenerator("userList");
+            int option = scanner.nextInt();
+            scanner.nextLine();  // Consume the newline
 
+            switch (option) {
+                case 1:
 
+                    break;
+                case 2:
+                    currentUser.showDetails(logger);
+
+                    break;
+                case 3:
+                    MessagesGenerator.listGenerator("editProfile");
+                    int optionIn = scanner.nextInt();
+                    scanner.nextLine();  // Consume the newline
+                    currentUser.editDetails(optionIn,logger,scanner);
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    break;
+                default:
+            }
+        }
     }
 
-    public static void manegerUtility(DatabaseService databaseService) {
+
+
+
+    public static void adminUtility(DatabaseService databaseService) {
         String valid;
         while (true) {
             MessagesGenerator.listGenerator("productList");
@@ -208,4 +238,5 @@ public class MainUtility {
 
     public static void installerUtility(DatabaseService databaseService) {
     }
+
 }

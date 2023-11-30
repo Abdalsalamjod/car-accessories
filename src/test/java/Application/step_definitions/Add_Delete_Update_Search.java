@@ -81,7 +81,12 @@ public class Add_Delete_Update_Search {
   public void theProductShouldBeAddedToTheDatabase(Integer id, String name, String category, Double price, Integer quantity) {
 
 
-    Product product = dbs.executeQuery("SELECT * FROM Product WHERE id=" + id, new ProductResultHandler());
+    Product product = null;
+    try {
+      product = dbs.executeQuery("SELECT * FROM Product WHERE id=" + id, new ProductResultHandler());
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
     assertNotNull(product);
     assertEquals(name, product.getName());
     assertEquals(category, product.getCategory());

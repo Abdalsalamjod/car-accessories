@@ -44,23 +44,20 @@ public class DatabaseService implements Serializable {
   }
 
   //do the query (SELECT with all possible scenarios) and return the result
-  public <T> T executeQuery(String query, QueryResultHandler<T> resultHandler){
+  public <T> T executeQuery(String query, QueryResultHandler<T> resultHandler) throws SQLException{
 
-   try{
-     PreparedStatement statement = connection.prepareStatement(query);
-     ResultSet resultSet = statement.executeQuery();
-     return resultHandler.handle(resultSet);
 
-   }catch ( SQLException e ){
-     e.printStackTrace();
-     return null;
-   }
+    PreparedStatement statement = connection.prepareStatement(query);
+    ResultSet resultSet = statement.executeQuery();
+    return resultHandler.handle(resultSet);
 
   }
 
 
   //add new object to the database
   public  <T> boolean addObject(T object, String tableName) throws SQLException{
+
+
     StringBuilder insertQuery = new StringBuilder("INSERT INTO " + tableName + " (");
 
     //get the fields names (class must have getters)
@@ -89,7 +86,7 @@ public class DatabaseService implements Serializable {
       fields[i].setAccessible(true);
       try {
         statement.setObject(i + 1, fields[i].get(object));
-      } catch ( IllegalAccessException e ) {
+      }catch (IllegalAccessException e) {
         throw new RuntimeException(e);
       }
     }
@@ -98,60 +95,19 @@ public class DatabaseService implements Serializable {
     statement.executeUpdate();
     statement.close();
     return true;
-
-<<<<<<< HEAD
-     StringBuilder insertQuery = new StringBuilder("INSERT INTO " + tableName + " (");
-
-     //get the fields names (class must have getters)
-     Field[] fields = object.getClass().getDeclaredFields();
-     for (int i = 0; i < fields.length; i++) {
-       insertQuery.append(fields[i].getName());
-       if (i < fields.length - 1) {
-         insertQuery.append(", ");
-       }
-     }
-
-
-     //add ? in the VALUES (?, ?, ?) -> PreparedStatement
-     insertQuery.append(") VALUES (");
-     for (int i = 0; i < fields.length; i++) {
-       insertQuery.append("?");
-       if (i < fields.length - 1) {
-         insertQuery.append(", ");
-       }
-     }
-     insertQuery.append(")");
-
-     //replace ? with actual values
-     PreparedStatement statement = connection.prepareStatement(insertQuery.toString());
-     for (int i = 0; i < fields.length; i++) {
-       fields[i].setAccessible(true);
-       try {
-         statement.setObject(i + 1, fields[i].get(object));
-       }catch (IllegalAccessException e) {
-         throw new RuntimeException(e);
-       }
-     }
-
-     //execute updates
-     statement.executeUpdate();
-     statement.close();
-     return true;
-=======
->>>>>>> 220ad9f (test)
   }
 
   //delete object based on id (static -> call it from class name)
   public boolean deleteObject(int id, String tableName) throws SQLException{
 
 
-      String deleteQuery = "DELETE FROM " + tableName + " WHERE id = ?";
-      PreparedStatement statement = connection.prepareStatement(deleteQuery);
-      statement.setInt(1, id);
+    String deleteQuery = "DELETE FROM " + tableName + " WHERE id = ?";
+    PreparedStatement statement = connection.prepareStatement(deleteQuery);
+    statement.setInt(1, id);
 
-      statement.executeUpdate();
-      statement.close();
-      return true;
+    statement.executeUpdate();
+    statement.close();
+    return true;
 
   }
 
@@ -161,47 +117,43 @@ public class DatabaseService implements Serializable {
     set id to be equal to the id in the record in the database you need to update)
     (tableName -> table name in the database which contains the record you want to update)
     (primaryKeyField -> the name of the primary key in the table contains the record you want to update*/
-  public static <T> void updateObject(T object, String tableName, String primaryKeyField){
+  public  <T> void updateObject(T object, String tableName, String primaryKeyField) throws Exception {
 
-    try{
 
-      StringBuilder updateQuery = new StringBuilder("UPDATE " + tableName + " SET ");
 
-      //get the fields names (class must have getters)
-      Field[] fields = object.getClass().getDeclaredFields();
+    StringBuilder updateQuery = new StringBuilder("UPDATE " + tableName + " SET ");
 
-      for (int i = 0; i < fields.length; i++) {
-        if (!fields[i].getName().equals(primaryKeyField)) {
-          updateQuery.append(fields[i].getName()).append(" = ?");
-          if (i < fields.length - 1) {
-            updateQuery.append(", ");
-          }
+    //get the fields names (class must have getters)
+    Field[] fields = object.getClass().getDeclaredFields();
+
+    for (int i = 0; i < fields.length; i++) {
+      if (!fields[i].getName().equals(primaryKeyField)) {
+        updateQuery.append(fields[i].getName()).append(" = ?");
+        if (i < fields.length - 1) {
+          updateQuery.append(", ");
         }
       }
-
-      updateQuery.append(" WHERE ").append(primaryKeyField).append(" = ?");
-
-      PreparedStatement statement = connection.prepareStatement(updateQuery.toString());
-
-      int paramIndex = 1;
-      for (Field field : fields) {
-        if (!field.getName().equals(primaryKeyField)) {
-          field.setAccessible(true);
-          statement.setObject(paramIndex, field.get(object));
-          paramIndex++;
-        }
-      }
-
-      Field primaryKey = object.getClass().getDeclaredField(primaryKeyField);
-      primaryKey.setAccessible(true);
-      statement.setObject(paramIndex, primaryKey.get(object));
-
-      statement.executeUpdate();
-      statement.close();
-
-    }catch ( Exception e ){
-      e.printStackTrace();
     }
+
+    updateQuery.append(" WHERE ").append(primaryKeyField).append(" = ?");
+
+    PreparedStatement statement = connection.prepareStatement(updateQuery.toString());
+
+    int paramIndex = 1;
+    for (Field field : fields) {
+      if (!field.getName().equals(primaryKeyField)) {
+        field.setAccessible(true);
+        statement.setObject(paramIndex, field.get(object));
+        paramIndex++;
+      }
+    }
+
+    Field primaryKey = object.getClass().getDeclaredField(primaryKeyField);
+    primaryKey.setAccessible(true);
+    statement.setObject(paramIndex, primaryKey.get(object));
+
+    statement.executeUpdate();
+    statement.close();
 
 
 
@@ -212,7 +164,7 @@ public class DatabaseService implements Serializable {
 
 
 
-  public static void main(String[] args) throws SQLException {
+  public static void main(String[] args) throws Exception {
 
 
     DatabaseService dbs = new DatabaseService();
@@ -244,9 +196,7 @@ public class DatabaseService implements Serializable {
 
     //update an object
     Product p = new Product(1, "Spoiler", "exterior", 20.0, 5);
-    DatabaseService.updateObject(p, "Product", "id");
-
-
+    dbs.updateObject(p, "Product", "id");
 
     dbs.closeConnection();
 

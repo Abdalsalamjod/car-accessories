@@ -3,8 +3,24 @@ Feature: User Profile
     Given the customer is logged in
     When the customer accesses their profile settings
 
-  Scenario: Customer edits their profile
+  Scenario: Customer edits their contact information
     And updates their contact information
+    Then the changes should be saved successfully
+
+  Scenario: Customer edits their location
+    And updates their location
+    Then the changes should be saved successfully
+
+  Scenario: Customer edits their name
+    And updates their name
+    Then the changes should be saved successfully
+
+  Scenario: Customer edits their email
+    And updates their email
+    Then the changes should be saved successfully
+
+  Scenario: Customer edits their password
+    And updates their password
     Then the changes should be saved successfully
 
   Scenario: Customer views their order history

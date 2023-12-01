@@ -35,7 +35,7 @@ public class ValidationUser {
         // check data in DB
         return true;
     }
-    private static boolean isExistPassword(String password) {
+    public static boolean isExistPassword(String password) {
         // check data in DB
         return true;
     }

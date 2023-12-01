@@ -28,6 +28,7 @@ public class SignUp {
         if (validationStatus == 0) {
 
             // this function should put data in DB
+            // TODO creat profile
             this.hasAccount = true;
         }
         else

@@ -5,12 +5,13 @@ Feature: Admin deletes a product
     Given I am an admin
 
   Scenario: successful delete process
-    When I delete existing product
-    Then the existing product should be deleted
+    And  a product with id 1, name "name", category "category", price 10.0, quantity 7
+    When I delete the product with ID 1
+    Then the product with ID 1 should be removed from the database
 
   Scenario: deleting non-existing product
-    When I delete non-existing product
-    Then the system should show that the product is not exist
+    When I delete a product with non-existing id
+    Then the system should display an error message indicating the product does not exist
 
 
 

@@ -20,7 +20,8 @@ public class InstallationRequest {
     f_1 = f_2 = false;
     subject = "";
     content = "";
-    User user = new User("s12027670@stu.najah.edu","12345","i",true);
+    User user = new User("s12027670@stu.najah.edu","12345","i",true,null);
+
     Product product = new Product(1,"Spoiler", "exterior", 25.25, 25);
     Date date = new Date();
     int id = 3;
@@ -47,7 +48,9 @@ public class InstallationRequest {
   @Given("the user lists his requests and want to cancel one of them")
   public void the_user_lists_his_requests_and_want_to_cancel_one_of_them() {
     f_1 = f_2 = false;
-    User user = new User("s12027670@stu.najah.edu","12345","i",true);
+
+    User user = new User("s12027670@stu.najah.edu","12345","i",true,null);
+
     f_1 = user.removeRequest(3);
     if(f_1)
       f_2 = EmailSender.sendEmail("s12027747@stu.najah.edu", "test", "removed !");

@@ -44,12 +44,12 @@ public class Main {
 
                         switch (currentUser.getRole()){
                             case "user" ->{
-                                MainUtility.userUtility(databaseService);
+                                MainUtility.userUtility(databaseService,currentUser);
                             }
-                            case "maneger" ->{
-                                MainUtility.manegerUtility(databaseService);
+                            case "admin" ->{
+                                MainUtility.adminUtility(databaseService);
                             }
-                            case "inssaller" ->{
+                            case "installer" ->{
                                 MainUtility.installerUtility(databaseService);
                             }
                             default -> {

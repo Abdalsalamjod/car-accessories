@@ -1,0 +1,789 @@
+Index: src/test/java/Application/step_definitions/Add_Delete_Update_Search.java
+===================================================================
+diff --git a/src/test/java/Application/step_definitions/Add_Delete_Update_Search.java b/src/test/java/Application/step_definitions/Add_Delete_Update_Search.java
+deleted file mode 100644
+--- a/src/test/java/Application/step_definitions/Add_Delete_Update_Search.java	(revision c58788e7fff8e6ce8a3c7cd07b34489afe5689cb)
++++ /dev/null	(revision c58788e7fff8e6ce8a3c7cd07b34489afe5689cb)
+@@ -1,335 +0,0 @@
+-package Application.step_definitions;
+-
+-import Application.Services.DatabaseService;
+-import Application.Entities.Product;
+-import Application.DataBase.UserDefinedTypes.ProductResultHandler;
+-import io.cucumber.java.AfterAll;
+-import io.cucumber.java.Before;
+-import io.cucumber.java.BeforeAll;
+-import io.cucumber.java.en.And;
+-import io.cucumber.java.en.Given;
+-import io.cucumber.java.en.Then;
+-import io.cucumber.java.en.When;
+-
+-
+-
+-import java.sql.SQLException;
+-import java.time.LocalDateTime;
+-import java.time.format.DateTimeFormatter;
+-
+-import static org.junit.Assert.*;
+-
+-public class Add_Delete_Update_Search {
+-
+-  private static DatabaseService dbs;
+-  private static String errorMessage;
+-  private static boolean duplicateProductAdded;
+-
+-  @BeforeAll
+-  public static void before_all(){
+-    System.out.println("ShehabAbbasKharazFROM -> beforeAll");
+-    dbs = new DatabaseService();
+-    errorMessage = null;
+-    duplicateProductAdded = false;
+-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+-    LocalDateTime now = LocalDateTime.now();
+-    System.out.println(dtf.format(now));
+-  }
+-  @AfterAll
+-  public static void after_all(){
+-    dbs.closeConnection();
+-    System.out.println("ShehabAbbasKharazFROM -> afterAll");
+-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+-    LocalDateTime now = LocalDateTime.now();
+-    System.out.println(dtf.format(now));
+-  }
+-  @Before
+-  public void before(){
+-    errorMessage = "";
+-    duplicateProductAdded = false;
+-    System.out.println("ShehabAbbasKharazFROM -> before");
+-  }
+-
+-
+-  //*************************Common*******************************
+-  @Given("I am an admin")
+-  public static void iAmAnAdmin() {
+-    boolean isAdmin = true;
+-    assertTrue(isAdmin);
+-  }
+-
+-
+-
+-
+-  //**********************FOR ADD*********************************
+-  @When("I add a new product with ID {int}, name {string}, category {string}, price {double}, quantity {int}")
+-  public void iAddANewProductWithIDNameCategoryPriceQuantity(Integer id, String name, String category, Double price, Integer quantity) {
+-    Product product = new Product(id, name, category, price, quantity);
+-
+-    try{
+-      boolean productAdded = dbs.addObject(product, "Product");
+-      assertTrue(productAdded);
+-    }catch ( SQLException e){
+-      e.printStackTrace();
+-      fail();
+-    }
+-
+-
+-
+-  }
+-  @Then("the product with ID {int}, name {string}, category {string}, price {double}, quantity {int} should be added to the database")
+-  public void theProductShouldBeAddedToTheDatabase(Integer id, String name, String category, Double price, Integer quantity) {
+-
+-
+-    Product product = dbs.executeQuery("SELECT * FROM Product WHERE id=" + id, new ProductResultHandler());
+-    assertNotNull(product);
+-    assertEquals(name, product.getName());
+-    assertEquals(category, product.getCategory());
+-    assertEquals(price, product.getPrice(), 0.1); //delta is the biggest difference allowed
+-    assertEquals(quantity, product.getQuantity());
+-
+-  }
+-
+-
+-  @Given("a product with ID duplicated ID")
+-  public void a_product_with_id_duplicated_id() {
+-    try{
+-      Product existingProduct = new Product(2, "ExistingProduct", "interior", 10.0, 5);
+-      duplicateProductAdded = dbs.addObject(existingProduct,"Product");
+-    }catch ( SQLException e ){
+-      errorMessage = "The ID is already used!";
+-      duplicateProductAdded = false;
+-    }
+-
+-  }
+-  @When("I add a duplicated product with ID {int}, name {string}, category {string}, price {double}, and quantity {int}")
+-  public void iAddADuplicatedProductWithIDNameCategoryPriceAndQuantity(Integer int1, String string, String string2, Double double1, Integer int2) {
+-    assertFalse(duplicateProductAdded);
+-  }
+-  @Then("the system should display an error message indicating the ID is already in use")
+-  public void theSystemShouldDisplayAnErrorMessageIndicatingTheIDIsAlreadyInUse() {
+-    String actual = "The ID is already used!";
+-    String expected = errorMessage;
+-    assertEquals(actual, expected);
+-  }
+-
+-
+-  @When("I add a new product with invalid ID {int}, name {string}, category {string}, price {double}, quantity {int}")
+-  public void iAddANewProductWithInvalidIDNameCategoryPriceQuantity(Integer id, String name, String category, Double price, Integer quantity) {
+-    Product product = new Product(id, name, category, price, quantity);
+-    try{
+-       dbs.addObject(product, "Product");
+-    }catch(SQLException e){
+-      e.printStackTrace();
+-      errorMessage = "There is invalid information";
+-      fail();
+-    }
+-  }
+-  @Then("the user should see <errorMessage>")
+-  public void theUserShouldSeeErrorMessage() {
+-    String actual = "There is invalid information";
+-    String expected = errorMessage;
+-    assertEquals(actual, expected);
+-
+-  }
+-  //****************************************************************
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-  //*************************FOR DELETE**************************
+-  @And("a product with id {int}, name {string}, category {string}, price {double}, quantity {int}")
+-  public void a_product_with_id_name_category_price_quantity(Integer id, String name, String category, Double price, Integer quantity) {
+-
+-    try{
+-      Product product = new Product(id, name, category, price, quantity);
+-      dbs.addObject(product, "Product");
+-    }catch ( SQLException e){
+-      e.printStackTrace();
+-    }
+-
+-  }
+-  @When("I delete the product with ID {int}")
+-  public boolean i_delete_the_product_with_id(Integer productID) throws SQLException {
+-     return dbs.deleteObject(productID, "Product");
+-  }
+-  @Then("the product with ID {int} should be removed from the database")
+-  public void the_product_with_id_should_be_removed_from_the_database(Integer id) throws SQLException {
+-    boolean isProductDeleted = i_delete_the_product_with_id(id);
+-    assert(isProductDeleted);
+-  }
+-
+-
+-  @When("I delete a product with non-existing id")
+-  public void i_delete_a_product_with_non_existing_id() {
+-    try {
+-      dbs.deleteObject(9999, "Product");
+-      System.out.println("YES YES");
+-    } catch ( SQLException e) {
+-      System.out.println("EROOOORORORORO!!!1");
+-      errorMessage = "Product not found";
+-    }
+-  }
+-  @Then("the system should display an error message indicating the product does not exist")
+-  public void theSystemShouldDisplayAnErrorMessageIndicatingTheProductDoesNotExist() {
+-    assert(true);
+-  }
+-  //**************************************************************
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-  //**********************FOR UPDATE**********************************
+-  @Given("a product with ID {int}, name {string}, category {string}, price {double}, and quantity {int} exists")
+-  public void aProductWithIDNameCategoryPriceAndQuantityExists(Integer int1, String string, String string2, Double double1, Integer int2) {
+-    assertTrue(true);
+-  }
+-  @When("I update the product with ID {int} to have a new price {double}, and quantity {int}")
+-  public void iUpdateTheProductWithIDToHaveANewPriceAndQuantity(Integer int1, Double double1, Integer int2) {
+-    assertTrue(true);
+-  }
+-  @Then("the product information should be updated in the database")
+-  public void theProductInformationShouldBeUpdatedInTheDatabase() {
+-    assertTrue(true);
+-  }
+-
+-
+-  @Given("a product with ID {int} exists")
+-  public void aProductWithIDExists(Integer int1) {
+-    assertTrue(true);
+-  }
+-  @When("I update the product with ID {string} to have a {string} and a {string}")
+-  public void iUpdateTheProductWithIDToHaveAAndA(String string, String string2, String string3) {
+-    assertTrue(true);
+-  }
+-  @Then("the system should display error {string}")
+-  public void theSystemShouldDisplayError(String string) {
+-    assertTrue(true);
+-  }
+-
+-
+-  @When("I update a product with ID {int} that does not exist with a new price {double} and new quantity {int}")
+-  public void iUpdateAProductWithIDThatDoesNotExistWithANewPriceAndNewQuantity(Integer int1, Double double1, Integer int2) {
+-    assertTrue(true);
+-  }
+-  @Then("the system should display error message says that the product does not exist")
+-  public void theSystemShouldDisplayErrorMessageSaysThatTheProductDoesNotExist() {
+-    assertTrue(true);
+-  }
+-  //******************************************************************
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-  //**********************FOR SEARCH********************************
+-  @When("I search for a product with the name existing_product")
+-  public void iSearchForAProductWithTheNameExistingProduct() {
+-    assertTrue(true);
+-  }
+-  @Then("the system should display the product with name exist_product")
+-  public void theSystemShouldDisplayTheProductWithNameExistProduct() {
+-    assertTrue(true);
+-  }
+-
+-
+-  @When("I search for a product with the name non_existing_product")
+-  public void iSearchForAProductWithTheNameNonExistingProduct() {
+-    assertTrue(true);
+-  }
+-
+-
+-  @When("I search for a product with existing ID")
+-  public void iSearchForAProductWithExistingID() {
+-    assertTrue(true);
+-  }
+-  @Then("the system should display the product with has the existing ID")
+-  public void theSystemShouldDisplayTheProductWithHasTheExistingID() {
+-    assertTrue(true);
+-  }
+-
+-
+-  @When("I search for a product with ID non-existing_product")
+-  public void iSearchForAProductWithIDNonExistingProduct() {
+-    assertTrue(true);
+-  }
+-  @Then("the system should display a message indicating that the product was not found")
+-  public void theSystemShouldDisplayAMessageIndicatingThatTheProductWasNotFound() {
+-    assertTrue(true);
+-  }
+-
+-
+-  @When("I search for all product in valid category")
+-  public void iSearchForAllProductInValidCategory() {
+-    assertTrue(true);
+-  }
+-  @Then("the system should display all products within category")
+-  public void theSystemShouldDisplayAllProductsWithinCategory() {
+-    assertTrue(true);
+-  }
+-
+-
+-  @When("I search for products within a price range")
+-  public void iSearchForProductsWithinAPriceRange() {
+-    assertTrue(true);
+-  }
+-  @Then("the system should display all products within this range")
+-  public void theSystemShouldDisplayAllProductsWithinThisRange() {
+-    assertTrue(true);
+-  }
+-  //****************************************************************
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-}
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"f4600014-5527-487d-a1a4-82e62e42c04f\" name=\"Changes\" comment=\"fix signUp\">\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/test/java/Application/ConfigurationTest.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/test/java/Application/ConfigurationTest.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/test/java/Application/ServicesTest/SignUpTest.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/test/java/Application/ServicesTest/SignUpTest.java\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Interface\" />\n        <option value=\"AnnotationType\" />\n        <option value=\"Class\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <excluded-from-favorite>\n      <branch-storage>\n        <map>\n          <entry type=\"LOCAL\">\n            <value>\n              <list>\n                <branch-info repo=\"$PROJECT_DIR$\" source=\"master\" />\n              </list>\n            </value>\n          </entry>\n        </map>\n      </branch-storage>\n    </excluded-from-favorite>\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\n      <map>\n        <entry key=\"$PROJECT_DIR$\" value=\"dev\" />\n      </map>\n    </option>\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n    <option name=\"UPDATE_TYPE\" value=\"REBASE\" />\n  </component>\n  <component name=\"GitHubPullRequestSearchHistory\">{\n  &quot;lastFilter&quot;: {\n    &quot;state&quot;: &quot;OPEN&quot;,\n    &quot;assignee&quot;: &quot;abdalsalam-jodalah&quot;\n  }\n}</component>\n  <component name=\"GithubPullRequestsUISettings\">\n    <option name=\"selectedUrlAndAccountId\">\n      <UrlAndAccount>\n        <option name=\"accountId\" value=\"7aa1b729-2548-49d4-b075-bb4c62bbeb3d\" />\n        <option name=\"url\" value=\"https://github.com/abdalsalam-jodalah/car-accessories.git\" />\n      </UrlAndAccount>\n    </option>\n  </component>\n  <component name=\"HighlightingSettingsPerFile\">\n    <setting file=\"jar:///Library/Java/JavaVirtualMachines/jdk-18.0.2.1.jdk/Contents/Home/lib/src.zip!/java.base/java/lang/AssertionError.java\" root0=\"SKIP_INSPECTION\" />\n    <setting file=\"file://$PROJECT_DIR$/src/main/java/Application/Services/SignUp.java\" root0=\"FORCE_HIGHLIGHTING\" />\n  </component>\n  <component name=\"MarkdownSettingsMigration\">\n    <option name=\"stateVersion\" value=\"1\" />\n  </component>\n  <component name=\"ProblemsViewState\">\n    <option name=\"selectedTabId\" value=\"CurrentFile\" />\n  </component>\n  <component name=\"ProjectColorInfo\">{\n  &quot;associatedIndex&quot;: 2\n}</component>\n  <component name=\"ProjectId\" id=\"2VzcMMWbB1mV4FKwBVLvWHV0Q41\" />\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\"><![CDATA[{\n  \"keyToString\": {\n    \"RunOnceActivity.OpenProjectViewOnStart\": \"true\",\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\n    \"SHARE_PROJECT_CONFIGURATION_FILES\": \"true\",\n    \"WebServerToolWindowFactoryState\": \"false\",\n    \"git-widget-placeholder\": \"dev\",\n    \"last_opened_file_path\": \"F:/car-accessories/src/test/resources/features\",\n    \"node.js.detected.package.eslint\": \"true\",\n    \"node.js.detected.package.tslint\": \"true\",\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\n    \"nodejs_package_manager_path\": \"npm\",\n    \"onboarding.tips.debug.path\": \"/Users/abdalsalam/Documents/car-accessories/src/main/java/Application/Main.java\",\n    \"project.structure.last.edited\": \"Modules\",\n    \"project.structure.proportion\": \"0.0\",\n    \"project.structure.side.proportion\": \"0.0\",\n    \"vue.rearranger.settings.migration\": \"true\"\n  }\n}]]></component>\n  <component name=\"RecentsManager\">\n    <key name=\"CreateClassDialog.RecentsKey\">\n      <recent name=\"Application\" />\n    </key>\n    <key name=\"MoveFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/src/test/resources/features\" />\n      <recent name=\"$PROJECT_DIR$/src/test/resources/features/Services\" />\n      <recent name=\"$PROJECT_DIR$/src/test/resources/features/Adminfeatures\" />\n      <recent name=\"$PROJECT_DIR$/src/test/resources\" />\n      <recent name=\"step_definitions\" />\n    </key>\n    <key name=\"MoveFile.RECENT_KEYS\">\n      <recent name=\"F:\\car-accessories\\src\\test\\resources\\features\" />\n      <recent name=\"F:\\car-accessories\\src\\main\\java\\Application\\interfaces_implementators\\UserDefinedTypes\" />\n      <recent name=\"F:\\car-accessories\\src\\test\\resources\\features\\GeneralFeatures\" />\n      <recent name=\"$PROJECT_DIR$/src/test/resources/features/Adminfeatures\" />\n      <recent name=\"$PROJECT_DIR$/src/test/resources/features\" />\n    </key>\n    <key name=\"MoveClassesOrPackagesDialog.RECENTS_KEY\">\n      <recent name=\"step_definitions\" />\n      <recent name=\"Application.interfaces_implementators.Premetive_Objects\" />\n      <recent name=\"\" />\n      <recent name=\"RunnerClass\" />\n    </key>\n    <key name=\"MoveClassesOrPackagesDialog.RECENTS_KEY\">\n      <recent name=\"Application\" />\n    </key>\n    <key name=\"CopyClassDialog.RECENTS_KEY\">\n      <recent name=\"Application\" />\n    </key>\n  </component>\n  <component name=\"RunManager\" selected=\"JUnit.ConfigurationTest\">\n    <configuration name=\"Main\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\n      <option name=\"MAIN_CLASS_NAME\" value=\"Application.Main\" />\n      <module name=\"car-accessories\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"Application.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"Feature: AddNewProduct\" type=\"CucumberJavaRunConfigurationType\" factoryName=\"Cucumber java\" nameIsGenerated=\"true\">\n      <option name=\"CUCUMBER_CORE_VERSION\" value=\"5\" />\n      <option name=\"FILE_PATH\" value=\"$PROJECT_DIR$/src/test/resources/features/Adminfeatures/AddNewProduct.feature\" />\n      <option name=\"MAIN_CLASS_NAME\" value=\"io.cucumber.core.cli.Main\" />\n      <module name=\"car-accessories\" />\n      <option name=\"PROGRAM_PARAMETERS\" value=\" --plugin org.jetbrains.plugins.cucumber.java.run.CucumberJvm5SMFormatter\" />\n      <option name=\"SUGGESTED_NAME\" value=\"Feature: AddNewProduct\" />\n      <option name=\"WORKING_DIRECTORY\" value=\"$MODULE_WORKING_DIR$\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"io.cucumber.core.cli.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"Feature: CreatAccounts\" type=\"CucumberJavaRunConfigurationType\" factoryName=\"Cucumber java\" nameIsGenerated=\"true\">\n      <option name=\"CUCUMBER_CORE_VERSION\" value=\"5\" />\n      <option name=\"FILE_PATH\" value=\"$PROJECT_DIR$/src/test/resources/features/Adminfeatures/CreatAccounts.feature\" />\n      <option name=\"GLUE\" value=\"Application.AdminTest\" />\n      <option name=\"MAIN_CLASS_NAME\" value=\"io.cucumber.core.cli.Main\" />\n      <module name=\"car-accessories\" />\n      <option name=\"PROGRAM_PARAMETERS\" value=\" --plugin org.jetbrains.plugins.cucumber.java.run.CucumberJvm5SMFormatter\" />\n      <option name=\"SUGGESTED_NAME\" value=\"Feature: CreatAccounts\" />\n      <option name=\"WORKING_DIRECTORY\" value=\"$MODULE_WORKING_DIR$\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"io.cucumber.core.cli.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"Feature: DeleteProduct\" type=\"CucumberJavaRunConfigurationType\" factoryName=\"Cucumber java\" nameIsGenerated=\"true\">\n      <option name=\"CUCUMBER_CORE_VERSION\" value=\"5\" />\n      <option name=\"FILE_PATH\" value=\"$PROJECT_DIR$/src/test/resources/features/Adminfeatures/DeleteProduct.feature\" />\n      <option name=\"GLUE\" value=\"Application.AdminTest\" />\n      <option name=\"MAIN_CLASS_NAME\" value=\"io.cucumber.core.cli.Main\" />\n      <module name=\"car-accessories\" />\n      <option name=\"PROGRAM_PARAMETERS\" value=\" --plugin org.jetbrains.plugins.cucumber.java.run.CucumberJvm5SMFormatter\" />\n      <option name=\"SUGGESTED_NAME\" value=\"Feature: DeleteProduct\" />\n      <option name=\"WORKING_DIRECTORY\" value=\"$MODULE_WORKING_DIR$\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"io.cucumber.core.cli.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"Feature: SignUp\" type=\"CucumberJavaRunConfigurationType\" factoryName=\"Cucumber java\" temporary=\"true\" nameIsGenerated=\"true\">\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"Scenario: admin adds a product with invalid information (1)\" type=\"CucumberJavaRunConfigurationType\" factoryName=\"Cucumber java\" nameIsGenerated=\"true\">\n      <option name=\"CUCUMBER_CORE_VERSION\" value=\"5\" />\n      <option name=\"FILE_PATH\" value=\"$PROJECT_DIR$/src/test/resources/features/AddNewProduct.feature\" />\n      <option name=\"GLUE\" value=\"step_definitions\" />\n      <option name=\"MAIN_CLASS_NAME\" value=\"io.cucumber.core.cli.Main\" />\n      <module name=\"car-accessories\" />\n      <option name=\"NAME_FILTER\" value=\"^admin adds a product with invalid information$\" />\n      <option name=\"PROGRAM_PARAMETERS\" value=\" --plugin org.jetbrains.plugins.cucumber.java.run.CucumberJvm5SMFormatter --name &quot;^admin adds a product with invalid information$&quot;\" />\n      <option name=\"SUGGESTED_NAME\" value=\"Scenario: admin adds a product with invalid information\" />\n      <option name=\"WORKING_DIRECTORY\" value=\"$MODULE_WORKING_DIR$\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"io.cucumber.core.cli.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"Scenario: admin adds a product with invalid information\" type=\"CucumberJavaRunConfigurationType\" factoryName=\"Cucumber java\" nameIsGenerated=\"true\">\n      <option name=\"CUCUMBER_CORE_VERSION\" value=\"5\" />\n      <option name=\"FILE_PATH\" value=\"$PROJECT_DIR$/src/test/resources/features/Adminfeatures/AddNewProduct.feature\" />\n      <option name=\"GLUE\" value=\"Application.AdminTest\" />\n      <option name=\"MAIN_CLASS_NAME\" value=\"io.cucumber.core.cli.Main\" />\n      <module name=\"car-accessories\" />\n      <option name=\"NAME_FILTER\" value=\"^admin adds a product with invalid information$\" />\n      <option name=\"PROGRAM_PARAMETERS\" value=\" --plugin org.jetbrains.plugins.cucumber.java.run.CucumberJvm5SMFormatter --name &quot;^admin adds a product with invalid information$&quot;\" />\n      <option name=\"SUGGESTED_NAME\" value=\"Scenario: admin adds a product with invalid information\" />\n      <option name=\"WORKING_DIRECTORY\" value=\"$MODULE_WORKING_DIR$\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"io.cucumber.core.cli.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"Scenario: valid information\" type=\"CucumberJavaRunConfigurationType\" factoryName=\"Cucumber java\" nameIsGenerated=\"true\">\n      <option name=\"CUCUMBER_CORE_VERSION\" value=\"5\" />\n      <option name=\"FILE_PATH\" value=\"$PROJECT_DIR$/src/test/resources/features/Adminfeatures/AddNewProduct.feature\" />\n      <option name=\"MAIN_CLASS_NAME\" value=\"io.cucumber.core.cli.Main\" />\n      <module name=\"car-accessories\" />\n      <option name=\"NAME_FILTER\" value=\"^valid information$\" />\n      <option name=\"PROGRAM_PARAMETERS\" value=\" --plugin org.jetbrains.plugins.cucumber.java.run.CucumberJvm5SMFormatter --name &quot;^valid information$&quot;\" />\n      <option name=\"SUGGESTED_NAME\" value=\"Scenario: valid information\" />\n      <option name=\"WORKING_DIRECTORY\" value=\"$MODULE_WORKING_DIR$\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"io.cucumber.core.cli.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"All in car-accessories\" type=\"JUnit\" factoryName=\"JUnit\" nameIsGenerated=\"true\">\n      <module name=\"car-accessories\" />\n      <option name=\"PACKAGE_NAME\" value=\"\" />\n      <option name=\"TEST_OBJECT\" value=\"package\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"ConfigurationTest\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\n      <module name=\"car-accessories\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"Application.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <option name=\"PACKAGE_NAME\" value=\"Application\" />\n      <option name=\"MAIN_CLASS_NAME\" value=\"Application.ConfigurationTest\" />\n      <option name=\"TEST_OBJECT\" value=\"class\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <recent_temporary>\n      <list>\n        <item itemvalue=\"JUnit.ConfigurationTest\" />\n        <item itemvalue=\"Application.Main\" />\n        <item itemvalue=\"Cucumber Java.Feature: SignUp\" />\n        <item itemvalue=\"Application.Main\" />\n        <item itemvalue=\"Cucumber Java.Feature: SignUp\" />\n      </list>\n    </recent_temporary>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"f4600014-5527-487d-a1a4-82e62e42c04f\" name=\"Changes\" comment=\"\" />\n      <created>1695842300007</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1695842300007</updated>\n      <workItem from=\"1695842301032\" duration=\"4214000\" />\n      <workItem from=\"1696226527748\" duration=\"591000\" />\n      <workItem from=\"1697495551521\" duration=\"178000\" />\n      <workItem from=\"1697495761358\" duration=\"125000\" />\n      <workItem from=\"1697495957810\" duration=\"274000\" />\n      <workItem from=\"1697631135642\" duration=\"46000\" />\n      <workItem from=\"1697648984157\" duration=\"69000\" />\n      <workItem from=\"1697649092131\" duration=\"2000\" />\n      <workItem from=\"1697649223774\" duration=\"5475000\" />\n      <workItem from=\"1697709855088\" duration=\"31033000\" />\n      <workItem from=\"1697804810494\" duration=\"1557000\" />\n      <workItem from=\"1697810060209\" duration=\"791000\" />\n      <workItem from=\"1697819574540\" duration=\"3149000\" />\n      <workItem from=\"1697926031852\" duration=\"4716000\" />\n      <workItem from=\"1698008056137\" duration=\"4230000\" />\n      <workItem from=\"1698070896045\" duration=\"6730000\" />\n      <workItem from=\"1698096081612\" duration=\"2972000\" />\n      <workItem from=\"1698173978543\" duration=\"22142000\" />\n      <workItem from=\"1698255636668\" duration=\"15254000\" />\n      <workItem from=\"1698485135332\" duration=\"1150000\" />\n      <workItem from=\"1698707403713\" duration=\"2436000\" />\n      <workItem from=\"1700503191114\" duration=\"2681000\" />\n      <workItem from=\"1700597993688\" duration=\"6557000\" />\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"Initial commit\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1697809256931</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1697809256931</updated>\n    </task>\n    <task id=\"LOCAL-00002\" summary=\"fix Initial commit\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1697809788248</created>\n      <option name=\"number\" value=\"00002\" />\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1697809788248</updated>\n    </task>\n    <task id=\"LOCAL-00003\" summary=\"fix git problem\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1697810462740</created>\n      <option name=\"number\" value=\"00003\" />\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1697810462740</updated>\n    </task>\n    <task id=\"LOCAL-00004\" summary=\"fix signUp\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1698099931915</created>\n      <option name=\"number\" value=\"00004\" />\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1698099931915</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"5\" />\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"Initial commit\" />\n    <MESSAGE value=\"fix Initial commit\" />\n    <MESSAGE value=\"fix git problem\" />\n    <MESSAGE value=\"fix signUp\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"\" />\n  </component>\n  <component name=\"com.intellij.coverage.CoverageDataManagerImpl\">\n    <SUITE FILE_PATH=\"coverage/car_accessories$Feature__DeleteProduct.ic\" NAME=\"Feature: DeleteProduct Coverage Results\" MODIFIED=\"1698277066871\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\n      <FILTER>io.cucumber.core.cli.*</FILTER>\n    </SUITE>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision c58788e7fff8e6ce8a3c7cd07b34489afe5689cb)
++++ b/.idea/workspace.xml	(date 1700935560618)
+@@ -78,26 +78,26 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    "RunOnceActivity.OpenProjectViewOnStart": "true",
+-    "RunOnceActivity.ShowReadmeOnStart": "true",
+-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+-    "WebServerToolWindowFactoryState": "false",
+-    "git-widget-placeholder": "dev",
+-    "last_opened_file_path": "F:/car-accessories/src/test/resources/features",
+-    "node.js.detected.package.eslint": "true",
+-    "node.js.detected.package.tslint": "true",
+-    "node.js.selected.package.eslint": "(autodetect)",
+-    "node.js.selected.package.tslint": "(autodetect)",
+-    "nodejs_package_manager_path": "npm",
+-    "onboarding.tips.debug.path": "/Users/abdalsalam/Documents/car-accessories/src/main/java/Application/Main.java",
+-    "project.structure.last.edited": "Modules",
+-    "project.structure.proportion": "0.0",
+-    "project.structure.side.proportion": "0.0",
+-    "vue.rearranger.settings.migration": "true"
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
++    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
++    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
++    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
++    &quot;last_opened_file_path&quot;: &quot;F:/car-accessories/src/test/resources/features&quot;,
++    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
++    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
++    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
++    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
++    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
++    &quot;onboarding.tips.debug.path&quot;: &quot;/Users/abdalsalam/Documents/car-accessories/src/main/java/Application/Main.java&quot;,
++    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
++    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
++    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
++    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+   }
+-}]]></component>
++}</component>
+   <component name="RecentsManager">
+     <key name="CreateClassDialog.RecentsKey">
+       <recent name="Application" />
+Index: .idea/inspectionProfiles/Project_Default.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><component name=\"InspectionProjectProfileManager\">\n  <profile version=\"1.0\">\n    <option name=\"myName\" value=\"Project Default\" />\n    <inspection_tool class=\"AutoCloseableResource\" enabled=\"true\" level=\"WARNING\" enabled_by_default=\"true\">\n      <option name=\"METHOD_MATCHER_CONFIG\" value=\"java.util.Formatter,format,java.io.Writer,append,com.google.common.base.Preconditions,checkNotNull,org.hibernate.Session,close,java.io.PrintWriter,printf,java.io.PrintStream,printf,Application.Services.DatabaseService,OpenConnection\" />\n    </inspection_tool>\n  </profile>\n</component>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/inspectionProfiles/Project_Default.xml b/.idea/inspectionProfiles/Project_Default.xml
+--- a/.idea/inspectionProfiles/Project_Default.xml	(revision c58788e7fff8e6ce8a3c7cd07b34489afe5689cb)
++++ b/.idea/inspectionProfiles/Project_Default.xml	(date 1700935551679)
+@@ -2,7 +2,7 @@
+   <profile version="1.0">
+     <option name="myName" value="Project Default" />
+     <inspection_tool class="AutoCloseableResource" enabled="true" level="WARNING" enabled_by_default="true">
+-      <option name="METHOD_MATCHER_CONFIG" value="java.util.Formatter,format,java.io.Writer,append,com.google.common.base.Preconditions,checkNotNull,org.hibernate.Session,close,java.io.PrintWriter,printf,java.io.PrintStream,printf,Application.Services.DatabaseService,OpenConnection" />
++      <option name="METHOD_MATCHER_CONFIG" value="java.util.Formatter,format,java.io.Writer,append,com.google.common.base.Preconditions,checkNotNull,org.hibernate.Session,close,java.io.PrintWriter,printf,java.io.PrintStream,printf,Application.Services.DatabaseService,OpenConnection|executeQuery" />
+     </inspection_tool>
+   </profile>
+ </component>
+\ No newline at end of file
+Index: src/test/resources/features/UpdateProduct.feature
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\nFeature: Admin updates a product\n  Background:\n    Given I am an admin\n\n\n  Scenario Outline: successful update process\n    And  a product with ID <ExistingID>, name \"Existing Product\", category \"Interior\", price 99.99, and quantity 5 exists\n    When I update the product with ID <ExistingID> to have a new price <NewPrice>, and quantity <NewQuantity>\n    Then the product information should be updated in the database\n\n    Examples:\n      | ExistingID |  NewPrice | NewQuantity |\n      | 12011111   |  199.99   | 10          |\n      | 12022222   |  29.99    | 20          |\n      | 12033333   |  50.0     | 8           |\n\n\n\n  Scenario Outline: update existing product with invalid price and quantity\n    And a product with ID 12011111 exists\n    When I update the product with ID \"<ExistingID>\" to have a \"<NewPrice>\" and a \"<NewQuantity>\"\n    Then the system should display error \"<message>\"\n\n    Examples:\n      | ExistingID |  NewPrice | NewQuantity | message\n      | 12011111   |  -20.0    | 10          | Invalid Price!\n      | 12022222   |  19.5     | -5          | Invalid Quantity!\n\n\n\n  Scenario: update a non-existing product\n    When I update a product with ID 9999999 that does not exist with a new price 120.0 and new quantity 7\n    Then the system should display error message says that the product does not exist\n\n\n\n\n\n\n\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/resources/features/UpdateProduct.feature b/src/test/resources/features/UpdateProduct.feature
+--- a/src/test/resources/features/UpdateProduct.feature	(revision c58788e7fff8e6ce8a3c7cd07b34489afe5689cb)
++++ b/src/test/resources/features/UpdateProduct.feature	(date 1700935551687)
+@@ -5,33 +5,31 @@
+ 
+ 
+   Scenario Outline: successful update process
+-    And  a product with ID <ExistingID>, name "Existing Product", category "Interior", price 99.99, and quantity 5 exists
+-    When I update the product with ID <ExistingID> to have a new price <NewPrice>, and quantity <NewQuantity>
++    When I update the product with ID <ExistingID> to have a new name "<NewName>", category "<NewCategory>", price <NewPrice>, and quantity <NewQuantity>
+     Then the product information should be updated in the database
+ 
+     Examples:
+-      | ExistingID |  NewPrice | NewQuantity |
+-      | 12011111   |  199.99   | 10          |
+-      | 12022222   |  29.99    | 20          |
+-      | 12033333   |  50.0     | 8           |
++      | ExistingID | NewName    | NewCategory  | NewPrice  | NewQuantity |
++      | 1          | u-spoiler  | exterior     |  199.99   | 10          |
++      | 2          | u-steering | interior     |  29.25    | 20          |
++      | 3          | u-reverse  | electronics  |  50.0     | 8           |
+ 
+ 
+ 
+-  Scenario Outline: update existing product with invalid price and quantity
+-    And a product with ID 12011111 exists
+-    When I update the product with ID "<ExistingID>" to have a "<NewPrice>" and a "<NewQuantity>"
+-    Then the system should display error "<message>"
++  Scenario Outline: update existing product with invalid price or quantity
++    When I update the product with ID <ExistingID>, name "<NewName>", category "<NewCategory>", price <NewPrice>, and quantity <NewQuantity> to have invalid data
++    Then the system should display error message
+ 
+     Examples:
+-      | ExistingID |  NewPrice | NewQuantity | message
+-      | 12011111   |  -20.0    | 10          | Invalid Price!
+-      | 12022222   |  19.5     | -5          | Invalid Quantity!
++      | ExistingID | NewName         | NewCategory | NewPrice | NewQuantity |
++      | 1          | Spoiler         | exterior    | -20.0    | 10          |
++      | 2          | steering-cover  | interior    |  19.5    | -5          |
+ 
+ 
+ 
+   Scenario: update a non-existing product
+-    When I update a product with ID 9999999 that does not exist with a new price 120.0 and new quantity 7
+-    Then the system should display error message says that the product does not exist
++    When I update a non existing product
++    Then the system should display that the product does not exist
+ 
+ 
+ 
+Index: src/test/resources/features/SearchForProduct.feature
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\nFeature: Admin search for a product\n  Background:\n    Given I am an admin\n\n\n\n  Scenario: searching for existing product by name\n    When I search for a product with the name existing_product\n    Then the system should display the product with name exist_product\n\n  Scenario: searching for non-existing product by name\n    When I search for a product with the name non_existing_product\n    Then the system should display a message indicating that the product was not found\n\n\n  Scenario: searching for existing product by ID\n    When I search for a product with existing ID\n    Then the system should display the product with has the existing ID\n\n  Scenario: searching for non-existing product by ID\n    When I search for a product with ID non-existing_product\n    Then the system should display a message indicating that the product was not found\n\n\n  Scenario: searching products by categories\n    When I search for all product in valid category\n    Then the system should display all products within category\n\n\n  Scenario: searching products by price range\n    When I search for products within a price range\n    Then the system should display all products within this range\n\n\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/resources/features/SearchForProduct.feature b/src/test/resources/features/SearchForProduct.feature
+--- a/src/test/resources/features/SearchForProduct.feature	(revision c58788e7fff8e6ce8a3c7cd07b34489afe5689cb)
++++ b/src/test/resources/features/SearchForProduct.feature	(date 1700935551687)
+@@ -6,26 +6,26 @@
+ 
+ 
+   Scenario: searching for existing product by name
+-    When I search for a product with the name existing_product
+-    Then the system should display the product with name exist_product
++    When I search for a product with name
++    Then the system should display the product with this name
+ 
+   Scenario: searching for non-existing product by name
+-    When I search for a product with the name non_existing_product
+-    Then the system should display a message indicating that the product was not found
++    When I search for a product with non existing name
++    Then the system should display that product does not exist
+ 
+ 
+   Scenario: searching for existing product by ID
+-    When I search for a product with existing ID
+-    Then the system should display the product with has the existing ID
++    When I search for a product with ID
++    Then the system should display the product with this ID
+ 
+   Scenario: searching for non-existing product by ID
+-    When I search for a product with ID non-existing_product
+-    Then the system should display a message indicating that the product was not found
++    When I search for a product with non existing ID
++    Then the system should display that the product with this id does not exist
+ 
+ 
+   Scenario: searching products by categories
+-    When I search for all product in valid category
+-    Then the system should display all products within category
++    When I search for all product in a category
++    Then the system should display all products within this category
+ 
+ 
+   Scenario: searching products by price range
+Index: src/main/java/Application/Services/DatabaseService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Application.Services;\nimport Application.Entities.Product;\nimport Application.DataBase.Premetive_Objects.IntResultHandler;\nimport Application.DataBase.Premetive_Objects.ResultSetResultHandler;\nimport Application.DataBase.Premetive_Objects.StringResultHandler;\nimport Application.DataBase.QueryResultHandler;\nimport Application.DataBase.UserDefinedTypes.ProductResultHandler;\nimport java.lang.reflect.Field;\nimport java.sql.*;\n\n\n\n\npublic class DatabaseService {\n\n  private static Connection connection;\n  private static final String databaseNameAndUser = \"sql12654012\";\n  private static final String databasePassword = \"wzRUn4Cfmj\";\n\n\n  //construct and establish the connection\n  public DatabaseService(){\n    try{\n      connection = DriverManager.getConnection(\"jdbc:mysql://sql12.freesqldatabase.com:3306/sql12654012\", databaseNameAndUser, databasePassword);\n      System.out.println(\"\\nConnected to the database!\\n\");\n    } catch ( SQLException e) {\n      e.printStackTrace();\n    }\n\n  }\n\n  //close the connection\n  public void closeConnection() {\n    if (connection != null) {\n      try {\n        connection.close();\n        System.out.println(\"\\nConnection closed successfully.\\n\");\n      } catch ( SQLException e ) {\n        e.printStackTrace(); // Handle any potential exceptions here\n      }\n    }\n  }\n\n  //do the query (SELECT with all possible scenarios) and return the result\n  public <T> T executeQuery(String query, QueryResultHandler<T> resultHandler){\n\n   try{\n     PreparedStatement statement = connection.prepareStatement(query);\n     ResultSet resultSet = statement.executeQuery();\n     return resultHandler.handle(resultSet);\n\n   }catch ( SQLException e ){\n     e.printStackTrace();\n     return null;\n   }\n\n  }\n\n\n  //add new object to the database (static -> call it from class name)\n  public  <T> boolean addObject(T object, String tableName) throws SQLException{\n    StringBuilder insertQuery = new StringBuilder(\"INSERT INTO \" + tableName + \" (\");\n\n    //get the fields names (class must have getters)\n    Field[] fields = object.getClass().getDeclaredFields();\n    for (int i = 0; i < fields.length; i++) {\n      insertQuery.append(fields[i].getName());\n      if (i < fields.length - 1) {\n        insertQuery.append(\", \");\n      }\n    }\n\n\n    //add ? in the VALUES (?, ?, ?) -> PreparedStatement\n    insertQuery.append(\") VALUES (\");\n    for (int i = 0; i < fields.length; i++) {\n      insertQuery.append(\"?\");\n      if (i < fields.length - 1) {\n        insertQuery.append(\", \");\n      }\n    }\n    insertQuery.append(\")\");\n\n    //replace ? with actual values\n    PreparedStatement statement = connection.prepareStatement(insertQuery.toString());\n    for (int i = 0; i < fields.length; i++) {\n      fields[i].setAccessible(true);\n      try {\n        statement.setObject(i + 1, fields[i].get(object));\n      } catch ( IllegalAccessException e ) {\n        throw new RuntimeException(e);\n      }\n    }\n\n    //execute updates\n    statement.executeUpdate();\n    statement.close();\n    return true;\n\n  }\n\n  //delete object based on id (static -> call it from class name)\n  public boolean deleteObject(int id, String tableName) throws SQLException{\n\n\n      String deleteQuery = \"DELETE FROM \" + tableName + \" WHERE id = ?\";\n      PreparedStatement statement = connection.prepareStatement(deleteQuery);\n      statement.setInt(1, id);\n\n      statement.executeUpdate();\n      statement.close();\n      return true;\n\n  }\n\n\n  //update object base on id (static -> call it from class name)\n  /*(object -> new instance with type of the object you need to update,\n    set id to be equal to the id in the record in the database you need to update)\n    (tableName -> table name in the database which contains the record you want to update)\n    (primaryKeyField -> the name of the primary key in the table contains the record you want to update*/\n  public static <T> void updateObject(T object, String tableName, String primaryKeyField){\n\n    try{\n\n      StringBuilder updateQuery = new StringBuilder(\"UPDATE \" + tableName + \" SET \");\n\n      //get the fields names (class must have getters)\n      Field[] fields = object.getClass().getDeclaredFields();\n\n      for (int i = 0; i < fields.length; i++) {\n        if (!fields[i].getName().equals(primaryKeyField)) {\n          updateQuery.append(fields[i].getName()).append(\" = ?\");\n          if (i < fields.length - 1) {\n            updateQuery.append(\", \");\n          }\n        }\n      }\n\n      updateQuery.append(\" WHERE \").append(primaryKeyField).append(\" = ?\");\n\n      PreparedStatement statement = connection.prepareStatement(updateQuery.toString());\n\n      int paramIndex = 1;\n      for (Field field : fields) {\n        if (!field.getName().equals(primaryKeyField)) {\n          field.setAccessible(true);\n          statement.setObject(paramIndex, field.get(object));\n          paramIndex++;\n        }\n      }\n\n      Field primaryKey = object.getClass().getDeclaredField(primaryKeyField);\n      primaryKey.setAccessible(true);\n      statement.setObject(paramIndex, primaryKey.get(object));\n\n      statement.executeUpdate();\n      statement.close();\n\n    }catch ( Exception e ){\n      e.printStackTrace();\n    }\n\n\n\n  }\n\n\n\n\n\n\n  public static void main(String[] args) throws SQLException {\n\n\n    DatabaseService dbs = new DatabaseService();\n\n    //if you need to return int\n    int id = dbs.executeQuery(\"SELECT id FROM Product WHERE name='Spoiler'\", new IntResultHandler());\n    System.out.println(id);\n\n    //if you need to return string\n    String name = dbs.executeQuery(\"SELECT name FROM Product WHERE id=3\", new StringResultHandler());\n    System.out.println(name);\n\n    //if you need to return ResultSet\n    ResultSet rs = dbs.executeQuery(\"SELECT * FROM Product WHERE id=1\", new ResultSetResultHandler());\n    while ( rs.next() )\n      System.out.println(rs.getInt(1) + \" \" + rs.getString(2) + \" \" + rs.getString(3) + \" \" + rs.getDouble(4) + \" \" + rs.getInt(5));\n\n    //if you need to return user-defined object and put it in new object\n    Product product = dbs.executeQuery(\"SELECT * FROM Product WHERE id=2\", new ProductResultHandler());\n    System.out.println(product.getId() + \" \" + product.getName() + \" \" + product.getPrice() + \" \" + product.getCategory() + \" \" + product.getQuantity());\n\n\n    //add new object\n    Product productToBeAdded = new Product(4, \"new\", \"new\", 20.0, 20);\n    dbs.addObject(productToBeAdded, \"Product\");\n\n    //delete an object\n    dbs.deleteObject(4, \"Product\");\n\n    //update an object\n    Product p = new Product(1, \"Spoiler\", \"exterior\", 20.0, 5);\n    DatabaseService.updateObject(p, \"Product\", \"id\");\n\n\n\n    dbs.closeConnection();\n\n  }\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Application/Services/DatabaseService.java b/src/main/java/Application/Services/DatabaseService.java
+--- a/src/main/java/Application/Services/DatabaseService.java	(revision c58788e7fff8e6ce8a3c7cd07b34489afe5689cb)
++++ b/src/main/java/Application/Services/DatabaseService.java	(date 1700935551684)
+@@ -42,61 +42,57 @@
+   }
+ 
+   //do the query (SELECT with all possible scenarios) and return the result
+-  public <T> T executeQuery(String query, QueryResultHandler<T> resultHandler){
++  public <T> T executeQuery(String query, QueryResultHandler<T> resultHandler) throws SQLException{
+ 
+-   try{
++
+      PreparedStatement statement = connection.prepareStatement(query);
+      ResultSet resultSet = statement.executeQuery();
+      return resultHandler.handle(resultSet);
+ 
+-   }catch ( SQLException e ){
+-     e.printStackTrace();
+-     return null;
+-   }
+-
+   }
+ 
+ 
+   //add new object to the database (static -> call it from class name)
+   public  <T> boolean addObject(T object, String tableName) throws SQLException{
+-    StringBuilder insertQuery = new StringBuilder("INSERT INTO " + tableName + " (");
++
++
++     StringBuilder insertQuery = new StringBuilder("INSERT INTO " + tableName + " (");
+ 
+-    //get the fields names (class must have getters)
+-    Field[] fields = object.getClass().getDeclaredFields();
+-    for (int i = 0; i < fields.length; i++) {
+-      insertQuery.append(fields[i].getName());
+-      if (i < fields.length - 1) {
+-        insertQuery.append(", ");
+-      }
+-    }
++     //get the fields names (class must have getters)
++     Field[] fields = object.getClass().getDeclaredFields();
++     for (int i = 0; i < fields.length; i++) {
++       insertQuery.append(fields[i].getName());
++       if (i < fields.length - 1) {
++         insertQuery.append(", ");
++       }
++     }
+ 
+ 
+-    //add ? in the VALUES (?, ?, ?) -> PreparedStatement
+-    insertQuery.append(") VALUES (");
+-    for (int i = 0; i < fields.length; i++) {
+-      insertQuery.append("?");
+-      if (i < fields.length - 1) {
+-        insertQuery.append(", ");
+-      }
+-    }
+-    insertQuery.append(")");
++     //add ? in the VALUES (?, ?, ?) -> PreparedStatement
++     insertQuery.append(") VALUES (");
++     for (int i = 0; i < fields.length; i++) {
++       insertQuery.append("?");
++       if (i < fields.length - 1) {
++         insertQuery.append(", ");
++       }
++     }
++     insertQuery.append(")");
+ 
+-    //replace ? with actual values
+-    PreparedStatement statement = connection.prepareStatement(insertQuery.toString());
+-    for (int i = 0; i < fields.length; i++) {
+-      fields[i].setAccessible(true);
+-      try {
+-        statement.setObject(i + 1, fields[i].get(object));
+-      } catch ( IllegalAccessException e ) {
+-        throw new RuntimeException(e);
+-      }
+-    }
++     //replace ? with actual values
++     PreparedStatement statement = connection.prepareStatement(insertQuery.toString());
++     for (int i = 0; i < fields.length; i++) {
++       fields[i].setAccessible(true);
++       try {
++         statement.setObject(i + 1, fields[i].get(object));
++       } catch ( IllegalAccessException e ) {
++         throw new RuntimeException(e);
++       }
++     }
+ 
+-    //execute updates
+-    statement.executeUpdate();
+-    statement.close();
+-    return true;
+-
++     //execute updates
++     statement.executeUpdate();
++     statement.close();
++     return true;
+   }
+ 
+   //delete object based on id (static -> call it from class name)
+@@ -119,9 +115,9 @@
+     set id to be equal to the id in the record in the database you need to update)
+     (tableName -> table name in the database which contains the record you want to update)
+     (primaryKeyField -> the name of the primary key in the table contains the record you want to update*/
+-  public static <T> void updateObject(T object, String tableName, String primaryKeyField){
++  public  <T> void updateObject(T object, String tableName, String primaryKeyField) throws Exception {
+ 
+-    try{
++
+ 
+       StringBuilder updateQuery = new StringBuilder("UPDATE " + tableName + " SET ");
+ 
+@@ -157,10 +153,6 @@
+       statement.executeUpdate();
+       statement.close();
+ 
+-    }catch ( Exception e ){
+-      e.printStackTrace();
+-    }
+-
+ 
+ 
+   }
+@@ -170,7 +162,7 @@
+ 
+ 
+ 
+-  public static void main(String[] args) throws SQLException {
++  public static void main(String[] args) throws Exception {
+ 
+ 
+     DatabaseService dbs = new DatabaseService();
+@@ -202,9 +194,7 @@
+ 
+     //update an object
+     Product p = new Product(1, "Spoiler", "exterior", 20.0, 5);
+-    DatabaseService.updateObject(p, "Product", "id");
+-
+-
++    dbs.updateObject(p, "Product", "id");
+ 
+     dbs.closeConnection();
+ 
+Index: src/main/java/Application/Entities/Product.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Application.Entities;\n\npublic class Product {\n\n  private Integer id;\n  private String name;\n  private String category;\n  private Double price;\n  private Integer quantity;\n\n\n  //constructors\n  public Product(){\n    this.id = null;\n    this.name = null;\n    this.category = null;\n    this.price = null;\n    this.quantity = null;\n\n  }\n  public Product(Integer id, String name, String category, Double price, Integer quantity){\n    this.id = id;\n    this.name = name;\n    this.category = category;\n    this.price = price;\n    this.quantity = quantity;\n  }\n\n\n  //check if valid information\n  public String validInformation(){\n    if(this.name.contains(\"#\"))\n      return \"Invalid Name!\";\n    else if (!(\"Interior\".equals(this.category) || \"Exterior\".equals(this.category) || \"Electronic\".equals(this.category)))\n      return \"Invalid Category!\";\n    else if(this.price < 0)\n      return \"Invalid Price!\";\n    else if(this.quantity < 0)\n      return \"Invalid Quantity!\";\n\n    return \"\";\n  }\n\n\n  //getters and setters\n  public Integer getId() {\n    return id;\n  }\n  public void setId( Integer id ) {\n    this.id = id;\n  }\n  public String getName() {\n    return name;\n  }\n  public void setName( String name ) {\n    this.name = name;\n  }\n  public String getCategory() {\n    return category;\n  }\n  public void setCategory( String category ) {\n    this.category = category;\n  }\n  public Double getPrice() {\n    return price;\n  }\n  public void setPrice( Double price ) {\n    this.price = price;\n  }\n  public Integer getQuantity() {\n    return quantity;\n  }\n  public void setQuantity( Integer quantity ) {\n    this.quantity = quantity;\n  }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Application/Entities/Product.java b/src/main/java/Application/Entities/Product.java
+--- a/src/main/java/Application/Entities/Product.java	(revision c58788e7fff8e6ce8a3c7cd07b34489afe5689cb)
++++ b/src/main/java/Application/Entities/Product.java	(date 1700935551684)
+@@ -29,9 +29,8 @@
+ 
+   //check if valid information
+   public String validInformation(){
+-    if(this.name.contains("#"))
+-      return "Invalid Name!";
+-    else if (!("Interior".equals(this.category) || "Exterior".equals(this.category) || "Electronic".equals(this.category)))
++
++    if (!("interior".equals(this.category) || "exterior".equals(this.category) || "electronics".equals(this.category)))
+       return "Invalid Category!";
+     else if(this.price < 0)
+       return "Invalid Price!";
+Index: src/test/resources/features/DeleteProduct.feature
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\n\nFeature: Admin deletes a product\n  Background:\n    Given I am an admin\n\n  Scenario: successful delete process\n    And  a product with id 1, name \"name\", category \"category\", price 10.0, quantity 7\n    When I delete the product with ID 1\n    Then the product with ID 1 should be removed from the database\n\n  Scenario: deleting non-existing product\n    When I delete a product with non-existing id\n    Then the system should display an error message indicating the product does not exist\n\n\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/resources/features/DeleteProduct.feature b/src/test/resources/features/DeleteProduct.feature
+--- a/src/test/resources/features/DeleteProduct.feature	(revision c58788e7fff8e6ce8a3c7cd07b34489afe5689cb)
++++ b/src/test/resources/features/DeleteProduct.feature	(date 1700935551686)
+@@ -5,13 +5,12 @@
+     Given I am an admin
+ 
+   Scenario: successful delete process
+-    And  a product with id 1, name "name", category "category", price 10.0, quantity 7
+-    When I delete the product with ID 1
+-    Then the product with ID 1 should be removed from the database
++    When I delete existing product
++    Then the existing product should be deleted
+ 
+   Scenario: deleting non-existing product
+-    When I delete a product with non-existing id
+-    Then the system should display an error message indicating the product does not exist
++    When I delete non-existing product
++    Then the system should show that the product is not exist
+ 
+ 
+ 
+Index: src/test/resources/features/AddNewProduct.feature
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\nFeature: Admin adds a new product\n  Background:\n    Given I am an admin\n\n  Scenario: admin adds product with all valid information\n    When  I add a new product with ID 5, name \"TestProduct\", category \"Interior\", price 149.99, quantity 10\n    Then  the product with ID 5, name \"TestProduct\", category \"Interior\", price 149.99, quantity 10 should be added to the database\n\n  Scenario: admin tries to add a product with duplicated ID\n    And   a product with ID duplicated ID\n    When  I add a duplicated product with ID 5, name \"duplicatedID\", category \"Interior\", price 149.99, and quantity 10\n    Then  the system should display an error message indicating the ID is already in use\n\n  Scenario Outline: admin adds a product with invalid information\n    When I add a new product with invalid ID <ID>, name \"<Name>\", category \"<Category>\", price <Price>, quantity <Quantity>\n    Then the user should see <errorMessage>\n\n    Examples:\n      | ID  | Name            | Category      | Price   | Quantity | errorMessage\n      | 11  | Spoiler         | Watches       | 20.0    | 10       | Invalid Category!\n      | 12  | Spoiler         | exterior      | -10.0   | 10       | Invalid Price!\n      | 13  | Spoiler         | exterior      | 20.0    | -10      | Invalid Quantity!\n\n\n\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/resources/features/AddNewProduct.feature b/src/test/resources/features/AddNewProduct.feature
+--- a/src/test/resources/features/AddNewProduct.feature	(revision c58788e7fff8e6ce8a3c7cd07b34489afe5689cb)
++++ b/src/test/resources/features/AddNewProduct.feature	(date 1700935551686)
+@@ -4,23 +4,22 @@
+     Given I am an admin
+ 
+   Scenario: admin adds product with all valid information
+-    When  I add a new product with ID 5, name "TestProduct", category "Interior", price 149.99, quantity 10
+-    Then  the product with ID 5, name "TestProduct", category "Interior", price 149.99, quantity 10 should be added to the database
++    When  I add a new product with valid ID, name, category, price, quantity
++    Then  the product should be added to the database
+ 
+   Scenario: admin tries to add a product with duplicated ID
+-    And   a product with ID duplicated ID
+-    When  I add a duplicated product with ID 5, name "duplicatedID", category "Interior", price 149.99, and quantity 10
+-    Then  the system should display an error message indicating the ID is already in use
++    When  I add a product with duplicated ID
++    Then  the system should show that the ID is already exist
+ 
+   Scenario Outline: admin adds a product with invalid information
+     When I add a new product with invalid ID <ID>, name "<Name>", category "<Category>", price <Price>, quantity <Quantity>
+-    Then the user should see <errorMessage>
++    Then the system should show invalid information
+ 
+     Examples:
+-      | ID  | Name            | Category      | Price   | Quantity | errorMessage
+-      | 11  | Spoiler         | Watches       | 20.0    | 10       | Invalid Category!
+-      | 12  | Spoiler         | exterior      | -10.0   | 10       | Invalid Price!
+-      | 13  | Spoiler         | exterior      | 20.0    | -10      | Invalid Quantity!
++      | ID | Name           | Category      | Price   | Quantity |
++      | 5  | Spoiler         | Watches       | 20.0    | 10       |
++      | 6  | Spoiler         | exterior      | -10.0   | 10       |
++      | 7  | Spoiler         | exterior      | 20.0    | -10      |
+ 
+ 
+ 
+Index: src/test/java/Application/ServicesTest/LogOutTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Application.ServicesTest;\n\nimport Application.LoggerUtility;\nimport Application.Services.LogOut;\nimport Application.Entities.User;\nimport io.cucumber.java.en.Given;\nimport io.cucumber.java.en.Then;\nimport io.cucumber.java.en.When;\n\nimport java.util.logging.Logger;\n\nimport static org.junit.Assert.*;\n\npublic class LogOutTest {\n    User user;\n    LogOut logOut;\n    private static Logger logger = LoggerUtility.getLogger();\n\n    public LogOutTest() {\n       user =new User();\n        logOut =new LogOut();\n    }\n\n    @Given(\"the user is logged in\")\n    public void theUserIsLoggedIn() {\n        user.SignInStatus=true;\n        assertTrue(user.SignInStatus);\n\n    }\n    @When(\"the user selects the option to log out\")\n    public void theUserSelectsTheOptionToLogOut() {\n        // Write code here that turns the phrase above into concrete actions\n        logger.info(\"You will exit the app, are you sure?\");\n    }\n    @Then(\"the user should be successfully logged out\")\n    public void theUserShouldBeSuccessfullyLoggedOut() {\n\n        assertNull(logOut.performLogout(user));\n    }\n    @Then(\"should be redirected to the login page\")\n    public void shouldBeRedirectedToTheLoginPage() {\n        // Write code here that turns the phrase above into concrete actions\n        logger.info(\"You are in sign in page\");\n    }\n    @Then(\"the system should display a logout confirmation message\")\n    public void theSystemShouldDisplayALogoutConfirmationMessage() {\n        // Write code here that turns the phrase above into concrete actions\n        logger.info(\"Thank you to use our app, Have a nice Day ^_^\");\n    }\n\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/Application/ServicesTest/LogOutTest.java b/src/test/java/Application/ServicesTest/LogOutTest.java
+--- a/src/test/java/Application/ServicesTest/LogOutTest.java	(revision c58788e7fff8e6ce8a3c7cd07b34489afe5689cb)
++++ b/src/test/java/Application/ServicesTest/LogOutTest.java	(date 1700935551685)
+@@ -16,9 +16,9 @@
+     LogOut logOut;
+     private static Logger logger = LoggerUtility.getLogger();
+ 
+-    public LogOutTest() {
+-       user =new User();
+-        logOut =new LogOut();
++    public LogOutTest(User user,LogOut logOut) {
++      this.user=user;
++      this.logOut=logOut;
+     }
+ 
+     @Given("the user is logged in")

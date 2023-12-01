@@ -22,11 +22,12 @@ public class MessagesGenerator {
     public static void listGenerator(String type){
         switch (type){
             case "signingList":
-                logger.info("\n _____________________________________________________\n");
-                logger.info("|       Welcome to HalaCar  accessories System :)     |\n");
-                logger.info("| 1-If you want to SignUp                             |\n");
-                logger.info("| 2-If you want to SignIn                             |\n");
-                logger.info("|_____________________________________________________|\n");
+                logger.info("\n _____________________________________________________  \n");
+                logger.info("|       Welcome to HalaCar  accessories System :)         |\n");
+                logger.info("| 1. If you want to SignUp                                |\n");
+                logger.info("| 2. If you want to SignIn                                |\n");
+                logger.info("| 3. Exit                                                 |\n");
+                logger.info("|  _____________________________________________________  |\n");
                 logger.info("Select an option: \n");
                 break;
             case "productList":
@@ -38,14 +39,23 @@ public class MessagesGenerator {
                 logger.info("5. Exit\n");
                 logger.info("Select an option: \n");
                 break;
+
             case "userList":
                 logger.info("\nMenu:\n");
                 logger.info("1. Browse products\n");
                 logger.info("2. View profile\n");
                 logger.info("3. Edit profile\n");
                 logger.info("4. View installations requests \n");
-                logger.info("5. View order history\n");
+                logger.info("5. View requests history\n");
                 logger.info("6. Exit\n");
+                logger.info("Select an option: \n");
+                break;
+            case "adminList":
+                logger.info("\nMenu:\n");
+                logger.info("1. View and Manage products\n");
+                logger.info("2. View and Manage customers accounts \n");
+                logger.info("3. View and Manage appointment's \n");
+                logger.info("4. Exit\n");
                 logger.info("Select an option: \n");
                 break;
             case "editProfile":
@@ -62,4 +72,5 @@ public class MessagesGenerator {
             break;
         }
     }
+
 }

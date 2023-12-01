@@ -1,57 +1,29 @@
 package Application;
-
 import Application.DataBase.Premetive_Objects.ResultSetResultHandler;
 import Application.DataBase.UserDefinedTypes.ProductResultHandler;
 import Application.Entities.Product;
+import Application.Entities.Profile;
 import Application.Entities.User;
 import Application.Services.*;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Logger;
-
-
 import static Application.Main.scanner;
 import static Application.Services.MessagesGenerator.logger;
 
 public class MainUtility {
-
-
-    public static int signUpUtility(String email,String password){
-
-       int validationStatus = ValidationUser.validation(email, password);
-        if (validationStatus == ValidationUser.VALID) {
-            SignUp signUp = new SignUp(email,password,false,validationStatus);
-            signUp.creatAccount();
-        }
-        return validationStatus;
-    }
-
-    public static int signInUtility(String email, String password, User currentUser){
-
-      int   validationStatus = ValidationUser.validation(email, password);
-        if (validationStatus == ValidationUser.VALID)
-        {
-            SignIn signIn = new SignIn(email, password, "user", false, validationStatus);
-            currentUser = signIn.performLogIn();
-        }
-        return validationStatus;
-    }
-
     public static void userUtility(DatabaseService databaseService, User currentUser){
-
-        while (true) {
+        boolean iterator =true;
+        while (iterator) {
             MessagesGenerator.listGenerator("userList");
             int option = scanner.nextInt();
             scanner.nextLine();  // Consume the newline
 
             switch (option) {
                 case 1:
-
+                    //TODO:shehab: u know how the products  will apeaer and purchase proccess
                     break;
                 case 2:
                     currentUser.showDetails(logger);
-
                     break;
                 case 3:
                     MessagesGenerator.listGenerator("editProfile");
@@ -60,26 +32,57 @@ public class MainUtility {
                     currentUser.editDetails(optionIn,logger,scanner);
                     break;
                 case 4:
+                    currentUser.viewInstallationRequests();
                     break;
                 case 5:
+                    currentUser.viewRequisitesHistory();
                     break;
                 case 6:
+                    iterator=false;
                     break;
                 default:
+                    logger.info("Invalid choice! \nPlease enter 1, 2, ... 6.\n");
             }
         }
     }
 
+    public static void adminUtility(DatabaseService databaseService ,User currentUser) {
+        boolean iterator = true;
+        while (iterator) {
+            MessagesGenerator.listGenerator("adminList");
+
+            int option = scanner.nextInt();
+            scanner.nextLine();  // Consume the newline
+            switch (option) {
+                case 1:
+                    productUtility(databaseService);
+                    break;
+                case 2:
+
+                    break;
+                case 3:
+                    break;
+                case 4:
+                        iterator=false;
+                    break;
+                default:
+                    logger.info("Invalid choice! \nPlease enter 1, 2, ... 4.\n");
+        }
+    }
+
+    }
 
 
+    public static void installerUtility(DatabaseService databaseService) {
+    }
 
-    public static void adminUtility(DatabaseService databaseService) {
+    public static void productUtility(DatabaseService databaseService) {
+        boolean iterator = true;
         String valid;
-        while (true) {
+        while (iterator) {
             MessagesGenerator.listGenerator("productList");
             int option = scanner.nextInt();
             scanner.nextLine();  // Consume the newline
-
             switch (option) {
 
                 case 1:
@@ -101,8 +104,8 @@ public class MainUtility {
                     if(valid.equals("")){
 
                         try {
-                             databaseService.addObject(product, "Product");
-                             logger.info("Product added successfully.");
+                            databaseService.addObject(product, "Product");
+                            logger.info("Product added successfully.");
 
                         } catch (SQLException e) {
                             e.printStackTrace();
@@ -209,25 +212,19 @@ public class MainUtility {
                                     Product returnedProduct = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getInt(5));
                                     System.out.println(returnedProduct);
                                 }
-
                             }catch ( SQLException e ){
                                 logger.info("There is some error");
                                 e.printStackTrace();
                             }
-
                         default:
                             logger.info("Invalid option. Please select a valid option.");
-
-
                     }
-
-
                     break;
 
                 case 5:
                     databaseService.closeConnection();
                     logger.info("back to main menu!");
-                    System.exit(0);
+                    iterator=false;
                     break;
 
                 default:
@@ -236,7 +233,31 @@ public class MainUtility {
         }
     }
 
-    public static void installerUtility(DatabaseService databaseService) {
+    public static int signUpUtility(String email,String password){
+        String Name,location,phoneNumber;
+        int validationStatus = ValidationUser.validation(email, password);
+        if (validationStatus == ValidationUser.VALID) {
+            logger.info("Please enter your name: ");
+            Name=scanner.nextLine();
+            logger.info("Please enter your address: ");
+            location=scanner.nextLine();
+            logger.info("Please enter your phoneNumber: ");
+            phoneNumber=scanner.nextLine();
+            Profile profile=new Profile(-1,Name,location,phoneNumber);
+            SignUp signUp = new SignUp(email,password,false,validationStatus,profile);
+            signUp.creatAccount();
+        }
+        return validationStatus;
+    }
+
+    public static int signInUtility(String email, String password, User currentUser){
+        int validationStatus = ValidationUser.validation(email, password);
+        if (validationStatus == ValidationUser.VALID)
+        {
+            SignIn signIn = new SignIn(email, password, "user", false, validationStatus);
+            currentUser = signIn.performLogIn();
+        }
+        return validationStatus;
     }
 
 }

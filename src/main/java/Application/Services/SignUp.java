@@ -1,10 +1,12 @@
 package Application.Services;
+import Application.Entities.Profile;
 import Application.Entities.User;
 
 public class SignUp {
 
     public String email;
     public String password;
+    public Profile profile;
     public boolean hasAccount;
     public int validationStatus;
 
@@ -16,11 +18,12 @@ public class SignUp {
         validationStatus =-1;
 
     }
-    public SignUp(String email, String password,boolean hasAccount, int validationStatus) {
+    public SignUp(String email, String password,boolean hasAccount, int validationStatus,Profile profile) {
         this.email=email;
         this.password=password;
         this.validationStatus=validationStatus;
         this.hasAccount=hasAccount;
+        this.profile=profile;
     }
 
 
@@ -29,6 +32,7 @@ public class SignUp {
 
             // this function should put data in DB
             // TODO creat profile
+            // assign profile id becuse it -1
             this.hasAccount = true;
         }
         else

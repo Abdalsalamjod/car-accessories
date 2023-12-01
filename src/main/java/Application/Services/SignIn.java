@@ -32,6 +32,7 @@ public class SignIn {
         if (validationStatus==0){
             this.signedIn=true;
             // connect with DB
+            // assign real profile
              Profile profile=new Profile();
             return new User(email, password, role, signedIn,profile);
         }

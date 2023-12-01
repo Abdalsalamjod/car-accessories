@@ -5,15 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f4600014-5527-487d-a1a4-82e62e42c04f" name="Changes" comment="fix signUp">
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29_11_2023,_10_55_pm_[Changes]/shelved.patch" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/appFlow.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/features/AdminTest/viewAccountInformation.feature" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Application/Entities/Profile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Application/Entities/Profile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Application/Services/DatabaseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Application/Services/DatabaseService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Application/Entities/Request.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Application/Entities/Request.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Application/Entities/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Application/Entities/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Application/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Application/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Application/MainUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Application/MainUtility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Application/Services/InstallationRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Application/Services/MessagesGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Application/Services/MessagesGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Application/Services/Order.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Application/Services/SignIn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Application/Services/SignIn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Application/Services/SignUp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Application/Services/SignUp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/Application/AdminTest/ChangePassword.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/Application/AdminTest/ChangePassword.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/Application/AdminTest/CommonAdminMethodsTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/Application/AdminTest/CommonAdminMethodsTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/Application/AdminTest/CreatAcconts.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/Application/AdminTest/CreatAcconts.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/Application/AdminTest/DeleteAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/Application/AdminTest/DeleteAccount.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/Application/AdminTest/EditAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/Application/AdminTest/EditAccount.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/Application/AdminTest/ViewAccountInformation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/Application/AdminTest/ViewAccountInformation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/Application/ConfigurationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/Application/ConfigurationTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/Application/DataBase/UserProfileTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/Application/DataBase/UserProfileTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/Application/step_definitions/Add_Delete_Update_Search.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/Application/step_definitions/Add_Delete_Update_Search.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/Application/step_definitions/InstallationRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/Application/step_definitions/InstallationRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/features/UserProfile.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/UserProfile.feature" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,36 +95,36 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "div",
-    "last_opened_file_path": "F:/car-accessories/src/test/resources/features",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "onboarding.tips.debug.path": "/Users/abdalsalam/Documents/car-accessories/src/main/java/Application/Main.java",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;div&quot;,
+    &quot;last_opened_file_path&quot;: &quot;F:/car-accessories/src/test/resources/features&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;/Users/abdalsalam/Documents/car-accessories/src/main/java/Application/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="Application" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources" />
       <recent name="F:\newfolder\car-accessories\src\test\resources\features" />
       <recent name="F:\car-accessories\src\test\resources\features" />
       <recent name="F:\car-accessories\src\main\java\Application\interfaces_implementators\UserDefinedTypes" />
       <recent name="F:\car-accessories\src\test\resources\features\GeneralFeatures" />
-      <recent name="$PROJECT_DIR$/src/test/resources/features/Adminfeatures" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="Application" />
@@ -121,7 +133,7 @@
       <recent name="Application" />
     </key>
   </component>
-  <component name="RunManager" selected="Cucumber Java.Feature: UserProfile">
+  <component name="RunManager">
     <configuration name="Feature: AddNewProduct" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java" nameIsGenerated="true">
       <option name="CUCUMBER_CORE_VERSION" value="5" />
       <option name="FILE_PATH" value="$PROJECT_DIR$/src/test/resources/features/Adminfeatures/AddNewProduct.feature" />
@@ -196,14 +208,14 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Feature: SearchForProduct" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java" temporary="true" nameIsGenerated="true">
+    <configuration name="Feature: UserProfile" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java" temporary="true" nameIsGenerated="true">
       <option name="CUCUMBER_CORE_VERSION" value="5" />
-      <option name="FILE_PATH" value="$PROJECT_DIR$/src/test/resources/features/SearchForProduct.feature" />
-      <option name="GLUE" value="Application.step_definitions" />
+      <option name="FILE_PATH" value="$PROJECT_DIR$/src/test/resources/features/UserProfile.feature" />
+      <option name="GLUE" value="Application.DataBase Application.step_definitions" />
       <option name="MAIN_CLASS_NAME" value="io.cucumber.core.cli.Main" />
       <module name="car-accessories" />
       <option name="PROGRAM_PARAMETERS" value=" --plugin org.jetbrains.plugins.cucumber.java.run.CucumberJvm5SMFormatter" />
-      <option name="SUGGESTED_NAME" value="Feature: SearchForProduct" />
+      <option name="SUGGESTED_NAME" value="Feature: UserProfile" />
       <option name="WORKING_DIRECTORY" value="$MODULE_WORKING_DIR$" />
       <extension name="coverage">
         <pattern>
@@ -215,14 +227,14 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Feature: UserProfile" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java" temporary="true" nameIsGenerated="true">
+    <configuration name="Feature: viewAccountInformation" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java" temporary="true" nameIsGenerated="true">
       <option name="CUCUMBER_CORE_VERSION" value="5" />
-      <option name="FILE_PATH" value="$PROJECT_DIR$/src/test/resources/features/UserProfile.feature" />
-      <option name="GLUE" value="Application.DataBase Application.step_definitions" />
+      <option name="FILE_PATH" value="$PROJECT_DIR$/src/test/resources/features/AdminTest/viewAccountInformation.feature" />
+      <option name="GLUE" value="Application.DataBase Application.step_definitions Application.AdminTest" />
       <option name="MAIN_CLASS_NAME" value="io.cucumber.core.cli.Main" />
       <module name="car-accessories" />
       <option name="PROGRAM_PARAMETERS" value=" --plugin org.jetbrains.plugins.cucumber.java.run.CucumberJvm5SMFormatter" />
-      <option name="SUGGESTED_NAME" value="Feature: UserProfile" />
+      <option name="SUGGESTED_NAME" value="Feature: viewAccountInformation" />
       <option name="WORKING_DIRECTORY" value="$MODULE_WORKING_DIR$" />
       <extension name="coverage">
         <pattern>
@@ -293,26 +305,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Scenario: searching for non-existing product by name" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java" temporary="true" nameIsGenerated="true">
-      <option name="CUCUMBER_CORE_VERSION" value="5" />
-      <option name="FILE_PATH" value="$PROJECT_DIR$/src/test/resources/features/SearchForProduct.feature" />
-      <option name="GLUE" value="Application.step_definitions" />
-      <option name="MAIN_CLASS_NAME" value="io.cucumber.core.cli.Main" />
-      <module name="car-accessories" />
-      <option name="NAME_FILTER" value="^searching for non\-existing product by name$" />
-      <option name="PROGRAM_PARAMETERS" value=" --plugin org.jetbrains.plugins.cucumber.java.run.CucumberJvm5SMFormatter --name &quot;^searching for non\-existing product by name$&quot;" />
-      <option name="SUGGESTED_NAME" value="Scenario: searching for non-existing product by name" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_WORKING_DIR$" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="io.cucumber.core.cli.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="Scenario: valid information" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java" nameIsGenerated="true">
       <option name="CUCUMBER_CORE_VERSION" value="5" />
       <option name="FILE_PATH" value="$PROJECT_DIR$/src/test/resources/features/Adminfeatures/AddNewProduct.feature" />
@@ -340,13 +332,28 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="ConfigurationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="car-accessories" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Application.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Application" />
+      <option name="MAIN_CLASS_NAME" value="Application.ConfigurationTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.ConfigurationTest" />
+        <item itemvalue="Cucumber Java.Feature: viewAccountInformation" />
         <item itemvalue="Cucumber Java.Feature: UserProfile" />
         <item itemvalue="Cucumber Java.Scenario: Customer edits their name" />
         <item itemvalue="Cucumber Java.Feature: CreateNewInstallationRequest" />
-        <item itemvalue="Cucumber Java.Scenario: searching for non-existing product by name" />
-        <item itemvalue="Cucumber Java.Feature: SearchForProduct" />
       </list>
     </recent_temporary>
   </component>
@@ -429,17 +436,6 @@
               <option name="CUSTOM_BOOLEAN_PROPERTIES">
                 <map>
                   <entry key="Show.Git.Branches" value="false" />
-                </map>
-              </option>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="dev" />
-                      </list>
-                    </value>
-                  </entry>
                 </map>
               </option>
             </State>

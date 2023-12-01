@@ -75,7 +75,7 @@ user.setEmail("new email");
     @When("selects the order history section")
     public void selectsTheOrderHistorySection() {
         flag=false;
-      flag=  profile.viewOrderHistory();
+        user.viewRequisitesHistory();
     }
 
     @Then("they should see a list of their past orders")
@@ -85,8 +85,7 @@ user.setEmail("new email");
 
     @When("selects the installation requests section")
     public void selectsTheInstallationRequestsSection() {
-        flag=false;
-        flag=  profile.viewInstallationRequests();
+         user.viewInstallationRequests();
     }
 
     @Then("they should see a list of their installation requests")

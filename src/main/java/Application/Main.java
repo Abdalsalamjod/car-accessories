@@ -2,10 +2,8 @@ package Application;
 
 import Application.Services.*;
 import Application.Entities.User;
-
 import java.util.Scanner;
 import java.util.logging.Logger;
-
 
 public class Main {
     public static Logger logger = LoggerUtility.getLogger();
@@ -13,12 +11,10 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String email = "";
-        String password = "";
         User currentUser = null;
-
+        String email;
+        String password;
         int validationStatus;
-
 
         while (true) {
             MessagesGenerator.listGenerator("signingList");
@@ -43,17 +39,17 @@ public class Main {
                         DatabaseService databaseService = new DatabaseService();
 
                         switch (currentUser.getRole()){
-                            case "user" ->{
+                            case "u" ->{
                                 MainUtility.userUtility(databaseService,currentUser);
                             }
-                            case "admin" ->{
-                                MainUtility.adminUtility(databaseService);
+                            case "a" ->{
+                                MainUtility.adminUtility(databaseService,currentUser);
                             }
-                            case "installer" ->{
+                            case "i" ->{
                                 MainUtility.installerUtility(databaseService);
                             }
                             default -> {
-
+                                logger.info("Error: something went wrong, please run application again!\n");
                             }
                         }
                     }
@@ -62,9 +58,10 @@ public class Main {
                         logger.info(MessagesGenerator.SigningMessages(5));
                     }
                 }
-                case "3" -> {System.exit(0);
+                case "3" -> {
+                    System.exit(0);
                 }
-                default -> logger.info("Invalid choice. Please enter 1, 2, or 3.");
+                default -> logger.info("Invalid choice! \nPlease enter 1, 2, or 3.\n");
             }
         }
     }

@@ -12,7 +12,7 @@ public class UserResultHandler implements QueryResultHandler<User> {
     if (resultSet.next()) {
       User user = new User();
      // user.setId(resultSet.getInt("id"));
-    //  user.setUsername(resultSet.getString("username"));
+      //  user.setUsername(resultSet.getString("username"));
       // Set other fields as needed
       return user;
     }

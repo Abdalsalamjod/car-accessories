@@ -11,6 +11,17 @@ target/
 *.iws
 *.iml
 *.ipr
+# IntelliJ IDEA
+.idea/
+# User-specific files
+.idea/workspace.xml
+.idea/vcs.xml
+.idea/uiDesigner.xml
+.idea/misc.xml
+.idea/encodings.xml
+.idea/shelf
+.idea/inspectionProfiles
+.DS_Store
 
 ### Eclipse ###
 .apt_generated

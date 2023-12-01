@@ -57,7 +57,6 @@ public class DatabaseService implements Serializable {
   //add new object to the database
   public  <T> boolean addObject(T object, String tableName) throws SQLException{
 
-
     StringBuilder insertQuery = new StringBuilder("INSERT INTO " + tableName + " (");
 
     //get the fields names (class must have getters)
@@ -95,6 +94,7 @@ public class DatabaseService implements Serializable {
     statement.executeUpdate();
     statement.close();
     return true;
+
   }
 
   //delete object based on id (static -> call it from class name)

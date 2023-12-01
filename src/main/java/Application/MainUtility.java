@@ -71,9 +71,8 @@ public class MainUtility {
     }
 
 
-
-
     public static void adminUtility(DatabaseService databaseService) {
+
         String valid;
         while (true) {
             MessagesGenerator.listGenerator("productList");

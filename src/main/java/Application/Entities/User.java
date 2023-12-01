@@ -1,5 +1,6 @@
 package Application.Entities;
 
+
 import Application.LoggerUtility;
 import Application.Services.DatabaseService;
 import Application.Services.ValidationUser;
@@ -7,6 +8,7 @@ import Application.Services.ValidationUser;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.logging.Logger;
+
 
 public class User {
     private String email;
@@ -41,7 +43,6 @@ public class User {
     }
 
     public boolean makeRequest(Request request){
-
         try{
             DatabaseService dbs = new DatabaseService();
             return dbs.addObject(request,"Request");

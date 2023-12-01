@@ -50,11 +50,11 @@ public class Main {
                             }
                             case "a" ->{
                                 Admin currentAdmin =(Admin) currentUser;
-                                MainUtility.adminUtility(databaseService,currentUser);
+                                MainUtility.adminUtility(databaseService,currentAdmin);
                             }
                             case "i" ->{
                                 Installer currentInstaller =(Installer) currentUser;
-                                MainUtility.installerUtility(databaseService);
+                                MainUtility.installerUtility(databaseService,currentInstaller);
                             }
                             default -> {
                                 logger.info("Error: something went wrong, please run application again!\n");

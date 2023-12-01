@@ -10,8 +10,8 @@ import java.util.logging.Logger;
 
 
 public class User {
-    private String email;
-    private String password;
+    public String email;
+    public String password;
     public String role;
     public Profile profile;
     public List<Request> requests;

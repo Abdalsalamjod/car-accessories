@@ -255,7 +255,7 @@ public class MainUtility {
         int validationStatus = ValidationUser.validation(email, password);
         if (validationStatus == ValidationUser.VALID)
         {
-            SignIn signIn = new SignIn(email, password, "user", false, validationStatus);
+            SignIn signIn = new SignIn(email, password, "", false, validationStatus);
             currentUser = signIn.performLogIn();
         }
         return validationStatus;

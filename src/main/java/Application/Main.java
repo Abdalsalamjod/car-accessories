@@ -1,5 +1,7 @@
 package Application;
 
+import Application.Entities.Admin;
+import Application.Entities.Installer;
 import Application.Services.*;
 import Application.Entities.User;
 import java.util.Scanner;
@@ -19,8 +21,6 @@ public class Main {
         while (true) {
             MessagesGenerator.listGenerator("signingList");
             String choice = scanner.nextLine();
-
-
 
             switch (choice) {
                 case "1" -> {
@@ -49,9 +49,11 @@ public class Main {
                                 MainUtility.userUtility(databaseService,currentUser);
                             }
                             case "a" ->{
+                                Admin currentAdmin =(Admin) currentUser;
                                 MainUtility.adminUtility(databaseService,currentUser);
                             }
                             case "i" ->{
+                                Installer currentInstaller =(Installer) currentUser;
                                 MainUtility.installerUtility(databaseService);
                             }
                             default -> {
@@ -63,7 +65,6 @@ public class Main {
                     {
                         logger.info(MessagesGenerator.SigningMessages(5));
                     }
-
                 }
                 case "3" -> {
                     logger.info("Good bye, have a nice day.");

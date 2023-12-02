@@ -1,5 +1,11 @@
 package Application.Entities;
 
+import Application.DataBase.Premetive_Objects.ResultSetResultHandler;
+import Application.DataBase.UserDefinedTypes.ProductResultHandler;
+import Application.Services.DatabaseService;
+
+import java.sql.ResultSet;
+
 public class Product {
 
   private Integer id;
@@ -75,7 +81,27 @@ public class Product {
   }
 
 
-  //To print the product
+  public static ResultSet getAllProducts( DatabaseService dbs ) throws Exception{
+    return dbs.executeQuery("SELECT * FROM Product", new ResultSetResultHandler());
+  }
+
+  public static ResultSet getAllProductsNames( DatabaseService dbs ) throws Exception{
+    return dbs.executeQuery("SELECT id, name FROM Product", new ResultSetResultHandler());
+  }
+  public static Product getProductById( int id, DatabaseService dbs ) throws Exception{
+    return dbs.executeQuery("SELECT * FROM Product WHERE id=" + id, new ProductResultHandler());
+  }
+  public static Product getProductByName( String name, DatabaseService dbs ) throws Exception{
+    return dbs.executeQuery("SELECT * FROM Product WHERE name='" + name + "'", new ProductResultHandler());
+  }
+  public static ResultSet getProductsByCategory( String category, DatabaseService dbs ) throws Exception{
+    return dbs.executeQuery("SELECT * FROM Product WHERE category='" + category + "'", new ResultSetResultHandler());
+  }
+  public static ResultSet getProductsByPriceRange( double lowerPrice, double upperPrice, DatabaseService dbs ) throws Exception{
+    return dbs.executeQuery("SELECT * FROM Product WHERE price BETWEEN " + lowerPrice + " AND " + upperPrice, new ResultSetResultHandler());
+  }
+
+
   @Override
   public String toString(){
     return  "ID: " + this.id + ", Name: " + this.name + ", Category: " + this.category + ", Price: " + this.price + ", Quantity: " + this.quantity;

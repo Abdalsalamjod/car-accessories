@@ -36,6 +36,17 @@ public class Main {
                     email = scanner.nextLine();
                     logger.info("Enter your password:");
                     password = scanner.nextLine();
+
+
+                    //try this to get the current user, to solve the next if statement problem, don't forget to update UserResultHandler
+//                    DatabaseService dbs = new DatabaseService();
+//                    try {
+//                        currentUser =  dbs.executeQuery("SELECT * FROM user WHERE email='" + email + "'", new UserResultHandler());
+//                    } catch ( SQLException e ) {
+//                        throw new RuntimeException(e);
+//                    }
+
+
                     validationStatus=MainUtility.signInUtility(email,password,currentUser);
                     logger.info(MessagesGenerator.SigningMessages(validationStatus));
 
@@ -45,9 +56,9 @@ public class Main {
                         DatabaseService databaseService = new DatabaseService();
 
                         switch (currentUser.getRole()){
-                            case "u" ->{
+                            case "u" ->
                                 MainUtility.userUtility(databaseService,currentUser);
-                            }
+
                             case "a" ->{
                                 Admin currentAdmin =(Admin) currentUser;
                                 MainUtility.adminUtility(databaseService,currentAdmin);
@@ -56,9 +67,9 @@ public class Main {
                                 Installer currentInstaller =(Installer) currentUser;
                                 MainUtility.installerUtility(databaseService,currentInstaller);
                             }
-                            default -> {
+                            default ->
                                 logger.info("Error: something went wrong, please run application again!\n");
-                            }
+
                         }
                     }
                     else

@@ -1,10 +1,13 @@
 package Application;
 import Application.DataBase.Premetive_Objects.ResultSetResultHandler;
-import Application.DataBase.UserDefinedTypes.ProductResultHandler;
 import Application.Entities.*;
 import Application.Services.*;
+
 import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+
 import static Application.Main.scanner;
 import static Application.Services.MessagesGenerator.logger;
 
@@ -16,30 +19,89 @@ public class MainUtility {
             int option = scanner.nextInt();
             scanner.nextLine();  // Consume the newline
 
-            switch (option) {
-                case 1:
-                    //TODO:shehab: u know how the products  will apeaer and purchase proccess
-                    break;
-                case 2:
-                    currentUser.showDetails(logger);
-                    break;
-                case 3:
+            switch ( option ) {
+                case 1 -> {
+                    MessagesGenerator.listGenerator("browsProductsList");
+                    int browsOption = scanner.nextInt();
+                    scanner.nextLine();  // Consume the newline
+                    currentUser.browsProducts(browsOption, databaseService);
+                }
+                case 2 -> currentUser.showDetails(logger);
+                case 3 -> {
                     MessagesGenerator.listGenerator("editProfile");
                     int optionIn = scanner.nextInt();
                     scanner.nextLine();  // Consume the newline
-                    currentUser.editDetails(optionIn,logger,scanner);
-                    break;
-                case 4:
-                    currentUser.viewInstallationRequests();
-                    break;
-                case 5:
-                    currentUser.viewRequisitesHistory();
-                    break;
-                case 6:
-                    iterator=false;
-                    break;
-                default:
-                    logger.info("Invalid choice! \nPlease enter 1, 2, ... 6.\n");
+                    currentUser.editDetails(optionIn, logger, scanner);
+                }
+                case 4 -> currentUser.viewInstallationRequests();
+                case 5 -> currentUser.viewRequisitesHistory();
+                case 6 ->{
+                    try{
+
+                        ArrayList<Date> datesArray = new ArrayList<>();
+                        Calendar calendar = Calendar.getInstance();
+                        for(int i=0; i<5; i++){
+                            calendar.add(Calendar.DAY_OF_MONTH, 1); // Add one day
+                            Date date = calendar.getTime();
+                            datesArray.add(date);
+                        }
+                        logger.info("Please enter the request ID:");
+                        int requestID = scanner.nextInt();
+
+                        logger.info("\nPlease select the product you want to install");
+                        ResultSet rs = Product.getAllProductsNames(databaseService);
+                        logger.info("ID" + "  " + "Name");
+                        while ( rs.next() )
+                            logger.info(rs.getInt(1) + "  " + rs.getString(2));
+                        logger.info("\n");
+                        int productID = scanner.nextInt();
+
+                        logger.info("\nPlease select one of the available dates");
+                        for(int i=0; i<datesArray.size(); i++)
+                            logger.info((i+1) + "  " + datesArray.get(i) + "\n");
+                        int dateIndex = scanner.nextInt() - 1;
+                        Date date = datesArray.get(dateIndex);
+
+                        logger.info("\nPlease enter the description, what exactly do you want to do");
+                        String description = scanner.nextLine();
+                        Request request = new Request(requestID, productID, currentUser.getEmail(), date, description);
+
+                        boolean done = currentUser.makeRequest(request);
+                        if(done){
+                            EmailSender.sendEmail("s12027747@stu.najah.edu", "Installation Request", "Added successfully");
+                            datesArray.remove(dateIndex);
+                        }
+                        else
+                            logger.info("Sorry, something went wrong!");
+
+                    }catch ( Exception e ){
+                        e.printStackTrace();
+                    }
+                }
+                case 7 -> {
+                    try{
+                        logger.info("Please enter the request ID you want to remove:\n");
+                        ResultSet rs = databaseService.executeQuery("SELECT * FROM Request WHERE userId ='" + currentUser.getEmail() + "'", new ResultSetResultHandler());
+                        while ( rs.next() )
+                            logger.info(rs.getInt(1) + "  " + rs.getInt(2) + "   " + rs.getString(3) + "  " + rs.getString(4) + "  " + rs.getString(5));
+                        logger.info("\n");
+                        int requestID = scanner.nextInt();
+
+                        boolean done = currentUser.removeRequest(requestID);
+                        if(done){
+                            EmailSender.sendEmail("s12027747@stu.najah.edu", "Installation Request", "Removed successfully");
+                        }
+                        else{
+                            logger.info("Sorry, something went wrong!");
+
+                        }
+
+                    }catch ( Exception e ){
+                        e.printStackTrace();
+                    }
+                }
+                case 8 -> iterator = false;
+                default -> logger.info("Invalid choice! \nPlease enter 1, 2, ... 6.\n");
             }
         }
     }
@@ -51,185 +113,30 @@ public class MainUtility {
 
             int option = scanner.nextInt();
             scanner.nextLine();  // Consume the newline
-            switch (option) {
-                case 1:
-                    productUtility(databaseService);
-                    break;
-                case 2:
+            switch ( option ) {
+                case 1 -> {
+                    MessagesGenerator.listGenerator("browsProductsList");
+                    int browsOption = scanner.nextInt();
+                    scanner.nextLine();  // Consume the newline
+                    currentAdmin.manageProducts(browsOption, databaseService);
+                }
+                case 2 -> {
 
-                    break;
-                case 3:
-                    break;
-                case 4:
-                        iterator=false;
-                    break;
-                default:
-                    logger.info("Invalid choice! \nPlease enter 1, 2, ... 4.\n");
+                }
+                case 3 -> {
+
+                }
+                case 4 -> iterator = false;
+                default -> logger.info("Invalid choice! \nPlease enter 1, 2, ... 4.\n");
+            }
         }
-    }
 
     }
 
 
     public static void installerUtility(DatabaseService databaseService, Installer currentInstaller) {
-    }
-
-    public static void productUtility(DatabaseService databaseService) {
-        boolean iterator = true;
-
-        String valid;
-        while (iterator) {
-            MessagesGenerator.listGenerator("productList");
-            int option = scanner.nextInt();
-            scanner.nextLine();  // Consume the newline
-            switch (option) {
-
-                case 1:
-                    logger.info("Enter product details:");
-                    System.out.print("ID: ");
-                    int id = scanner.nextInt();
-                    scanner.nextLine();  // Consume the newline
-                    System.out.print("Name: ");
-                    String name = scanner.nextLine();
-                    System.out.print("Category: ");
-                    String category = scanner.nextLine();
-                    System.out.print("Price: ");
-                    double price = scanner.nextDouble();
-                    System.out.print("Quantity: ");
-                    int quantity = scanner.nextInt();
-
-                    Product product = new Product(id, name, category, price, quantity);
-                    valid = product.validInformation();
-                    if(valid.equals("")){
-
-                        try {
-                            databaseService.addObject(product, "Product");
-                            logger.info("Product added successfully.");
-
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    else
-                        logger.info("Cannot add product, it seems that there is invalid information");
 
 
-                    break;
-
-                case 2:
-                    System.out.print("Enter the ID of the product to delete: ");
-                    int deleteId = scanner.nextInt();
-                    try {
-                        boolean productDeleted = databaseService.deleteObject(deleteId, "Product");
-                        if (productDeleted) {
-                            logger.info("Product with ID " + deleteId + " deleted successfully.");
-                        }
-                    } catch (SQLException e) {
-                        logger.info("Failed to delete the product.");
-                        e.printStackTrace();
-                    }
-                    break;
-
-                case 3:
-                    logger.info("Enter the ID of the product to update: ");
-                    int updateId = scanner.nextInt();
-                    scanner.nextLine();  // Consume the newline
-
-                    try{
-
-                        Product returnedProduct = databaseService.executeQuery("SELECT * FROM Product WHERE id=" + updateId, new ProductResultHandler());
-                        System.out.println("The product:\n ID: " + returnedProduct.getId()+ "\nName: " + returnedProduct.getName() + "\nCategory: " + returnedProduct.getCategory() + "\nPrice: " + returnedProduct.getPrice() + "\nQuantity: " + returnedProduct.getQuantity());
-                        System.out.print("Please enter the new price: ");
-                        double updatedPrice = scanner.nextDouble();
-                        System.out.print("Please enter the new quantity: ");
-                        int updatedQuantity = scanner.nextInt();
-                        Product updatedProduct = new Product(returnedProduct.getId(), returnedProduct.getName(), returnedProduct.getCategory(), updatedPrice, updatedQuantity);
-                        valid = updatedProduct.validInformation();
-
-                        if(valid.equals("")){
-                            databaseService.updateObject(updatedProduct, "Product", "id");
-                            logger.info("\n" + "The product has updated successfully !");
-                        }
-                        else{
-                            logger.info("\n" + valid);
-                        }
-                    }catch ( Exception e ){
-                        logger.info("Cannot update product, it seems that the product you entered does not exist !");
-                        e.printStackTrace();
-                    }
-
-                    break;
-
-                case 4:
-                    logger.info("Please choose how do you want to search:\n1-By ID\n2-By name\n3-By category\n4-By price range ");
-                    int scanned = scanner.nextInt();
-                    switch (scanned){
-                        case 1:
-                            logger.info("Please enter the ID: ");
-                            int ID = scanner.nextInt();
-                            try{
-                                Product returnedProduct = databaseService.executeQuery("SELECT * FROM Product WHERE id=" + ID, new ProductResultHandler());
-                                System.out.println(returnedProduct.toString());
-                            }catch ( SQLException e ){
-                                logger.info("Cannot get product, it seems that the product you entered does not exist !");
-                            }
-                            break;
-                        case 2:
-                            logger.info("Please enter the name: ");
-                            String name_2 = scanner.nextLine();
-                            try{
-                                Product returnedProduct = databaseService.executeQuery("SELECT * FROM Product WHERE name='" + name_2 + "'", new ProductResultHandler());
-                                System.out.println(returnedProduct.toString());
-                            }catch ( SQLException e ){
-                                logger.info("Cannot get product, it seems that the product you entered does not exist !");
-                            }
-                            break;
-                        case 3:
-                            logger.info("Please enter the category: ");
-                            String category_2 = scanner.nextLine();
-                            try{
-                                ResultSet rs = databaseService.executeQuery("SELECT * FROM Product WHERE category='" + category_2 + "'", new ResultSetResultHandler());
-                                while ( rs.next() ){
-                                    Product returnedProduct = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getInt(5));
-                                    System.out.println(returnedProduct);
-                                }
-
-                            }catch ( SQLException e ){
-                                logger.info("There is some error");
-                                e.printStackTrace();
-                            }
-                            break;
-                        case 4:
-                            logger.info("Please enter the lower price: ");
-                            double lowerPrice = scanner.nextDouble();
-                            logger.info("Please enter the upper price: ");
-                            double upperPrice = scanner.nextDouble();
-
-                            try{
-                                ResultSet rs = databaseService.executeQuery("SELECT * FROM Product WHERE price BETWEEN " + lowerPrice + " AND " + upperPrice, new ResultSetResultHandler());
-                                while ( rs.next() ){
-                                    Product returnedProduct = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getInt(5));
-                                    System.out.println(returnedProduct);
-                                }
-                            }catch ( SQLException e ){
-                                logger.info("There is some error");
-                                e.printStackTrace();
-                            }
-                        default:
-                            logger.info("Invalid option. Please select a valid option.");
-                    }
-                    break;
-
-                case 5:
-                    databaseService.closeConnection();
-                    logger.info("back to main menu!");
-                    iterator=false;
-                    break;
-
-                default:
-                    logger.info("Invalid option. Please select a valid option.");
-            }
-        }
     }
 
     public static int signUpUtility(String email,String password){

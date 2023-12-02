@@ -30,15 +30,6 @@ public class MessagesGenerator {
                 logger.info("|  _____________________________________________________  |\n");
                 logger.info("Select an option: \n");
             }
-            case "productList" -> {
-                logger.info("\nMenu:\n");
-                logger.info("1. Add a product\n");
-                logger.info("2. Delete a product\n");
-                logger.info("3. Update a product\n");
-                logger.info("4. Search for a product\n");
-                logger.info("5. Exit\n");
-                logger.info("Select an option: \n");
-            }
             case "searchTypeList" -> {
                 logger.info("\nMenu:\n");
                 logger.info("1. Search by ID\n");

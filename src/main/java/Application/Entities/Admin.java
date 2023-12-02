@@ -43,18 +43,21 @@ public class Admin extends User{
                     errorMsg = "add the product";
                     logger.info("\nPlease enter the product ID: ");
                     id = scanner.nextInt();
-                    logger.info("\nPlease enter the product name: ");
+                    scanner.nextLine();
+                    logger.info("Please enter the product name: ");
                     name = scanner.nextLine();
-                    logger.info("\nPlease enter the product category: ");
+                    logger.info("Please enter the product category: ");
                     category = scanner.nextLine();
-                    logger.info("\nPlease enter the product price: ");
+                    logger.info("Please enter the product price: ");
                     price = scanner.nextDouble();
-                    logger.info("\nPlease enter the product quantity: ");
+                    logger.info("Please enter the product quantity: ");
                     quantity = scanner.nextInt();
                     Product product = new Product(id, name, category, price, quantity);
                     String valid =  product.validInformation();
-                    if(valid.equals(""))
+                    if(valid.equals("")){
                         dbs.addObject(product, "Product");
+                        logger.info("Product Added successfully!");
+                    }
                     else
                         logger.info(valid + "\n");
 
@@ -63,11 +66,14 @@ public class Admin extends User{
                     errorMsg = "delete the product";
                     logger.info("\nPlease enter the product ID: ");
                     id = scanner.nextInt();
-                    dbs.deleteObject(id, "Product");
+                    boolean done = dbs.deleteObject(id, "Product");
+                    if(done)
+                        logger.info("Product Deleted successfully!");
+
                 }
                 case 4 -> {
                     errorMsg = "update the product";
-                    logger.info("\nPlease enter the ID of the product to be updated");
+                    logger.info("\nPlease enter the ID of the product to be updated: ");
                     id = scanner.nextInt();
                     logger.info("\nPlease enter the new price: ");
                     price = scanner.nextDouble();
@@ -77,7 +83,7 @@ public class Admin extends User{
                         Product oldProduct = dbs.executeQuery("SELECT * FROM Product WHERE id=" + id, new ProductResultHandler());
                         Product newProduct = new Product(oldProduct.getId(), oldProduct.getName(), oldProduct.getCategory(), price, quantity);
                         dbs.updateObject(newProduct, "Product", "id");
-
+                        logger.info("Product updated successfully!");
                     } else {
                         logger.info("Price and Quantity must be greater than zero!\n");
                     }

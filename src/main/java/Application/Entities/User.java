@@ -175,10 +175,8 @@ public class User {
                     errorMsg = "by price range";
                     logger.info("Please enter the lower price:");
                     double lower = scanner.nextDouble();
-                    scanner.nextLine();  // Consume the newline
                     logger.info("Please enter the upper price:");
                     double upper = scanner.nextDouble();
-                    scanner.nextLine();  // Consume the newline
                     rs = Product.getProductsByPriceRange(lower, upper, dbs);
                     while ( rs.next() ) {
                         returnedProduct = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getInt(5));

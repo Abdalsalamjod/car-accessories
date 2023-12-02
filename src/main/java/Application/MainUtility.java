@@ -1,9 +1,7 @@
 package Application;
 import Application.DataBase.Premetive_Objects.ResultSetResultHandler;
 import Application.DataBase.UserDefinedTypes.ProductResultHandler;
-import Application.Entities.Product;
-import Application.Entities.Profile;
-import Application.Entities.User;
+import Application.Entities.*;
 import Application.Services.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -46,7 +44,7 @@ public class MainUtility {
         }
     }
 
-    public static void adminUtility(DatabaseService databaseService ,User currentUser) {
+    public static void adminUtility(DatabaseService databaseService , Admin currentAdmin) {
         boolean iterator = true;
         while (iterator) {
             MessagesGenerator.listGenerator("adminList");
@@ -73,7 +71,7 @@ public class MainUtility {
     }
 
 
-    public static void installerUtility(DatabaseService databaseService) {
+    public static void installerUtility(DatabaseService databaseService, Installer currentInstaller) {
     }
 
     public static void productUtility(DatabaseService databaseService) {
@@ -255,7 +253,7 @@ public class MainUtility {
         int validationStatus = ValidationUser.validation(email, password);
         if (validationStatus == ValidationUser.VALID)
         {
-            SignIn signIn = new SignIn(email, password, "user", false, validationStatus);
+            SignIn signIn = new SignIn(email, password, "", false, validationStatus);
             currentUser = signIn.performLogIn();
         }
         return validationStatus;

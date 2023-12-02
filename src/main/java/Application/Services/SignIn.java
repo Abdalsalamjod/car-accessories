@@ -1,5 +1,7 @@
 package Application.Services;
 
+import Application.Entities.Admin;
+import Application.Entities.Installer;
 import Application.Entities.Profile;
 import Application.Entities.User;
 
@@ -29,12 +31,22 @@ public class SignIn {
     }
 
     public User performLogIn() {
+        char Role='u';// change it
         if (validationStatus==0){
             this.signedIn=true;
             // connect with DB
             // assign real profile
-             Profile profile=new Profile();
-            return new User(email, password, role, signedIn,profile);
+
+            Profile profile=new Profile();
+            switch (Role){
+                case 'u':
+                    return new User(email, password, role, signedIn,profile);
+                case 'a':
+                    return new Admin(email, password, role, signedIn,profile);
+                case 'i':
+                    return new Installer(email, password, role, signedIn,profile);
+            }
+           return null;
         }
         else {
             this.signedIn=false;

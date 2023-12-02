@@ -45,29 +45,31 @@ public class MainUtility {
                             Date date = calendar.getTime();
                             datesArray.add(date);
                         }
-                        logger.info("Please enter the request ID:");
+                        logger.info("Please enter the request ID: ");
                         int requestID = scanner.nextInt();
 
-                        logger.info("\nPlease select the product you want to install");
+                        logger.info("\nPlease select the product you want to install\n");
                         ResultSet rs = Product.getAllProductsNames(databaseService);
-                        logger.info("ID" + "  " + "Name");
+                        logger.info("ID" + "  " + "Name\n");
                         while ( rs.next() )
-                            logger.info(rs.getInt(1) + "  " + rs.getString(2));
+                            logger.info(rs.getInt(1) + "  " + rs.getString(2) + "\n");
                         logger.info("\n");
                         int productID = scanner.nextInt();
 
-                        logger.info("\nPlease select one of the available dates");
+                        logger.info("\nPlease select one of the available dates\n");
                         for(int i=0; i<datesArray.size(); i++)
-                            logger.info((i+1) + "  " + datesArray.get(i) + "\n");
+                            logger.info((i+1) + "- " + datesArray.get(i) + "\n");
                         int dateIndex = scanner.nextInt() - 1;
                         Date date = datesArray.get(dateIndex);
 
-                        logger.info("\nPlease enter the description, what exactly do you want to do");
+                        logger.info("\nPlease enter the description, what exactly do you want to do:\n");
+                        scanner.nextLine();
                         String description = scanner.nextLine();
-                        Request request = new Request(requestID, productID, currentUser.getEmail(), date, description);
 
+                        Request request = new Request(requestID, productID, currentUser.getEmail(), new Date(), description);
                         boolean done = currentUser.makeRequest(request);
                         if(done){
+                            logger.info("\nRequest Added Successfully, you can check your email for further information\n");
                             EmailSender.sendEmail("s12027747@stu.najah.edu", "Installation Request", "Added successfully");
                             datesArray.remove(dateIndex);
                         }
@@ -83,12 +85,13 @@ public class MainUtility {
                         logger.info("Please enter the request ID you want to remove:\n");
                         ResultSet rs = databaseService.executeQuery("SELECT * FROM Request WHERE userId ='" + currentUser.getEmail() + "'", new ResultSetResultHandler());
                         while ( rs.next() )
-                            logger.info(rs.getInt(1) + "  " + rs.getInt(2) + "   " + rs.getString(3) + "  " + rs.getString(4) + "  " + rs.getString(5));
+                            logger.info(rs.getInt(1) + "  " + rs.getInt(2) + "   " + rs.getString(3) + "  " + rs.getString(4) + "  " + rs.getString(5) + "\n");
                         logger.info("\n");
                         int requestID = scanner.nextInt();
 
                         boolean done = currentUser.removeRequest(requestID);
                         if(done){
+                            logger.info("\nRequest Removed Successfully, you can check your email for further information\n");
                             EmailSender.sendEmail("s12027747@stu.najah.edu", "Installation Request", "Removed successfully");
                         }
                         else{
@@ -115,7 +118,7 @@ public class MainUtility {
             scanner.nextLine();  // Consume the newline
             switch ( option ) {
                 case 1 -> {
-                    MessagesGenerator.listGenerator("browsProductsList");
+                    MessagesGenerator.listGenerator("manageProductsList");
                     int browsOption = scanner.nextInt();
                     scanner.nextLine();  // Consume the newline
                     currentAdmin.manageProducts(browsOption, databaseService);

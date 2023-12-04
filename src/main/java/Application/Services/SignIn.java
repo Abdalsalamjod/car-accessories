@@ -1,9 +1,13 @@
 package Application.Services;
 
+import Application.DataBase.UserDefinedTypes.ProfileResultHandler;
+import Application.DataBase.UserDefinedTypes.UserResultHandler;
 import Application.Entities.Admin;
 import Application.Entities.Installer;
 import Application.Entities.Profile;
 import Application.Entities.User;
+
+import java.sql.SQLException;
 
 public class SignIn {
     public String email;
@@ -31,20 +35,28 @@ public class SignIn {
     }
 
     public User performLogIn() {
-        char Role='u';// change it
         if (validationStatus==0){
-            this.signedIn=true;
-            // connect with DB
-            // assign real profile
 
-            Profile profile=new Profile();
-            switch (Role){
+            DatabaseService dbs =new DatabaseService();
+            User tempUser = null;
+            try {
+                tempUser = dbs.executeQuery("SELECT * FROM `user` WHERE `email`='"+this.email+"'", new UserResultHandler());
+                tempUser.setProfile(dbs.executeQuery("SELECT * FROM `Profile` WHERE `profileId`='"+tempUser.getProfile()+"'", new ProfileResultHandler()));
+                tempUser.setSignInStatus(true);
+                dbs.updateObject(tempUser,"user","email");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+            switch (tempUser.getRole()){
                 case 'u':
-                    return new User(email, password, role, signedIn,profile);
+                    return new User(tempUser.getEmail(), tempUser.getPassword(), tempUser.getRole(), tempUser.isSignInStatus(),tempUser.getProfileObject());
                 case 'a':
-                    return new Admin(email, password, role, signedIn,profile);
+                    return new Admin (tempUser.getEmail(), tempUser.getPassword(), tempUser.getRole(), tempUser.isSignInStatus(),tempUser.getProfileObject());
                 case 'i':
-                    return new Installer(email, password, role, signedIn,profile);
+                    return new Installer(tempUser.getEmail(), tempUser.getPassword(), tempUser.getRole(), tempUser.isSignInStatus(),tempUser.getProfileObject());
             }
            return null;
         }

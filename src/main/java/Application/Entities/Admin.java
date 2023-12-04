@@ -11,13 +11,13 @@ import static Application.Services.MessagesGenerator.logger;
 
 public class Admin extends User{
 
-    public Admin(String email, String password, String role, boolean SignInStatus, Profile profile) {
+    public Admin(String email, String password, char role, boolean SignInStatus, Profile profile) {
         this.email=email;
         this.password=password;
         this.role=role;
         this.profile = profile;
-        this.SignInStatus = SignInStatus;
-        this.requests=new ArrayList<>();
+        this.signInStatus = SignInStatus;
+
     }
 
     public void manageProducts(int option, DatabaseService dbs){
@@ -101,4 +101,5 @@ public class Admin extends User{
         }
 
     }
+
 }

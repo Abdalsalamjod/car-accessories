@@ -6,7 +6,6 @@ import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
-import io.cucumber.java.zh_cn.假如;
 
 import static org.junit.Assert.assertTrue;
 
@@ -30,7 +29,7 @@ public class UserProfileTest {
 
     @Given("the customer is logged in")
     public void theCustomerIsLoggedIn() {
-        assertTrue(user.SignInStatus);
+        assertTrue(user.signInStatus);
     }
 
     @When("the customer accesses their profile settings")

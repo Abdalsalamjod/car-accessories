@@ -2,17 +2,13 @@ package Application.Entities;
 
 import Application.LoggerUtility;
 
-import java.util.List;
-import java.util.ArrayList;
 import java.util.logging.Logger;
 
 public class Profile {
-    public int profileId;
-    public String Name;
+    public String name;
     public String phoneNumber;
     public String location;
-
-    private static Logger logger = Logger.getLogger(LoggerUtility.class.getName());
+    public int profileId;
 
     public Profile() {
 
@@ -20,7 +16,7 @@ public class Profile {
 
     public Profile(int profileId, String name, String phoneNumber, String location) {
         this.profileId = profileId;
-        this.Name = name;
+        this.name = name;
         this.phoneNumber = phoneNumber;
         this.location = location;
     }
@@ -31,7 +27,7 @@ public class Profile {
 
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public void setPhoneNumber(String phoneNumber) {
@@ -74,7 +70,7 @@ public class Profile {
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public String getPhoneNumber() {
@@ -83,5 +79,10 @@ public class Profile {
 
     public String getLocation() {
         return location;
+    }
+
+    @Override
+    public String toString() {
+        return profileId+"";
     }
 }

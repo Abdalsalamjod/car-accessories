@@ -23,8 +23,8 @@ public class LogOutTest {
 
     @Given("the user is logged in")
     public void theUserIsLoggedIn() {
-        user.SignInStatus=true;
-        assertTrue(user.SignInStatus);
+        user.signInStatus =true;
+        assertTrue(user.signInStatus);
 
     }
     @When("the user selects the option to log out")

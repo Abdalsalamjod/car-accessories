@@ -62,7 +62,10 @@ public class DatabaseService implements Serializable {
     //get the fields names (class must have getters)
     Field[] fields = object.getClass().getDeclaredFields();
     for (int i = 0; i < fields.length; i++) {
-      insertQuery.append(fields[i].getName());
+      if(fields[i].getName().equals("profile"))
+          insertQuery.append("profileId");
+        else
+          insertQuery.append(fields[i].getName());
       if (i < fields.length - 1) {
         insertQuery.append(", ");
       }
@@ -84,6 +87,9 @@ public class DatabaseService implements Serializable {
     for (int i = 0; i < fields.length; i++) {
       fields[i].setAccessible(true);
       try {
+        if(fields[i].toString().equals("public Application.Entities.Profile Application.Entities.User.profile"))
+          statement.setObject(i + 1, fields[i].get(object).toString());
+          else
         statement.setObject(i + 1, fields[i].get(object));
       }catch (IllegalAccessException e) {
         throw new RuntimeException(e);
@@ -128,21 +134,24 @@ public class DatabaseService implements Serializable {
 
     for (int i = 0; i < fields.length; i++) {
       if (!fields[i].getName().equals(primaryKeyField)) {
+        if(fields[i].getName().equals("profile"))
+          updateQuery.append("profileId").append(" = ?");
+          else
         updateQuery.append(fields[i].getName()).append(" = ?");
         if (i < fields.length - 1) {
           updateQuery.append(", ");
         }
       }
     }
-
     updateQuery.append(" WHERE ").append(primaryKeyField).append(" = ?");
-
     PreparedStatement statement = connection.prepareStatement(updateQuery.toString());
-
     int paramIndex = 1;
     for (Field field : fields) {
       if (!field.getName().equals(primaryKeyField)) {
         field.setAccessible(true);
+        if(field.getName().equals("profile") || field.getName().equals("role"))
+          statement.setObject(paramIndex, field.get(object).toString());
+            else
         statement.setObject(paramIndex, field.get(object));
         paramIndex++;
       }

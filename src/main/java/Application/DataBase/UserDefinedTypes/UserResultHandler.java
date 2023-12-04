@@ -11,9 +11,12 @@ public class UserResultHandler implements QueryResultHandler<User> {
   public User handle(ResultSet resultSet) throws SQLException {
     if (resultSet.next()) {
       User user = new User();
-     // user.setId(resultSet.getInt("id"));
-      //  user.setUsername(resultSet.getString("username"));
-      // Set other fields as needed
+     user.setEmail(resultSet.getString("email"));
+     user.setPassword(resultSet.getString("password"));
+     user.setRole(resultSet.getString("role").charAt(0));
+     user.setProfileId(resultSet.getInt("profileId"));
+     user.setSignInStatus(resultSet.getBoolean("signInStatus"));
+
       return user;
     }
     return null; // Return null if no result

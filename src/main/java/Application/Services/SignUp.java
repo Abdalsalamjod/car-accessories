@@ -2,6 +2,8 @@ package Application.Services;
 import Application.Entities.Profile;
 import Application.Entities.User;
 
+import java.sql.SQLException;
+
 public class SignUp {
 
     public String email;
@@ -29,9 +31,20 @@ public class SignUp {
 
     public void creatAccount() {
         if (validationStatus == 0) {
+            DatabaseService dbs =new DatabaseService();
+            try {
 
-            // this function should put data in DB
+                profile.setProfileId(3);
+                User tempUser =new User(email,password,'u',false,profile);
+                dbs.addObject(profile,"Profile");
+                dbs.addObject(tempUser,"user");
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            // this functiond should put data ien DB
             // TODO creat profile
+            // TODO: connect to db
             // assign profile id becuse it -1
             this.hasAccount = true;
         }

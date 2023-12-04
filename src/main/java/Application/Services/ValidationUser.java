@@ -1,5 +1,9 @@
 package Application.Services;
 
+import Application.DataBase.Premetive_Objects.StringResultHandler;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,7 +25,7 @@ public class ValidationUser {
             return INVALID_EMAIL;
         } else if (!isExistEmail(email)) {
             return EMAIL_NOT_EXIST;
-        } else if (!isExistPassword(password)) {
+        } else if (!isExistPassword(email,password)) {
             return INVALID_PASSWORD;
         }
         return VALID;
@@ -32,11 +36,23 @@ public class ValidationUser {
         return matcher.matches();
     }
     public static boolean isExistEmail(String email) {
-        // check data in DB
-        return true;
+        DatabaseService dbs =new DatabaseService();
+        try {
+            String string =dbs.executeQuery("SELECT `password` FROM `user` WHERE `email` = '"+email+"'",new StringResultHandler());
+            if (string.isEmpty()) return false;
+            return true;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
-    public static boolean isExistPassword(String password) {
-        // check data in DB
-        return true;
+    public static boolean isExistPassword(String email,String password) {
+        DatabaseService dbs =new DatabaseService();
+        try {
+            String string =dbs.executeQuery("SELECT `password` FROM `user` WHERE `email` = '"+email+"'",new StringResultHandler());
+            if (string.equals(password)) return true;
+            return false;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

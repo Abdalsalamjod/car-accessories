@@ -16,7 +16,7 @@ public class Main {
         User currentUser = null;
         String email;
         String password;
-        int validationStatus;
+        int validationStatus = -1;
 
         while (true) {
             MessagesGenerator.listGenerator("signingList");
@@ -36,23 +36,24 @@ public class Main {
                     email = scanner.nextLine();
                     logger.info("Enter your password:");
                     password = scanner.nextLine();
-                    validationStatus=MainUtility.signInUtility(email,password,currentUser);
+                    validationStatus = ValidationUser.validation(email, password);
+                    currentUser=MainUtility.signInUtility(email,password,validationStatus );
                     logger.info(MessagesGenerator.SigningMessages(validationStatus));
 
                     if (currentUser != null && currentUser.isSignInStatus())
                     {
                         logger.info(MessagesGenerator.SigningMessages(validationStatus));
                         DatabaseService databaseService = new DatabaseService();
-
+                        System.out.println(currentUser.getProfileObject().getName());
                         switch (currentUser.getRole()){
-                            case "u" ->{
+                            case 'u' ->{
                                 MainUtility.userUtility(databaseService,currentUser);
                             }
-                            case "a" ->{
+                            case 'a' ->{
                                 Admin currentAdmin =(Admin) currentUser;
                                 MainUtility.adminUtility(databaseService,currentAdmin);
                             }
-                            case "i" ->{
+                            case 'i' ->{
                                 Installer currentInstaller =(Installer) currentUser;
                                 MainUtility.installerUtility(databaseService,currentInstaller);
                             }

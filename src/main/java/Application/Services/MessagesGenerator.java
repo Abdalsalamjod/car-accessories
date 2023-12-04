@@ -54,8 +54,7 @@ public class MessagesGenerator {
                 logger.info("\nMenu:\n");
                 logger.info("1. View and Manage products\n");
                 logger.info("2. View and Manage customers accounts \n");
-                logger.info("3. View and Manage appointment's \n");
-                logger.info("4. Exit\n");
+                logger.info("3. Exit\n");
                 logger.info("Select an option: \n");
                 break;
             case "editProfile":
@@ -66,6 +65,15 @@ public class MessagesGenerator {
                 logger.info("4. Edit Location\n");
                 logger.info("5. Edit phone number\n");
                 logger.info("6. Exit\n");
+                logger.info("Select an option: \n");
+                break;
+            case "adminControlUserList":
+                logger.info("\nMenu:\n");
+                logger.info("1. View Customer\n");
+                logger.info("2. Creat Account\n");
+                logger.info("3. Delete Account\n");
+                logger.info("4. Edit Account\n");
+                logger.info("5. Exit\n");
                 logger.info("Select an option: \n");
                 break;
             default:

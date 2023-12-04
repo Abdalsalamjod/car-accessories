@@ -56,15 +56,13 @@ public class MainUtility {
                     productUtility(databaseService);
                     break;
                 case 2:
-
+                    adminControlUserUrility(databaseService,currentAdmin);
                     break;
                 case 3:
-                    break;
-                case 4:
-                        iterator=false;
+                    iterator=false;
                     break;
                 default:
-                    logger.info("Invalid choice! \nPlease enter 1, 2, ... 4.\n");
+                    logger.info("Invalid choice! \nPlease enter 1, 2, or 3.\n");
         }
     }
 
@@ -242,21 +240,42 @@ public class MainUtility {
             location=scanner.nextLine();
             logger.info("Please enter your phoneNumber: ");
             phoneNumber=scanner.nextLine();
-            Profile profile=new Profile(-1,Name,location,phoneNumber);
+            Profile profile=new Profile(-1,Name,phoneNumber,location);
             SignUp signUp = new SignUp(email,password,false,validationStatus,profile);
             signUp.creatAccount();
         }
         return validationStatus;
     }
 
-    public static int signInUtility(String email, String password, User currentUser){
-        int validationStatus = ValidationUser.validation(email, password);
+    public static User signInUtility(String email, String password,int validationStatus ){
         if (validationStatus == ValidationUser.VALID)
         {
             SignIn signIn = new SignIn(email, password, "", false, validationStatus);
-            currentUser = signIn.performLogIn();
+            return  signIn.performLogIn();
         }
-        return validationStatus;
+        return null;
     }
 
+    private static void adminControlUserUrility(DatabaseService databaseService, Admin currentAdmin) {
+        boolean iterator = true;
+        while (iterator) {
+            MessagesGenerator.listGenerator("adminControlUserList");
+
+            int option = scanner.nextInt();
+            scanner.nextLine();  // Consume the newline
+            switch (option) {
+                case 1:
+
+                    break;
+                case 2:
+
+                    break;
+                case 3:
+                    iterator=false;
+                    break;
+                default:
+                    logger.info("Invalid choice! \nPlease enter 1, 2, ... 4.\n");
+            }
+        }
+    }
 }

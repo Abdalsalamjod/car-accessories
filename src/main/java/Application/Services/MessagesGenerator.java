@@ -27,7 +27,7 @@ public class MessagesGenerator {
                 logger.info("| 1. If you want to SignUp                                |\n");
                 logger.info("| 2. If you want to SignIn                                |\n");
                 logger.info("| 3. Exit                                                 |\n");
-                logger.info("|  _____________________________________________________  |\n");
+                logger.info("   _____________________________________________________   \n");
                 logger.info("Select an option: \n");
             }
             case "searchTypeList" -> {
@@ -86,17 +86,15 @@ public class MessagesGenerator {
                 logger.info("5. Edit phone number\n");
                 logger.info("6. Exit\n");
                 logger.info("Select an option: \n");
-                 break;
             }
             case "adminControlUserList"-> {
                 logger.info("\nMenu:\n");
                 logger.info("1. View Customer\n");
-                logger.info("2. Creat Account\n");
+                logger.info("2. Create Account\n");
                 logger.info("3. Delete Account\n");
                 logger.info("4. Edit Account\n");
                 logger.info("5. Exit\n");
                 logger.info("Select an option: \n");
-                break;
             }
             default->{
 

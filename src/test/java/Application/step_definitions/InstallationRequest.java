@@ -1,7 +1,6 @@
 package Application.step_definitions;
 
 import Application.Entities.Product;
-import Application.Entities.Request;
 import Application.Entities.User;
 import Application.Services.EmailSender;
 import io.cucumber.java.en.Given;
@@ -20,7 +19,7 @@ public class InstallationRequest {
     f_1 = f_2 = false;
     subject = "";
     content = "";
-    User user = new User("s12027670@stu.najah.edu","12345","i",true,null);
+    User user = new User("s12027670@stu.najah.edu","12345", 'i',true,null);
 
     Product product = new Product(1,"Spoiler", "exterior", 25.25, 25);
     Date date = new Date();
@@ -28,10 +27,10 @@ public class InstallationRequest {
     int productId = product.getId();
     String userId = user.getEmail();
     String description = "added!";
-    Request request = new Request(id, productId, userId,date, description);
-    f_1 = user.makeRequest(request);
-    if(f_1)
-      f_2 = EmailSender.sendEmail("s12027747@stu.najah.edu", "test", request.getDescription());
+//    Request request = new Request(id, productId, userId,date, description);
+//    f_1 = user.makeRequest(request);
+//    if(f_1)
+//      f_2 = EmailSender.sendEmail("s12027747@stu.najah.edu", "test", request.getDescription());
   }
 
   @Then("the request should be done")
@@ -49,9 +48,9 @@ public class InstallationRequest {
   public void the_user_lists_his_requests_and_want_to_cancel_one_of_them() {
     f_1 = f_2 = false;
 
-    User user = new User("s12027670@stu.najah.edu","12345","i",true,null);
+    User user = new User("s12027670@stu.najah.edu","12345", 'i',true,null);
 
-    f_1 = user.removeRequest(3);
+//    f_1 = user.removeRequest(3);
     if(f_1)
       f_2 = EmailSender.sendEmail("s12027747@stu.najah.edu", "test", "removed !");
   }

@@ -13,16 +13,17 @@ public class Main {
 
     public static void main(String[] args) {
 
-        User currentUser = null;
+        User currentUser;
         String email;
         String password;
-        int validationStatus = -1;
+        int validationStatus;
 
         while (true) {
             MessagesGenerator.listGenerator("signingList");
             String choice = scanner.nextLine();
 
             switch (choice) {
+
                 case "1" -> {
                     logger.info("Enter your email:");
                     email = scanner.nextLine();
@@ -49,20 +50,19 @@ public class Main {
                         System.out.println(currentUser.getProfileObject().getName());
                         switch (currentUser.getRole()){
 
-                            case 'u' ->{
-                                MainUtility.userUtility(databaseService,currentUser);
-                            }
+                            case 'u' -> MainUtility.userUtility(databaseService,currentUser);
                             case 'a' ->{
 
                                 Admin currentAdmin =(Admin) currentUser;
                                 MainUtility.adminUtility(databaseService,currentAdmin);
                             }
                             case 'i' ->{
+
                                 Installer currentInstaller =(Installer) currentUser;
                                 MainUtility.installerUtility(databaseService,currentInstaller);
                             }
                             default ->
-                                logger.info("Error: something went wrong, please run application again!\n");
+                              logger.info("Error: something went wrong, please run application again!\n");
 
                         }
                     }
@@ -75,8 +75,10 @@ public class Main {
                     logger.info("Good bye, have a nice day.");
                     System.exit(0);
                 }
-                default -> logger.info("Invalid choice! \nPlease enter 1, 2, or 3.\n");
+                default -> logger.info("\nInvalid choice!, Please enter 1, 2, or 3.\n");
+
             }
+
         }
     }
 }

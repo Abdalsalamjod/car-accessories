@@ -3,6 +3,7 @@ package Application.Entities;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Request {
 
@@ -59,7 +60,7 @@ public class Request {
     this.description = description;
   }
 
-  public static ArrayList<String> getDatesArray(){
+  public static List<String> getDatesArray(){
     return Request.datesArray;
   }
   public static void setDatesArray(ArrayList<String> datesArray){
@@ -73,7 +74,7 @@ public class Request {
     String formattedDateTime;
 
     for(int i=0; i<5; i++){
-      newDateTime = currentDateTime.plusDays(i+1);
+      newDateTime = currentDateTime.plusDays((i + (long) 1));
 
       if(i%2 == 0)
         newDateTime = newDateTime.plusHours(i);

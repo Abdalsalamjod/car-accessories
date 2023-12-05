@@ -47,7 +47,7 @@ public class Main {
                     {
                         logger.info(MessagesGenerator.SigningMessages(validationStatus));
                         DatabaseService databaseService = new DatabaseService();
-                        System.out.println(currentUser.getProfileObject().getName());
+                        logger.info(currentUser.getProfileObject().getName());
                         switch (currentUser.getRole()){
 
                             case 'u' -> MainUtility.userUtility(databaseService,currentUser);

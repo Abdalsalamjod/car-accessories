@@ -15,6 +15,7 @@ import java.sql.*;
 
 public class DatabaseService implements Serializable {
 
+  private final String literalForProfile = "profile";
   private static Connection connection;
   private static final String databaseNameAndUser = "sql12654012";
   private static final String databasePassword = "wzRUn4Cfmj";
@@ -62,7 +63,7 @@ public class DatabaseService implements Serializable {
     //get the fields names (class must have getters)
     Field[] fields = object.getClass().getDeclaredFields();
     for (int i = 0; i < fields.length; i++) {
-      if(fields[i].getName().equals("profile"))
+      if(fields[i].getName().equals(literalForProfile))
           insertQuery.append("profileId");
         else
           insertQuery.append(fields[i].getName());
@@ -89,8 +90,8 @@ public class DatabaseService implements Serializable {
       try {
         if(fields[i].toString().equals("public Application.Entities.Profile Application.Entities.User.profile"))
           statement.setObject(i + 1, fields[i].get(object).toString());
-          else
-        statement.setObject(i + 1, fields[i].get(object));
+        else
+          statement.setObject(i + 1, fields[i].get(object));
       }catch (IllegalAccessException e) {
         throw new RuntimeException(e);
       }
@@ -134,10 +135,10 @@ public class DatabaseService implements Serializable {
 
     for (int i = 0; i < fields.length; i++) {
       if (!fields[i].getName().equals(primaryKeyField)) {
-        if(fields[i].getName().equals("profile"))
+        if(fields[i].getName().equals(literalForProfile))
           updateQuery.append("profileId").append(" = ?");
-          else
-        updateQuery.append(fields[i].getName()).append(" = ?");
+        else
+          updateQuery.append(fields[i].getName()).append(" = ?");
         if (i < fields.length - 1) {
           updateQuery.append(", ");
         }
@@ -149,10 +150,10 @@ public class DatabaseService implements Serializable {
     for (Field field : fields) {
       if (!field.getName().equals(primaryKeyField)) {
         field.setAccessible(true);
-        if(field.getName().equals("profile") || field.getName().equals("role"))
+        if(field.getName().equals(literalForProfile) || field.getName().equals("role"))
           statement.setObject(paramIndex, field.get(object).toString());
-            else
-        statement.setObject(paramIndex, field.get(object));
+        else
+          statement.setObject(paramIndex, field.get(object));
         paramIndex++;
       }
     }

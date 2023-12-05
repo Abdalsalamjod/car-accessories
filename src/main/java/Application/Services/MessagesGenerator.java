@@ -20,6 +20,9 @@ public class MessagesGenerator {
         };
     }
     public static void listGenerator(String type){
+
+        final String exit = "5. Exit\n";
+
         switch ( type ) {
             case "signingList" -> {
                 logger.info("\n _____________________________________________________  \n");
@@ -36,7 +39,7 @@ public class MessagesGenerator {
                 logger.info("2. Search by name\n");
                 logger.info("3. Search by Category\n");
                 logger.info("4. Search in price range\n");
-                logger.info("5. Exit\n");
+                logger.info(exit);
                 logger.info("Select an option: \n");
             }
             case "userList" -> {
@@ -67,7 +70,7 @@ public class MessagesGenerator {
                 logger.info("2. Add Product\n");
                 logger.info("3. Delete Product\n");
                 logger.info("4. Update Product\n");
-                logger.info("5. Exit\n");
+                logger.info(exit);
                 logger.info("Select an option: \n");
             }
             case "adminList" -> {
@@ -93,7 +96,7 @@ public class MessagesGenerator {
                 logger.info("2. Create Account\n");
                 logger.info("3. Delete Account\n");
                 logger.info("4. Edit Account\n");
-                logger.info("5. Exit\n");
+                logger.info(exit);
                 logger.info("Select an option: \n");
             }
             default->{

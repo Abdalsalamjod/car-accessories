@@ -204,7 +204,7 @@ public class User {
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             Request.initializeDatesArray();
-            ArrayList<String> datesArray = Request.getDatesArray();
+            ArrayList<String> datesArray = ( ArrayList<String> ) Request.getDatesArray();
 
 
             logger.info("Please enter the request ID: ");
@@ -215,14 +215,16 @@ public class User {
             ResultSet rs = Product.getAllProductsNames(databaseService);
             logger.info("ID" + "  " + "Name\n");
             while ( rs.next() )
-                logger.info(rs.getInt(1) + "  " + rs.getString(2) + "\n");
+                logger.info(String.format("%d  %s%n", rs.getInt(1), rs.getString(2)));
+
+
             logger.info("\n");
             int productID = scanner.nextInt();
 
 
             logger.info("\nPlease select one of the available dates\n");
             for(int i=0; i<datesArray.size(); i++)
-                logger.info((i+1) + "- " + datesArray.get(i) + "\n");
+                logger.info(String.format("%d- %s%n", i + 1, datesArray.get(i)));
             int dateIndex = scanner.nextInt() - 1;
             String selectedDate = datesArray.get(dateIndex);
             LocalDateTime dateToStore = LocalDateTime.parse(selectedDate, formatter);
@@ -257,7 +259,7 @@ public class User {
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             ArrayList<Request> returnedRequests = new ArrayList<>();
-            ArrayList<String> datesArray = Request.getDatesArray();
+            ArrayList<String> datesArray = ( ArrayList<String> ) Request.getDatesArray();
 
             logger.info("Please enter the request ID you want to remove:\n");
             ResultSet rs = databaseService.executeQuery("SELECT * FROM Request WHERE userId ='" + this.getEmail() + "'", new ResultSetResultHandler());

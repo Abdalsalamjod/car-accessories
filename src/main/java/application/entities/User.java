@@ -244,7 +244,6 @@ public class User {
 
         }catch ( Exception e ){
             logger.info("Sorry, something went wrong!\n");
-            e.printStackTrace();
             exit(0);
         }
 
@@ -279,7 +278,6 @@ public class User {
 
         }catch ( Exception e ){
             logger.info("Sorry, something went wrong!");
-            e.printStackTrace();
             exit(0);
         }
 

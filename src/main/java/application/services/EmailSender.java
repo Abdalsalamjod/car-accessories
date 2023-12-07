@@ -7,8 +7,8 @@ import javax.mail.internet.MimeMessage;
 
 public class EmailSender {
 
-  private static final String senderEmail = "s12027747@stu.najah.edu";
-  private static final String password = "eicf ohjt igww owsa";
+  private static final String SENDER_EMAIL = "s12027747@stu.najah.edu";
+  private static final String PASSWORD = "eicf ohjt igww owsa";
 
 
   public static boolean sendEmail(String recipientEmail, String subject, String body) {
@@ -22,7 +22,7 @@ public class EmailSender {
 
     Session session = Session.getInstance(properties, new Authenticator() {
       protected PasswordAuthentication getPasswordAuthentication() {
-        return new PasswordAuthentication(senderEmail, password);
+        return new PasswordAuthentication(SENDER_EMAIL, PASSWORD);
       }
     });
 
@@ -30,7 +30,7 @@ public class EmailSender {
 
       Message message = new MimeMessage(session);
 
-      message.setFrom(new InternetAddress(senderEmail));
+      message.setFrom(new InternetAddress(SENDER_EMAIL));
       message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));
 
       message.setSubject(subject);

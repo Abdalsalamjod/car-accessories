@@ -15,19 +15,19 @@ import java.sql.*;
 
 public class DatabaseService implements Serializable {
 
-  private final String literalForProfile = "profile";
+  private final String LITERAL_FOR_PROFILE = "profile";
   private static Connection connection;
-  private static final String databaseNameAndUser = "sql12654012";
-  private static final String databasePassword = "wzRUn4Cfmj";
+  private static final String DATABASE_NAME_AND_USER  = "sql12654012";
+  private static final String DATABASE_PASSWORD = "wzRUn4Cfmj";
 
 
   //construct and establish the connection
   public DatabaseService(){
     try{
-      connection = DriverManager.getConnection("jdbc:mysql://sql12.freesqldatabase.com:3306/sql12654012", databaseNameAndUser, databasePassword);
+      connection = DriverManager.getConnection("jdbc:mysql://sql12.freesqldatabase.com:3306/sql12654012", DATABASE_NAME_AND_USER , DATABASE_PASSWORD);
       System.out.println("\nConnected to the database!\n");
     } catch ( SQLException e) {
-      e.printStackTrace();
+        System.out.println("\nNot Connected to the database!, try again plz\n");
     }
 
   }
@@ -39,7 +39,7 @@ public class DatabaseService implements Serializable {
         connection.close();
         System.out.println("\nConnection closed successfully.\n");
       } catch ( SQLException e ) {
-        e.printStackTrace(); // Handle any potential exceptions here
+        System.out.println("\nSomething went wrong, Connection not closed successfully.\n");
       }
     }
   }
@@ -72,7 +72,7 @@ public class DatabaseService implements Serializable {
     //get the fields names (class must have getters)
     Field[] fields = object.getClass().getDeclaredFields();
     for (int i = 0; i < fields.length; i++) {
-      if(fields[i].getName().equals(literalForProfile))
+      if(fields[i].getName().equals(LITERAL_FOR_PROFILE))
           insertQuery.append("profileId");
         else
           insertQuery.append(fields[i].getName());
@@ -133,7 +133,9 @@ public class DatabaseService implements Serializable {
 
     }
     finally {
-      statement.close();
+      if (statement != null) {
+        statement.close();
+      }
     }
     return true;
 
@@ -156,7 +158,7 @@ public class DatabaseService implements Serializable {
 
     for (int i = 0; i < fields.length; i++) {
       if (!fields[i].getName().equals(primaryKeyField)) {
-        if(fields[i].getName().equals(literalForProfile))
+        if(fields[i].getName().equals(LITERAL_FOR_PROFILE))
           updateQuery.append("profileId").append(" = ?");
         else
           updateQuery.append(fields[i].getName()).append(" = ?");
@@ -178,7 +180,7 @@ public class DatabaseService implements Serializable {
       for (Field field : fields) {
         if (!field.getName().equals(primaryKeyField)) {
           field.setAccessible(true);
-          if (field.getName().equals(literalForProfile) || field.getName().equals("role"))
+          if (field.getName().equals(LITERAL_FOR_PROFILE) || field.getName().equals("role"))
             statement.setObject(paramIndex, field.get(object).toString());
           else
             statement.setObject(paramIndex, field.get(object));

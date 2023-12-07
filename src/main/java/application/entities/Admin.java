@@ -27,6 +27,7 @@ public class Admin extends User{
         int id, quantity;
         double price;
         String name, category;
+        String tableName="Product";
 
         try{
             switch ( option ) {
@@ -54,7 +55,7 @@ public class Admin extends User{
                     Product product = new Product(id, name, category, price, quantity);
                     String valid =  product.validInformation();
                     if(valid.equals("")){
-                        dbs.addObject(product, "Product");
+                        dbs.addObject(product, tableName);
                         logger.info("Product Added successfully!");
                     }
                     else
@@ -65,7 +66,7 @@ public class Admin extends User{
                     errorMsg = "delete the product";
                     logger.info("\nPlease enter the product ID: ");
                     id = scanner.nextInt();
-                    boolean done = dbs.deleteObject(id, "Product");
+                    boolean done = dbs.deleteObject(id, tableName);
                     if(done)
                         logger.info("Product Deleted successfully!");
 
@@ -81,7 +82,7 @@ public class Admin extends User{
                     if(price > 0 && quantity > 0) {
                         Product oldProduct = dbs.executeQuery("SELECT * FROM Product WHERE id=" + id, new ProductResultHandler());
                         Product newProduct = new Product(oldProduct.getId(), oldProduct.getName(), oldProduct.getCategory(), price, quantity);
-                        dbs.updateObject(newProduct, "Product", "id");
+                        dbs.updateObject(newProduct, tableName, "id");
                         logger.info("Product updated successfully!");
                     } else {
                         logger.info("Price and Quantity must be greater than zero!\n");

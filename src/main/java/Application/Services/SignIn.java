@@ -44,21 +44,19 @@ public class SignIn {
                 tempUser.setProfile(dbs.executeQuery("SELECT * FROM `Profile` WHERE `profileId`='"+tempUser.getProfile()+"'", new ProfileResultHandler()));
                 tempUser.setSignInStatus(true);
                 dbs.updateObject(tempUser,"user","email");
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            } catch (Exception e) {
+            } catch ( Exception e) {
                 throw new RuntimeException(e);
             }
 
-            switch (tempUser.getRole()){
-                case 'u':
-                    return new User(tempUser.getEmail(), tempUser.getPassword(), tempUser.getRole(), tempUser.isSignInStatus(),tempUser.getProfileObject());
-                case 'a':
-                    return new Admin (tempUser.getEmail(), tempUser.getPassword(), tempUser.getRole(), tempUser.isSignInStatus(),tempUser.getProfileObject());
-                case 'i':
-                    return new Installer(tempUser.getEmail(), tempUser.getPassword(), tempUser.getRole(), tempUser.isSignInStatus(),tempUser.getProfileObject());
-            }
-           return null;
+            return switch ( tempUser.getRole() ) {
+                case 'u' ->
+                  new User(tempUser.getEmail(), tempUser.getPassword(), tempUser.getRole(), tempUser.isSignInStatus(), tempUser.getProfileObject());
+                case 'a' ->
+                  new Admin(tempUser.getEmail(), tempUser.getPassword(), tempUser.getRole(), tempUser.isSignInStatus(), tempUser.getProfileObject());
+                case 'i' ->
+                  new Installer(tempUser.getEmail(), tempUser.getPassword(), tempUser.getRole(), tempUser.isSignInStatus(), tempUser.getProfileObject());
+                default -> null;
+            };
         }
         else {
             this.signedIn=false;

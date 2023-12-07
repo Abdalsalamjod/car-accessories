@@ -1,16 +1,18 @@
 package Application.Entities;
 
-import Application.Services.DatabaseService;
-
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Request {
 
   private int id;
   private int productId;
   private String userId;
-  private Date date;
+  private LocalDateTime date;
   private String description;
+  private static ArrayList<String> datesArray = new ArrayList<>();
 
   public Request(){
     this.date = null;
@@ -19,7 +21,7 @@ public class Request {
     this.productId = -1;
     this.id = -1;
   }
-  public Request(int id, int productId, String userId, Date date, String description){
+  public Request(int id, int productId, String userId, LocalDateTime date, String description){
     this.id = id;
     this.productId = productId;
     this.userId = userId;
@@ -45,10 +47,10 @@ public class Request {
   public void setUserId( String userId ) {
     this.userId = userId;
   }
-  public Date getDate() {
+  public LocalDateTime getDate() {
     return date;
   }
-  public void setDate( Date date ) {
+  public void setDate( LocalDateTime date ) {
     this.date = date;
   }
   public String getDescription() {
@@ -57,4 +59,33 @@ public class Request {
   public void setDescription( String description ) {
     this.description = description;
   }
+
+  public static List<String> getDatesArray(){
+    return Request.datesArray;
+  }
+  public static void setDatesArray(ArrayList<String> datesArray){
+    Request.datesArray = datesArray;
+  }
+  public static void initializeDatesArray(){
+
+    LocalDateTime currentDateTime = LocalDateTime.now();
+    LocalDateTime newDateTime;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    String formattedDateTime;
+
+    for(int i=0; i<5; i++){
+      newDateTime = currentDateTime.plusDays((i + (long) 1));
+
+      if(i%2 == 0)
+        newDateTime = newDateTime.plusHours(i);
+      else
+        newDateTime = newDateTime.minusHours(i);
+
+      formattedDateTime = newDateTime.format(formatter);
+      datesArray.add(i, formattedDateTime);
+    }
+
+  }
+
+
 }

@@ -1,10 +1,7 @@
 package Application.Entities;
 
-import Application.LoggerUtility;
-
-import java.util.logging.Logger;
-
 public class Profile {
+
     public String name;
     public String phoneNumber;
     public String location;
@@ -58,9 +55,9 @@ public class Profile {
 
     public boolean viewInstallationRequests() {
         //TODO: connect to DB
-//        for (InstallationRequest requstes :this.installationRequests)
+//        for (InstallationRequest requests :this.installationRequests)
 //        {
-//            logger.info(requstes.toString());
+//            logger.info(requests.toString());
 //        }
         return true;
     }

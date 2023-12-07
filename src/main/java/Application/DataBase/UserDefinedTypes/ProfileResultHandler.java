@@ -1,15 +1,12 @@
 package Application.DataBase.UserDefinedTypes;
 
 import Application.Entities.Profile;
-import Application.Entities.User;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import Application.DataBase.QueryResultHandler;
-import Application.Entities.User;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
+
 
 public class ProfileResultHandler implements QueryResultHandler<Profile> {
     @Override

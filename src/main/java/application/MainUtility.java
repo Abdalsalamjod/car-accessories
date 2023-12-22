@@ -65,7 +65,20 @@ public class MainUtility {
 
     public static void installerUtility(DatabaseService databaseService, Installer currentInstaller) {
 
+        boolean iterator = true;
+        while (iterator) {
 
+            MessagesGenerator.listGenerator("installerList");
+            String option = scanner.nextLine();
+            switch ( option ){
+
+                case "1" -> currentInstaller.viewInstallationRequests(databaseService);
+                case "2" -> currentInstaller.ScheduleAppointments(databaseService);
+                case "3" -> currentInstaller.markAsDone(databaseService);
+                case "4" -> iterator = false;
+                default  -> logger.info("Invalid choice! \nPlease enter 1, 2, ... 8.\n");
+            }
+        }
     }
 
     public static int signUpUtility(String email,String password){

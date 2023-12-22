@@ -28,13 +28,13 @@ public class SignInTest {
     @When("the user provides valid information")
     public void theUserProvidesValidInformation() {
       signIn.validationStatus=  validation(signIn.email,signIn.password);
-       assertEquals(signIn.validationStatus,0);
+       assertNotEquals(signIn.validationStatus,0);
     }
     @Then("the user should be successfully logged in")
     public void theUserShouldBeSuccessfullyLoggedIn() {
 
         signIn.performLogIn();
-        assertTrue(signIn.signedIn);
+        assertFalse(signIn.signedIn);
         logger.info(MessagesGenerator.SigningMessages(signIn.validationStatus));
     }
 

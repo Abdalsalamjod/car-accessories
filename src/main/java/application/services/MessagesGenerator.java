@@ -23,7 +23,7 @@ public class MessagesGenerator {
     }
     public static void listGenerator(String type){
 
-        final String exit = "5. Exit\n";
+        final String EXIT = "5. Exit\n";
 
         switch ( type ) {
             case "signingList" -> {
@@ -41,7 +41,7 @@ public class MessagesGenerator {
                 logger.info("2. Search by name\n");
                 logger.info("3. Search by Category\n");
                 logger.info("4. Search in price range\n");
-                logger.info(exit);
+                logger.info(EXIT);
                 logger.info(SELECT_OPTION);
             }
             case "userList" -> {
@@ -72,7 +72,7 @@ public class MessagesGenerator {
                 logger.info("2. Add Product\n");
                 logger.info("3. Delete Product\n");
                 logger.info("4. Update Product\n");
-                logger.info(exit);
+                logger.info(EXIT);
                 logger.info(SELECT_OPTION);
             }
             case "adminList" -> {
@@ -98,14 +98,27 @@ public class MessagesGenerator {
                 logger.info("2. Create Account\n");
                 logger.info("3. Delete Account\n");
                 logger.info("4. Edit Account\n");
-                logger.info(exit);
+                logger.info(EXIT);
+                logger.info(SELECT_OPTION);
+            }
+            case "installerList"-> {
+                logger.info(MENU);
+                logger.info("1. View installation requests\n");
+                logger.info("2. Schedule appointments\n");
+                logger.info("3. Exit\n");
+                logger.info(SELECT_OPTION);
+            }
+            case "InstallationRequests" -> {
+                logger.info(MENU);
+                logger.info("1. View installation request\n");
+                logger.info("2. Approve installation request\n");
+                logger.info("3. Mark installation request as done\n");
+                logger.info("4. Exit\n");
                 logger.info(SELECT_OPTION);
             }
             default->{
 
             }
-
         }
     }
-
 }

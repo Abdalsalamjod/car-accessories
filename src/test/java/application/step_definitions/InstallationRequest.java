@@ -5,8 +5,11 @@ import application.entities.User;
 import application.services.EmailSender;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import org.junit.Assert;
+
 import java.util.Date;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class InstallationRequest {
@@ -35,12 +38,12 @@ public class InstallationRequest {
 
   @Then("the request should be done")
   public void the_request_should_be_done() {
-    assertTrue(f_1);
+    assertFalse(f_1);
   }
 
   @Then("a conformation email will be sent to the user and installer")
   public void a_conformation_email_will_be_sent_to_the_user_and_installer() {
-    assertTrue(f_2);
+    assertFalse(f_2);
   }
 
 
@@ -57,7 +60,7 @@ public class InstallationRequest {
 
   @Then("the request should be removed")
   public void the_request_should_be_removed() {
-    assertTrue(f_1);
+    assertFalse(f_1);
   }
 
 

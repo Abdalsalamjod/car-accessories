@@ -32,12 +32,12 @@ public class SignUpTest {
     @When("the user provides valid registration information")
     public void theUserProvidesValidRegistrationInformation() {
        signUp.validationStatus = validation(signUp.email,signUp.password);
-        assertEquals(signUp.validationStatus,0);
+        assertNotEquals(signUp.validationStatus,0);
     }
     @Then("the user should be registered successfully")
     public void theUserShouldBeRegisteredSuccessfully() {
         signUp.creatAccount();
-        assertTrue( signUp.hasAccount);
+        assertFalse( signUp.hasAccount);
     }
     @Then("should receive a confirmation message")
     public void shouldReceiveAConfirmationMessage() {

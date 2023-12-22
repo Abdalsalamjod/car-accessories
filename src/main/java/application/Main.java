@@ -64,7 +64,6 @@ public class Main {
                             }
                             default ->
                               logger.info("Error: something went wrong, please run application again!\n");
-
                         }
                     }
                     else

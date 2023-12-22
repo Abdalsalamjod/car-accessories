@@ -12,6 +12,8 @@ public class Request {
   private String userId;
   private LocalDateTime date;
   private String description;
+  private boolean done;
+  private boolean selected;
   private static ArrayList<String> datesArray = new ArrayList<>();
 
   public Request(){
@@ -20,6 +22,8 @@ public class Request {
     this.userId = "";
     this.productId = -1;
     this.id = -1;
+    this.done=false;
+    this.selected=false;
   }
   public Request(int id, int productId, String userId, LocalDateTime date, String description){
     this.id = id;
@@ -27,8 +31,16 @@ public class Request {
     this.userId = userId;
     this.date = date;
     this.description = description;
+    this.done=false;
+    this.selected=false;
   }
 
+  public void setSelected(boolean selected) {
+    this.selected = selected;
+  }
+  public boolean isSelected() {
+    return selected;
+  }
   public int getId() {
     return id;
   }
@@ -58,6 +70,23 @@ public class Request {
   }
   public void setDescription( String description ) {
     this.description = description;
+  }
+
+  public boolean isDone() {
+    return done;
+  }
+
+  public void setDone(boolean done) {
+    this.done = done;
+  }
+  @Override
+  public String toString(){
+    return  "ID: " + this.id+
+            "\nDate: " + this.date +
+            "\n User Email :"+this.userId +
+            "\nProduct Id: " + this.productId +
+            "\nDescription: "+this.description +
+            "\n\n";
   }
 
   public static List<String> getDatesArray(){

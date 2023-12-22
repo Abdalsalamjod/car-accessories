@@ -49,17 +49,10 @@ public class DatabaseService implements Serializable {
 
     ResultSet resultSet;
     PreparedStatement statement = null;
-   try {
+
      statement = connection.prepareStatement(query);
-   }
-   finally {
-       assert statement != null;
-       statement.close();
-   }
-    resultSet = statement.executeQuery();
-
-
-    return resultHandler.handle(resultSet);
+     resultSet = statement.executeQuery();
+     return resultHandler.handle(resultSet);
 
   }
 
@@ -94,12 +87,9 @@ public class DatabaseService implements Serializable {
 
     //replace ? with actual values
     PreparedStatement statement = null;
-    try  {
+
       statement = connection.prepareStatement(insertQuery.toString());
-    }finally {
-        assert statement != null;
-        statement.close();
-    }
+
 
 
       for (int i = 0; i < fields.length; i++) {
@@ -116,6 +106,7 @@ public class DatabaseService implements Serializable {
       //execute updates
       statement.executeUpdate();
       statement.close();
+
     }
     return true;
   }
@@ -130,15 +121,13 @@ public class DatabaseService implements Serializable {
       statement = connection.prepareStatement(deleteQuery);
       statement.setInt(1, id);
       statement.executeUpdate();
-
+      return true;
     }
     finally {
       if (statement != null) {
         statement.close();
       }
     }
-    return true;
-
   }
 
 
@@ -170,12 +159,10 @@ public class DatabaseService implements Serializable {
     updateQuery.append(" WHERE ").append(primaryKeyField).append(" = ?");
 
     PreparedStatement statement = null;
-    try  {
+
       statement = connection.prepareStatement(updateQuery.toString());
-    }finally {
-        assert statement != null;
-        statement.close();
-    }
+
+
       int paramIndex = 1;
       for (Field field : fields) {
         if (!field.getName().equals(primaryKeyField)) {
@@ -186,6 +173,7 @@ public class DatabaseService implements Serializable {
             statement.setObject(paramIndex, field.get(object));
           paramIndex++;
         }
+      }
 
 
       Field primaryKey = object.getClass().getDeclaredField(primaryKeyField);
@@ -196,8 +184,6 @@ public class DatabaseService implements Serializable {
       statement.close();
     }
 
-
-  }
 
 
 

@@ -50,41 +50,12 @@
             <version>1.6.2</version>
         </dependency>
 </dependencies>
-<<<<<<< HEAD
-<build>
-   <pluginManagement>
-       <plugins>
-           <!-- JaCoCo Plugin -->
-           <plugin>
-               <groupId>org.jacoco</groupId>
-               <artifactId>jacoco-maven-plugin</artifactId>
-               <executions>
-                   <execution>
-                       <id>prepare-agent</id>
-                       <goals>
-                           <goal>prepare-agent</goal>
-                       </goals>
-                   </execution>
-                   <execution>
-                       <id>report</id>
-                       <phase>verify</phase>
-                       <goals>
-                           <goal>report</goal>
-                       </goals>
-                   </execution>
-               </executions>
-           </plugin>
 
-           <!-- Ensure Surefire Plugin is set up for your tests -->
-           <!-- Add configuration as needed for your test framework -->
-       </plugins>
-   </pluginManagement>
 
-</build>
-=======
+
     <build>
-        <pluginManagement>
 
+        <pluginManagement>
         <plugins>
             <!-- JaCoCo Plugin -->
             <plugin>
@@ -113,36 +84,6 @@
         </pluginManagement>
 
     </build>
-<!--<build>-->
-<!--         <pluginManagement>-->
-<!--                  <plugins>-->
-<!--                          &lt;!&ndash; The Surefire Plugin is needed to run JUnit 5 tests with Maven &ndash;&gt;-->
-<!--                           <plugin>-->
-<!--                                    <artifactId>maven-surefire-plugin</artifactId>-->
-<!--                                    <version>2.22.2</version>-->
-<!--                                    <configuration></configuration>-->
-<!--                           </plugin>-->
-<!--                           <plugin>-->
-<!--                                    <groupId>org.jacoco</groupId>-->
-<!--                                    <artifactId>jacoco-maven-plugin</artifactId>-->
-<!--                                    <executions>-->
-<!--                                             <execution>-->
-<!--                                                      <goals>-->
-<!--                                                               <goal>prepare-agent</goal>-->
-<!--                                                      </goals>-->
-<!--                                             </execution>-->
-<!--                                             <execution>-->
-<!--                                                      <id>report</id>-->
-<!--                                                      <phase>prepare-package</phase>-->
-<!--                                                      <goals>-->
-<!--                                                               <goal>report</goal>-->
-<!--                                                      </goals>-->
-<!--                                             </execution>-->
-<!--                                    </executions>-->
-<!--                           </plugin>-->
-<!--                  </plugins>-->
-<!--         </pluginManagement>-->
-<!--</build>-->
->>>>>>> 0aad13964686b12fe1bfe7effc81ac0c3322fcf2
+
 
 </project>

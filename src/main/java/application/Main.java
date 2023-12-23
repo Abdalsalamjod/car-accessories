@@ -2,8 +2,9 @@ package application;
 
 import application.entities.Admin;
 import application.entities.Installer;
-import application.services.*;
 import application.entities.User;
+import application.services.*;
+
 import java.util.Scanner;
 import java.util.logging.Logger;
 

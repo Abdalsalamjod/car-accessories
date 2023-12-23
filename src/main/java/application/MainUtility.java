@@ -64,11 +64,9 @@ public class MainUtility {
 
 
     public static void installerUtility(DatabaseService databaseService, Installer currentInstaller) {
-
         boolean iterator = true;
         while (iterator) {
-
-            MessagesGenerator.listGenerator("installerList");
+            MessagesGenerator.listGenerator("InstallationRequests");
             String option = scanner.nextLine();
             switch ( option ){
 
@@ -76,7 +74,7 @@ public class MainUtility {
                 case "2" -> currentInstaller.ScheduleAppointments(databaseService);
                 case "3" -> currentInstaller.markAsDone(databaseService);
                 case "4" -> iterator = false;
-                default  -> logger.info("Invalid choice! \nPlease enter 1, 2, ... 8.\n");
+                default  -> logger.info("Invalid choice! \nPlease enter 1, 2, ... 4.\n");
             }
         }
     }

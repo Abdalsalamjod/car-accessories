@@ -51,8 +51,13 @@
         </dependency>
 </dependencies>
     <build>
-
+<pluginManagement>
         <plugins>
+             <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+                <configuration></configuration>
+            </plugin> 
             <!-- JaCoCo Plugin -->
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -77,7 +82,7 @@
             <!-- Ensure Surefire Plugin is set up for your tests -->
             <!-- Add configuration as needed for your test framework -->
         </plugins>
-
+    </pluginManagement>
     </build>
 <!--<build>-->
 <!--         <pluginManagement>-->

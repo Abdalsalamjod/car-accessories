@@ -51,7 +51,6 @@
         </dependency>
 </dependencies>
     <build>
-        <pluginManagement>
 
         <plugins>
             <!-- JaCoCo Plugin -->
@@ -78,7 +77,6 @@
             <!-- Ensure Surefire Plugin is set up for your tests -->
             <!-- Add configuration as needed for your test framework -->
         </plugins>
-        </pluginManagement>
 
     </build>
 <!--<build>-->

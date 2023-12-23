@@ -14,7 +14,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        int test=10;
+       
         User currentUser;
         String email;
         String password;

@@ -71,6 +71,7 @@ public List<Request> availableRequests ;
                     }
             }catch (Exception e){
                 logger.info("Please, enter valid input\n");
+                e.printStackTrace();
             }
             if(!exist)
                 logger.info("Please, enter valid number\n");

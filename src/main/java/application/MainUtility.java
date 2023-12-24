@@ -23,8 +23,8 @@ public class MainUtility {
                    scanner.nextLine();  // Consume the newline
                    currentUser.editDetails(optionIn, logger, scanner);
                }
-               case "4" -> currentUser.viewInstallationRequests();
-               case "5" -> currentUser.viewRequisitesHistory();
+               case "4" -> currentUser.viewInstallationRequests(databaseService);
+               case "5" -> currentUser.viewRequisitesHistory(databaseService);
                case "6" -> currentUser.makeRequest(databaseService);
                case "7" -> currentUser.removeRequest(databaseService);
                case "8" -> iterator = false;

@@ -2,6 +2,7 @@ package application.dataBase;
 
 import application.entities.Profile;
 import application.entities.User;
+import application.services.DatabaseService;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
@@ -75,7 +76,7 @@ user.setEmail("new email");
     @When("selects the order history section")
     public void selectsTheOrderHistorySection() {
         flag=false;
-        user.viewRequisitesHistory();
+        user.viewRequisitesHistory(new DatabaseService());
     }
 
     @Then("they should see a list of their past orders")
@@ -85,7 +86,7 @@ user.setEmail("new email");
 
     @When("selects the installation requests section")
     public void selectsTheInstallationRequestsSection() {
-         user.viewInstallationRequests();
+         user.viewInstallationRequests(new DatabaseService());
     }
 
     @Then("they should see a list of their installation requests")

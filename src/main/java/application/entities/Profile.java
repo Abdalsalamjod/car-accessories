@@ -1,5 +1,9 @@
 package application.entities;
 
+import application.services.DatabaseService;
+
+import static application.Main.logger;
+
 public class Profile {
 
     private String name;
@@ -40,27 +44,16 @@ public class Profile {
 
 
     public boolean areChangesSaved() {
-      // TODO: connect to DB
+        DatabaseService databaseService =new DatabaseService();
+        try {
+            databaseService.updateObject(this,"Profile","profileId");
+        } catch (Exception e) {
+            logger.severe("Error: in saving changes, try again please\n");
+        }
         return true;
     }
 
-    public boolean viewOrderHistory() {
-        //TODO: connect to DB
-//        for (Order order:this.orderHistory)
-//        {
-//            logger.info(order.toString());
-//        }
-        return true;
-    }
 
-    public boolean viewInstallationRequests() {
-        //TODO: connect to DB
-//        for (InstallationRequest requests :this.installationRequests)
-//        {
-//            logger.info(requests.toString());
-//        }
-        return true;
-    }
 
     public int getProfileId() {
         return profileId;

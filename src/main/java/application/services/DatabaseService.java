@@ -46,41 +46,39 @@ public class DatabaseService implements Serializable {
 
   }
 
-  public  <T> boolean addObject(T object, String tableName) throws SQLException{
 
+
+  public <T> boolean addObject(T object, String tableName) throws SQLException {
     StringBuilder insertQuery = new StringBuilder("INSERT INTO " + tableName + " (");
 
     //get the fields names (class must have getters)
     Field[] fields = object.getClass().getDeclaredFields();
-    int fieldsLength = ( Objects.equals(tableName, "Request") ) ? fields.length-1: fields.length;
-    for (int i = 0; i < fieldsLength ; i++) {
-      if(fields[i].getName().equals(LITERAL_FOR_PROFILE))
-          insertQuery.append("profileId");
-        else
-          insertQuery.append(fields[i].getName());
+    int fieldsLength = (Objects.equals(tableName, "Request")) ? fields.length - 1 : fields.length;
+
+    // Loop for adding fields to the query
+    for (int i = 0; i < fieldsLength; i++) {
+      if (fields[i].getName().equals(LITERAL_FOR_PROFILE))
+        insertQuery.append("profileId");
+      else
+        insertQuery.append(fields[i].getName());
+
       if (i < fieldsLength - 1) {
         insertQuery.append(", ");
       }
     }
 
-
-    //add ? in the VALUES (?, ?, ?) -> PreparedStatement
+    // Loop for setting parameter values
     insertQuery.append(") VALUES (");
     for (int i = 0; i < fieldsLength; i++) {
       insertQuery.append("?");
-      if (i < fields.length - 1) {
+      if (i < fieldsLength - 1) {
         insertQuery.append(", ");
       }
     }
     insertQuery.append(")");
 
     //replace ? with actual values
-    PreparedStatement statement ;
-
-      statement = connection.prepareStatement(insertQuery.toString());
-
-
-
+    try (PreparedStatement statement = connection.prepareStatement(insertQuery.toString())) {
       for (int i = 0; i < fieldsLength; i++) {
         fields[i].setAccessible(true);
         try {
@@ -91,15 +89,13 @@ public class DatabaseService implements Serializable {
         } catch (IllegalAccessException e) {
           throw new RuntimeException(e);
         }
-
+      }
       //execute updates
       statement.executeUpdate();
-      statement.close();
-
     }
+
     return true;
   }
-
   public boolean deleteObject(int id, String tableName) throws SQLException{
 
 

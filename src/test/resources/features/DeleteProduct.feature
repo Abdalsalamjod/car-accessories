@@ -3,11 +3,11 @@
 Feature: Admin deletes a product
 
   Scenario: successful delete process
-    When the admin deletes an existing product
-    Then the product should be removed from the database
+    When the admin deletes a product with id=12
+    Then the product with this id should removed from database
 
   Scenario: deleting non-existing product
-    When the admin deletes a non-existing product
+    When the admin deletes a product with id=1111
     Then nothing will happen
 
 

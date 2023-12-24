@@ -4,7 +4,7 @@ Feature: Admin updates a product
 
   Scenario Outline: successful update process
     When admin updates the product with ID <ExistingID> to have a new price <NewPrice>, and quantity <NewQuantity>
-    Then the product information should be updated in the database
+    Then the with ID <ExistingID> price should be updated to <NewPrice> and the product quantity should be updated to <NewQuantity>
 
     Examples:
       | ExistingID |  NewPrice | NewQuantity |
@@ -19,7 +19,7 @@ Feature: Admin updates a product
     Then the error message should be equals to "<message>"
 
     Examples:
-      | ExistingID |  NewPrice | NewQuantity | message
-      | 12011111   |  -20.0    | 10          | Invalid Price!
-      | 12022222   |  19.5     | -5          | Invalid Quantity!
+      | ExistingID |  NewPrice | NewQuantity | message            |
+      | 1          |  -20.0    | 10          | Invalid Price!     |
+      | 2          |  19.5     | -5          | Invalid Quantity!  |
 

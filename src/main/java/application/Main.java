@@ -16,7 +16,7 @@ public class Main {
 
 
        
-        User currentUser;
+        User currentUser = null;
 
         String email;
         String password;

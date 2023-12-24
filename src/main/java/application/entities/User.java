@@ -1,14 +1,18 @@
 package application.entities;
 
+import application.Main;
 import application.dataBase.Premetive_Objects.ResultSetResultHandler;
 import application.services.DatabaseService;
 import application.services.EmailSender;
 import application.services.MessagesGenerator;
 import application.services.ValidationUser;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Logger;
 import static application.Main.scanner;
@@ -20,8 +24,8 @@ public class User {
 
     protected String email;
     protected String password;
-    protected char role;
     protected Profile profile;
+    protected char role;
     protected boolean signInStatus;
 
     public User() {
@@ -96,26 +100,50 @@ public class User {
                 break;
         }
     }
-    public void viewRequisitesHistory(){
-        //TODO: connect to DB
-//        for (Order order:this.orderHistory)
-//        {
-//            logger.info(order.toString());
-//        }
+    public void viewRequisitesHistory(DatabaseService databaseService){
+        ResultSet resultSet;
+        Request request;
+        List<Request> availableRequests =new ArrayList<>();
+
+        try {
+            resultSet=  databaseService.executeQuery("SELECT * FROM `Request` WHERE `done` =true AND `userId`="+this.email , new ResultSetResultHandler());
+            while ( resultSet.next() ) {
+                request= new Request(resultSet.getInt(1),
+                        resultSet.getInt(2),
+                        resultSet.getString(3),
+                        resultSet.getDate(4).toLocalDate().atTime(LocalTime.MIDNIGHT),
+                        resultSet.getString(5));
+
+                Main.logger.info(request.toString());
+                availableRequests.add(request);
+            }
+        } catch (SQLException e) {
+            Main.logger.info("something went wrong\n");
+        }
     }
-    public void viewInstallationRequests() {
-        //TODO: connect to DB
-//        for (InstallationRequest request :this.installationRequests)
-//        {
-//            logger.info(requests.toString());
-//        }
+    public List<Request> viewInstallationRequests(DatabaseService databaseService) {
+        ResultSet resultSet;
+        Request request;
+        List<Request> availableRequests =new ArrayList<>();
+
+        try {
+            resultSet=  databaseService.executeQuery("SELECT * FROM `Request` WHERE `done` =false AND `userId`="+this.email , new ResultSetResultHandler());
+            while ( resultSet.next() ) {
+                request= new Request(resultSet.getInt(1),
+                        resultSet.getInt(2),
+                        resultSet.getString(3),
+                        resultSet.getDate(4).toLocalDate().atTime(LocalTime.MIDNIGHT),
+                        resultSet.getString(5));
+
+                Main.logger.info(request.toString());
+                availableRequests.add(request);
+            }
+        } catch (SQLException e) {
+            Main.logger.info("something went wrong\n");
+        }
+        return availableRequests;
     }
-    public void setEmail(String email) {
-        DatabaseService dbs = new DatabaseService();
-        //todo: connect to db
-        this.email = email;
-        dbs=null;
-    }
+
 
 
 
@@ -243,7 +271,7 @@ public class User {
 
 
         }catch ( Exception e ){
-            logger.info("Sorry, something went wrong!\n");
+            logger.severe("Sorry, something went wrong!\n");
             exit(0);
         }
 
@@ -277,20 +305,12 @@ public class User {
             EmailSender.sendEmail("s12027747@stu.najah.edu", "Installation Request", "Removed successfully");
 
         }catch ( Exception e ){
-            logger.info("Sorry, something went wrong!");
+            logger.severe("Sorry, something went wrong!");
             exit(0);
         }
 
 
     }
-
-
-
-
-
-
-
-
 
 
 
@@ -314,7 +334,12 @@ public class User {
 
     }
 
-
+    public void setEmail(String email) {
+        DatabaseService dbs = new DatabaseService();
+        //todo: connect to db
+        this.email = email;
+        dbs=null;
+    }
     public void setPassword(String password) {
         this.password = password;
     }
@@ -328,8 +353,6 @@ public class User {
     public void setSignInStatus(boolean signInStatus) {
         this.signInStatus = signInStatus;
     }
-
-
 }
 
 

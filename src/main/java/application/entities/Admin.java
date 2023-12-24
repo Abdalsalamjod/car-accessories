@@ -59,7 +59,7 @@ public class Admin extends User{
                         logger.info("Product Added successfully!");
                     }
                     else
-                        logger.info(valid + "\n");
+                        logger.severe(valid + "\n");
 
                 }
                 case 3 -> {

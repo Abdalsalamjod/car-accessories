@@ -23,8 +23,8 @@ public class MainUtility {
                    scanner.nextLine();  // Consume the newline
                    currentUser.editDetails(optionIn, logger, scanner);
                }
-               case "4" -> currentUser.viewInstallationRequests();
-               case "5" -> currentUser.viewRequisitesHistory();
+               case "4" -> currentUser.viewInstallationRequests(databaseService);
+               case "5" -> currentUser.viewRequisitesHistory(databaseService);
                case "6" -> currentUser.makeRequest(databaseService);
                case "7" -> currentUser.removeRequest(databaseService);
                case "8" -> iterator = false;
@@ -64,9 +64,11 @@ public class MainUtility {
 
 
     public static void installerUtility(DatabaseService databaseService, Installer currentInstaller) {
+
         boolean iterator = true;
         while (iterator) {
-            MessagesGenerator.listGenerator("InstallationRequests");
+
+            MessagesGenerator.listGenerator("installerList");
             String option = scanner.nextLine();
             switch ( option ){
 
@@ -74,7 +76,7 @@ public class MainUtility {
                 case "2" -> currentInstaller.ScheduleAppointments(databaseService);
                 case "3" -> currentInstaller.markAsDone(databaseService);
                 case "4" -> iterator = false;
-                default  -> logger.info("Invalid choice! \nPlease enter 1, 2, ... 4.\n");
+                default  -> logger.info("Invalid choice! \nPlease enter 1, 2, ... 8.\n");
             }
         }
     }

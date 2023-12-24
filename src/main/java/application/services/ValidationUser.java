@@ -4,8 +4,11 @@ import application.dataBase.Premetive_Objects.StringResultHandler;
 import application.Main;
 
 import java.sql.SQLException;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static application.Main.logger;
 
 public class ValidationUser {
     private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@(.+)$";
@@ -42,7 +45,8 @@ public class ValidationUser {
             if (string.isEmpty()) return false;
             return true;
         } catch (SQLException e) {
-            Main.logger.info("SQLException in isExistEmail");
+
+            logger.severe("SQLException in isExistEmail");
         } finally {
             dbs.closeConnection();
         }
@@ -55,7 +59,7 @@ public class ValidationUser {
             if (string.equals(password)) return true;
             return false;
         } catch (SQLException e) {
-            Main.logger.info("SQLException in isExistPassword");
+            logger.severe("SQLException in isExistPassword");
         } finally {
             dbs.closeConnection();
         }

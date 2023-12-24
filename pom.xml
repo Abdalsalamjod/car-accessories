@@ -56,6 +56,7 @@
         </dependency>
 </dependencies>
     <build>
+
 <!--         <pluginManagement> -->
 
         <plugins>
@@ -89,6 +90,7 @@
             <!-- Add configuration as needed for your test framework -->
         </plugins>
 <!--         </pluginManagement> -->
+
 
     </build>
 <!--<build>-->

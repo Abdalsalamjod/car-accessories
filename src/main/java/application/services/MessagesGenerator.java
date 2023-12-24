@@ -8,7 +8,7 @@ import static application.services.ValidationUser.*;
 
 public class MessagesGenerator {
     public static Logger logger = LoggerUtility.getLogger();
-    public static final String SELECT_OPTION="Select an option: \n";
+    public static final String SELECT_OPTION="Select an option: ";
     public static final String MENU ="\nMenu:\n";
     public static String SigningMessages(int validationStatus) {
         return switch (validationStatus) {
@@ -27,8 +27,8 @@ public class MessagesGenerator {
 
         switch ( type ) {
             case "signingList" -> {
-                logger.info("\n _____________________________________________________  \n");
-                logger.info("|       Welcome to HalaCar  accessories System :)         |\n");
+                logger.info("   _____________________________________________________  \n");
+                logger.info("|       Welcome to HalaCar accessories System :)          |\n");
                 logger.info("| 1. If you want to SignUp                                |\n");
                 logger.info("| 2. If you want to SignIn                                |\n");
                 logger.info("| 3. Exit                                                 |\n");

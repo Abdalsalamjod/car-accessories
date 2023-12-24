@@ -20,7 +20,6 @@ public List<Request> availableRequests ;
         this.role=role;
         this.profile = profile;
         this.signInStatus = SignInStatus;
-
     }
 
     public List<Request> viewInstallationRequests(DatabaseService dbs){
@@ -98,9 +97,9 @@ public List<Request> availableRequests ;
                 availableRequests.add(request);
             }
         } catch (SQLException e) {
-            logger.info("something went wrong\n");
+            logger.severe("something went wrong\n");
         }
-databaseService =new DatabaseService();
+        databaseService =new DatabaseService();
         while (iterator) {
             logger.info("Enter Request Id to cancel it\n");
             logger.info("Exit to get out\n");
@@ -119,10 +118,10 @@ databaseService =new DatabaseService();
                         break;
                     }
             }catch (Exception e){
-                logger.info("Please, enter valid input\n");
+                logger.severe("Please, enter valid input\n");
             }
             if(!exist)
-                logger.info("Please, enter valid number\n");
+                logger.severe("Please, enter valid number\n");
         }
 
     }

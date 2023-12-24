@@ -67,7 +67,7 @@ public class User {
                     logger.info("The current Email is: " + this.getEmail());
                     logger.info("Please enter the new email: ");
                     newChoice = scanner.nextLine();
-                    if (ValidationUser.isValidEmail(newChoice) && !ValidationUser.isExistEmail(newChoice) && !newChoice.isEmpty())
+                    if (ValidationUser.isValidEmail(newChoice) && !ValidationUser.isExistEmail(newChoice,new DatabaseService()) && !newChoice.isEmpty())
                         this.setEmail(newChoice);
                     else logger.info("Error: exist or invalid email, try again!");
                 } else logger.info("Error: the password you entered not valid, try again!");

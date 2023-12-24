@@ -83,7 +83,7 @@ public class MainUtility {
 
     public static int signUpUtility(String email,String password){
         String Name,location,phoneNumber;
-        int validationStatus = ValidationUser.validation(email, password);
+        int validationStatus = ValidationUser.validation(email, password,new DatabaseService());
         if (validationStatus == ValidationUser.VALID) {
             logger.info("Please enter your name: ");
             Name=scanner.nextLine();
@@ -93,7 +93,7 @@ public class MainUtility {
             phoneNumber=scanner.nextLine();
             Profile profile=new Profile(-1,Name,phoneNumber,location);
             SignUp signUp = new SignUp(email,password,false,validationStatus,profile);
-            signUp.creatAccount();
+            signUp.creatAccount(new DatabaseService());
         }
         return validationStatus;
     }
@@ -101,8 +101,8 @@ public class MainUtility {
     public static User signInUtility(String email, String password,int validationStatus ){
         if (validationStatus == ValidationUser.VALID)
         {
-            SignIn signIn = new SignIn(email, password, "", false, validationStatus);
-            return  signIn.performLogIn();
+            SignIn signIn = new SignIn(email, password, false, validationStatus);
+            return  signIn.performLogIn(new DatabaseService());
         }
         return null;
     }

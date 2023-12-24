@@ -13,7 +13,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        User currentUser;
+        User currentUser = null;
         String email;
         String password;
         int validationStatus;
@@ -39,7 +39,7 @@ public class Main {
                     logger.info("Enter your password: ");
                     password = scanner.nextLine();
 
-                    validationStatus = ValidationUser.validation(email, password);
+                    validationStatus = ValidationUser.validation(email, password,new DatabaseService());
                     currentUser=MainUtility.signInUtility(email,password,validationStatus );
 
                     logger.info(MessagesGenerator.SigningMessages(validationStatus));
@@ -72,6 +72,12 @@ public class Main {
                 case "3" -> {
                     iterator=false;
                     logger.info("Good bye, have a nice day.");
+                }
+                case "4" -> {
+                    LogOut logOut =new LogOut();
+                    logOut.performLogout(currentUser,new DatabaseService());
+//                    logOut.redirecting(currentUser);
+//                    logger.info();
                 }
                 default -> logger.severe("\nInvalid choice!, Please enter 1, 2, or 3.\n");
             }

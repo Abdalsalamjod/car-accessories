@@ -84,7 +84,6 @@ public class Product {
   public static ResultSet getAllProducts( DatabaseService dbs ) throws Exception{
     return dbs.executeQuery("SELECT * FROM Product", new ResultSetResultHandler());
   }
-
   public static ResultSet getAllProductsNames( DatabaseService dbs ) throws Exception{
     return dbs.executeQuery("SELECT id, name FROM Product", new ResultSetResultHandler());
   }

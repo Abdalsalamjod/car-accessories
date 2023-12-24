@@ -89,12 +89,15 @@ public class Request {
             "\n\n";
   }
 
+
   public static List<String> getDatesArray(){
     return Request.datesArray;
   }
   public static void setDatesArray(ArrayList<String> datesArray){
     Request.datesArray = datesArray;
   }
+
+
   public static void initializeDatesArray(){
 
     LocalDateTime currentDateTime = LocalDateTime.now();

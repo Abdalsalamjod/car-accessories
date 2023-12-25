@@ -5,6 +5,7 @@ import application.entities.User;
 import application.services.EmailSender;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import org.junit.Assert;
 
 import java.util.Date;
@@ -62,6 +63,7 @@ public class InstallationRequest {
   public void the_request_should_be_removed() {
     assertFalse(f_1);
   }
+
 
 
 }

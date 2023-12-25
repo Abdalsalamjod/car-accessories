@@ -21,7 +21,11 @@ public class MainUtility {
                    MessagesGenerator.listGenerator("editProfile");
                    int optionIn = scanner.nextInt();
                    scanner.nextLine();  // Consume the newline
-                   currentUser.editDetails(optionIn, logger, scanner);
+//                   currentUser.editDetails(optionIn, logger, scanner);
+//                   for test
+                   logger.info("what is the new value: ");
+                   String newValue =scanner.nextLine();
+                   currentUser.editDetails(optionIn, newValue,logger);
                }
                case "4" -> currentUser.viewInstallationRequests(databaseService);
                case "5" -> currentUser.viewRequisitesHistory(databaseService);
@@ -71,8 +75,8 @@ public class MainUtility {
             switch ( option ){
 
                 case "1" -> currentInstaller.viewInstallationRequests(databaseService);
-                case "2" -> currentInstaller.ScheduleAppointments(databaseService);
-                case "3" -> currentInstaller.markAsDone(databaseService);
+                case "2" -> currentInstaller.ScheduleAppointments(databaseService,scanner,false,"");
+                case "3" -> currentInstaller.markAsDone(databaseService,scanner,false,"");
                 case "4" -> iterator = false;
                 default  -> logger.info("Invalid choice! \nPlease enter 1, 2, ... 4.\n");
             }

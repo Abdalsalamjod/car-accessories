@@ -41,7 +41,7 @@ public class ValidationUser {
     public static boolean isExistEmail(String email,DatabaseService dbs) {
         try {
             String string =dbs.executeQuery("SELECT `password` FROM `user` WHERE `email` = '"+email+"'",new StringResultHandler());
-            return !string.isEmpty();
+            return string.isEmpty();
         } catch (Exception e ) {
             logger.severe("SQLException in isExistEmail");
         }
@@ -50,7 +50,7 @@ public class ValidationUser {
     public static boolean isExistPassword(String email,String password,DatabaseService dbs) {
         try {
             String string = dbs.executeQuery("SELECT `password` FROM `user` WHERE `email` = '" + email + "'", new StringResultHandler());
-            return string.equals(password);
+            return !string.equals(password);
         } catch (Exception e) {
             logger.severe("SQLException in isExistPassword");
         }

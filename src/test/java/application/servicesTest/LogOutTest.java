@@ -53,4 +53,5 @@ public class LogOutTest {
     public void theUserSelectsTheOptionToLogOutAndSomethingWrongHappened() {
         user= logOut.performLogout(user, null);
     }
+
 }

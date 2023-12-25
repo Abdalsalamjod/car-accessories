@@ -1,68 +1,136 @@
 package application.step_definitions;
 
-import application.entities.Product;
-import application.entities.User;
+import application.dataBase.Premetive_Objects.ResultSetResultHandler;
+import application.dataBase.UserDefinedTypes.RequestResultHandler;
+import application.entities.Installer;
+import application.entities.Request;
+import application.services.DatabaseService;
 import application.services.EmailSender;
-import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+
 import org.junit.Assert;
 
-import java.util.Date;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.logging.Logger;
+
+import static application.Main.scanner;
+import static application.services.MessagesGenerator.logger;
+import static org.junit.Assert.*;
 
 public class InstallationRequest {
 
-  boolean f_1 = false, f_2 = false;
-  String subject = "", content = "";
+  private final DatabaseService dbs = new DatabaseService();
+  private Request tempRequestToSend = new Request();
+  private Request tempRequestToReceive = new Request();
 
-  @Given("the user make a new installation request with valid information")
-  public void the_user_make_a_new_installation_request_with_valid_information() {
-    f_1 = f_2 = false;
-    subject = "";
-    content = "";
-    User user = new User("s12027670@stu.najah.edu","12345", 'i',true,null);
 
-    Product product = new Product(1,"Spoiler", "exterior", 25.25, 25);
-    Date date = new Date();
-    int id = 3;
-    int productId = product.getId();
-    String userId = user.getEmail();
-    String description = "added!";
-//    Request request = new Request(id, productId, userId,date, description);
-//    f_1 = user.makeRequest(request);
-//    if(f_1)
-//      f_2 = EmailSender.sendEmail("s12027747@stu.najah.edu", "test", request.getDescription());
+  @When("user make a new installation request with id = {int}, productId = {int}, userId = {string}, description = {string}")
+  public void user_make_a_new_installation_request_with_id_product_id_user_id_description(Integer id, Integer productId, String userId, String description) {
+
+    Request.initializeDatesArray();
+    String dateString = Request.getDatesArray().get(2);
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    LocalDateTime parsedDate = LocalDateTime.parse(dateString, formatter);
+
+    tempRequestToSend.setId(id);
+    tempRequestToSend.setProductId(productId);
+    tempRequestToSend.setUserId(userId);
+    tempRequestToSend.setDate(parsedDate);
+    tempRequestToSend.setDescription(description);
+    tempRequestToSend.setDone(0);
+    tempRequestToSend.setSelected(0);
+    System.out.println(tempRequestToSend);
+    Installer.createNewRequest(tempRequestToSend, dbs);
+
   }
 
-  @Then("the request should be done")
-  public void the_request_should_be_done() {
-    assertFalse(f_1);
+  @Then("the installation request with id = {int} should be added to the database")
+  public void the_installation_request_with_id_should_be_added_to_the_database(Integer id) {
+
+    try {
+
+      String query = "SELECT * FROM Request WHERE id=" + id;
+      tempRequestToReceive = dbs.executeQuery(query, new RequestResultHandler());
+      assertEquals(tempRequestToReceive.getId(), tempRequestToSend.getId());
+      assertEquals(tempRequestToReceive.getProductId(), tempRequestToSend.getProductId());
+      assertEquals(tempRequestToReceive.getUserId(), tempRequestToSend.getUserId());
+      assertEquals(tempRequestToReceive.getDate(), tempRequestToSend.getDate());
+      assertEquals(tempRequestToReceive.getDescription(), tempRequestToSend.getDescription());
+      assertEquals(tempRequestToReceive.getDone(), tempRequestToSend.getDone());
+      assertEquals(tempRequestToReceive.getSelected(), tempRequestToSend.getSelected());
+
+    } catch ( SQLException e ) {
+      throw new RuntimeException(e);
+    }
+
   }
 
-  @Then("a conformation email will be sent to the user and installer")
-  public void a_conformation_email_will_be_sent_to_the_user_and_installer() {
-    assertFalse(f_2);
+  @Then("an email should be send to the installer with email = {string} and user with id= = {string}")
+  public void an_email_should_be_send_to_the_installer_with_email_and_user_with_id(String installerEmail, String userEmail) {
+    String subject = "Hala-car accessories system";
+    String body = "Done!";
+    EmailSender.sendEmail(installerEmail, subject, body);
+    EmailSender.sendEmail(userEmail, subject, body);
   }
 
 
-  @Given("the user lists his requests and want to cancel one of them")
-  public void the_user_lists_his_requests_and_want_to_cancel_one_of_them() {
-    f_1 = f_2 = false;
+  @Then("the date with index = {int} should be removed from dates array")
+  public void the_date_with_index_should_be_removed_from_dates_array(int dateIndex) {
 
-    User user = new User("s12027670@stu.najah.edu","12345", 'i',true,null);
+    ArrayList<String> datesArray = ( ArrayList<String> ) Request.getDatesArray();
+    datesArray.remove(dateIndex);
+    Request.setDatesArray(datesArray);
 
-//    f_1 = user.removeRequest(3);
-    if(f_1)
-      f_2 = EmailSender.sendEmail("s12027747@stu.najah.edu", "test", "removed !");
   }
 
-  @Then("the request should be removed")
-  public void the_request_should_be_removed() {
-    assertFalse(f_1);
+
+  @When("user remove the request with id={int}")
+  public void user_remove_the_request_with_id(Integer id) {
+    Installer.deleteExistingRequest(id, dbs);
   }
+
+  @Then("the request with id={int} should be removed")
+  public void the_request_with_id_should_be_removed(Integer id) {
+    try {
+      tempRequestToReceive = dbs.executeQuery("SELECT * FROM Request WHERE id=" + id, new RequestResultHandler());
+      assertNull(tempRequestToReceive);
+    } catch ( SQLException e ) {
+      throw new RuntimeException(e);
+    }
+
+  }
+
+  @Then("the date with index = {int} should be available again in the dates array")
+  public void the_date_with_index_should_be_available_again_in_the_dates_array(Integer dateIndex) {
+
+    try{
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+      ArrayList<Request> returnedRequests = new ArrayList<>();
+      ArrayList<String> datesArray = ( ArrayList<String> ) Request.getDatesArray();
+
+      ResultSet rs = dbs.executeQuery("SELECT * FROM Request WHERE userId ='s12027747@stu.najah.edu'", new ResultSetResultHandler());
+      while ( rs.next() ){
+        returnedRequests.add(new Request(rs.getInt(1), rs.getInt(2), rs.getString(3), LocalDateTime.parse(rs.getString(4), formatter), rs.getString(5)));
+      }
+
+      LocalDateTime removedDate = returnedRequests.get(dateIndex-1).getDate();
+      datesArray.add(String.valueOf(removedDate));
+      Request.setDatesArray(datesArray);
+
+    }catch ( Exception e ){
+      e.printStackTrace();
+    }
+
+  }
+
+
+
 
 
 

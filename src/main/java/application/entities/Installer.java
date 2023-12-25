@@ -50,7 +50,9 @@ public class Installer extends User{
         return availableRequests;
     }
 
+
     private void populateAvailableRequests(DatabaseService databaseService) {
+
         ResultSet resultSet;
         Request request;
         availableRequests.clear();
@@ -90,8 +92,11 @@ public class Installer extends User{
                 for (Request request : availableRequests) {
                     if (request.getId() == requestIdInt) {
                         exist = true;
-                        request.setSelected(true);
+
+                        
                         try {
+                          request.setSelected(1);
+                          request1.setDone(1);
                             databaseService.updateObject(request, "Request", "id");
                             continueLoop = false; // Exit loop after successful update
                         } catch (SQLException e) {
@@ -102,6 +107,7 @@ public class Installer extends User{
                             logger.severe("An unexpected error occurred: " + e.getMessage());
                             // Handle other exceptions
                         }
+
                         break;
                     }
                 }
@@ -134,7 +140,7 @@ public class Installer extends User{
                 for (Request request : availableRequests) {
                     if (request.getId() == Integer.parseInt(requestId)) {
                         exist = true;
-                        request.setDone(true);
+                        request.setDone(1);
                         databaseService.updateObject(request, "Request", "id");
                         continueLoop = false; // Exit loop after successful update
                         break;
@@ -151,5 +157,21 @@ public class Installer extends User{
         }
     }
 
+    public static void createNewRequest(Request request, DatabaseService dbs){
 
+        try {
+            dbs.addObject(request, "Request");
+        } catch ( SQLException e ) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void deleteExistingRequest(int id, DatabaseService dbs){
+        try {
+            dbs.deleteObject(id, "Request");
+        } catch ( SQLException e ) {
+            e.printStackTrace();
+        }
+    }
 }

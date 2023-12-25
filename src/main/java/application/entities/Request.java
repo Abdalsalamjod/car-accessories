@@ -10,10 +10,10 @@ public class Request {
   private int id;
   private int productId;
   private String userId;
-  private LocalDateTime date;
+  public LocalDateTime date;
   private String description;
-  private boolean done;
-  private boolean selected;
+  private int done;
+  private int selected;
   private static ArrayList<String> datesArray = new ArrayList<>();
 
   public Request(){
@@ -22,8 +22,8 @@ public class Request {
     this.userId = "";
     this.productId = -1;
     this.id = -1;
-    this.done=false;
-    this.selected=false;
+    this.done=0;
+    this.selected=0;
   }
   public Request(int id, int productId, String userId, LocalDateTime date, String description){
     this.id = id;
@@ -31,14 +31,15 @@ public class Request {
     this.userId = userId;
     this.date = date;
     this.description = description;
-    this.done=false;
-    this.selected=false;
+    this.done=0;
+    this.selected=0;
   }
 
-  public void setSelected(boolean selected) {
+
+  public void setSelected(int selected) {
     this.selected = selected;
   }
-  public boolean isSelected() {
+  public int isSelected() {
     return selected;
   }
   public int getId() {
@@ -60,7 +61,8 @@ public class Request {
     this.userId = userId;
   }
   public LocalDateTime getDate() {
-    return date;
+    this.date.format(DateTimeFormatter.ofPattern("%d- %s%n"));
+    return this.date;
   }
   public void setDate( LocalDateTime date ) {
     this.date = date;
@@ -72,18 +74,26 @@ public class Request {
     this.description = description;
   }
 
-  public boolean isDone() {
+  public void setDone(int done) {
+    this.done = done;
+  }
+  public int getDone(){
+    return this.done;
+  }
+
+  public int isDone() {
     return done;
   }
 
-  public void setDone(boolean done) {
-    this.done = done;
+  public int getSelected(){
+    return  this.selected;
   }
+
   @Override
   public String toString(){
     return  "ID: " + this.id+
             "\nDate: " + this.date +
-            "\n User Email :"+this.userId +
+            "\nUser Email :"+this.userId +
             "\nProduct Id: " + this.productId +
             "\nDescription: "+this.description +
             "\n\n";
@@ -96,7 +106,6 @@ public class Request {
   public static void setDatesArray(ArrayList<String> datesArray){
     Request.datesArray = datesArray;
   }
-
 
   public static void initializeDatesArray(){
 
@@ -117,6 +126,19 @@ public class Request {
       datesArray.add(i, formattedDateTime);
     }
 
+  }
+
+  public static LocalDateTime databaseFormatDate(String dateAsString){
+
+
+
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    return LocalDateTime.parse(dateAsString, formatter);
+
+  }
+
+  public static String databaseToStringFormatDate(LocalDateTime date){
+    return (String.valueOf(date));
   }
 
 

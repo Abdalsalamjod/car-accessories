@@ -43,7 +43,7 @@ public class ValidationUser {
         try {
             String string =dbs.executeQuery("SELECT `password` FROM `user` WHERE `email` = '"+email+"'",new StringResultHandler());
             if (string.isEmpty()) return false;
-            return true;
+                return true;
         } catch (SQLException e) {
 
             logger.severe("SQLException in isExistEmail");

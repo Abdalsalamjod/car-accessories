@@ -257,6 +257,8 @@ public class User {
 
 
             Request request = new Request(requestID, productID, this.getEmail(), dateToStore, description);
+            request.setDone(0);
+            request.setSelected(0);
             databaseService.addObject(request,"Request");
             logger.info("\nRequest Added Successfully, you can check your email for further information\n");
             EmailSender.sendEmail("s12027747@stu.najah.edu", "Installation Request", "Added successfully");
@@ -266,6 +268,7 @@ public class User {
 
 
         }catch ( Exception e ){
+            e.printStackTrace();
             logger.severe("Sorry, something went wrong!\n");
             exit(0);
         }
@@ -300,6 +303,7 @@ public class User {
             EmailSender.sendEmail("s12027747@stu.najah.edu", "Installation Request", "Removed successfully");
 
         }catch ( Exception e ){
+            e.printStackTrace();
             logger.severe("Sorry, something went wrong!");
             exit(0);
         }

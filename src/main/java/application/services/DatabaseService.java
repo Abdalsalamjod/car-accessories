@@ -40,34 +40,32 @@ public class DatabaseService implements Serializable {
     ResultSet resultSet;
     PreparedStatement statement ;
 
-     statement = connection.prepareStatement(query);
-     resultSet = statement.executeQuery();
-     return resultHandler.handle(resultSet);
+    statement = connection.prepareStatement(query);
+    resultSet = statement.executeQuery();
+    return resultHandler.handle(resultSet);
 
   }
 
 
+  public  <T> boolean addObject(T object, String tableName) throws SQLException{
 
-  public <T> boolean addObject(T object, String tableName) throws SQLException {
     StringBuilder insertQuery = new StringBuilder("INSERT INTO " + tableName + " (");
 
     //get the fields names (class must have getters)
     Field[] fields = object.getClass().getDeclaredFields();
     int fieldsLength = (Objects.equals(tableName, "Request")) ? fields.length - 1 : fields.length;
-
-    // Loop for adding fields to the query
     for (int i = 0; i < fieldsLength; i++) {
-      if (fields[i].getName().equals(LITERAL_FOR_PROFILE))
+      if(fields[i].getName().equals(LITERAL_FOR_PROFILE))
         insertQuery.append("profileId");
       else
         insertQuery.append(fields[i].getName());
-
       if (i < fieldsLength - 1) {
         insertQuery.append(", ");
       }
     }
 
-    // Loop for setting parameter values
+
+    //add ? in the VALUES (?, ?, ?) -> PreparedStatement
     insertQuery.append(") VALUES (");
     for (int i = 0; i < fieldsLength; i++) {
       insertQuery.append("?");
@@ -78,24 +76,27 @@ public class DatabaseService implements Serializable {
     insertQuery.append(")");
 
     //replace ? with actual values
-    try (PreparedStatement statement = connection.prepareStatement(insertQuery.toString())) {
-      for (int i = 0; i < fieldsLength; i++) {
-        fields[i].setAccessible(true);
-        try {
-          if (fields[i].toString().equals("public application.entities.Profile application.entities.User.profile"))
-            statement.setObject(i + 1, fields[i].get(object).toString());
-          else
-            statement.setObject(i + 1, fields[i].get(object));
-        } catch (IllegalAccessException e) {
-          throw new RuntimeException(e);
-        }
+    PreparedStatement statement = connection.prepareStatement(insertQuery.toString());
+    for (int i = 0; i < fieldsLength; i++) {
+      fields[i].setAccessible(true);
+      try {
+        if(fields[i].toString().equals("public Application.Entities.Profile Application.Entities.User.profile"))
+          statement.setObject(i + 1, fields[i].get(object).toString());
+        else
+          statement.setObject(i + 1, fields[i].get(object).toString());
+      }catch (IllegalAccessException e) {
+        throw new RuntimeException(e);
       }
-      //execute updates
-      statement.executeUpdate();
     }
 
+    //execute updates
+    statement.executeUpdate();
+    statement.close();
     return true;
+
   }
+
+
   public boolean deleteObject(int id, String tableName) throws SQLException{
 
 

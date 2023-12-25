@@ -64,7 +64,7 @@ public List<Request> availableRequests ;
                 for (Request request1 : availableRequests)
                     if (request1.getId() == Integer.parseInt(RequestId)) {
                         exist = true;
-                        request1.setSelected(true);
+                        request1.setSelected(1);
                         databaseService.updateObject(request1,"Request","id");
                         break;
                     }
@@ -113,7 +113,7 @@ public List<Request> availableRequests ;
                 for (Request request1 : availableRequests)
                     if (request1.getId() == Integer.parseInt(RequestId)) {
                         exist = true;
-                        request1.setDone(true);
+                        request1.setDone(1);
                         databaseService.updateObject(request1,"Request","id");
                         break;
                     }
@@ -124,5 +124,23 @@ public List<Request> availableRequests ;
                 logger.severe("Please, enter valid number\n");
         }
 
+    }
+
+    public static void createNewRequest(Request request, DatabaseService dbs){
+
+        try {
+            dbs.addObject(request, "Request");
+        } catch ( SQLException e ) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void deleteExistingRequest(int id, DatabaseService dbs){
+        try {
+            dbs.deleteObject(id, "Request");
+        } catch ( SQLException e ) {
+            e.printStackTrace();
+        }
     }
 }

@@ -9,12 +9,12 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <maven.compiler.source>18</maven.compiler.source>
+           <maven.compiler.source>18</maven.compiler.source>
         <maven.compiler.target>18</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <sonar.organization>abdalsalamjod</sonar.organization>
-        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.coverage.exclusions>
+         <sonar.organization>abdalsalamjod</sonar.organization>
+         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+          <sonar.coverage.exclusions>
             **/application/Main.java,
             **/application/MainUtility.java,
             **/application/services/MessagesGenerator.java
@@ -50,76 +50,90 @@
             <version>5.1.6</version>
         </dependency>
         <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>2.2.224</version>
+<!--            <scope>test</scope>-->
+        </dependency>
+        <dependency>
             <groupId>com.sun.mail</groupId>
             <artifactId>javax.mail</artifactId>
             <version>1.6.2</version>
         </dependency>
-    </dependencies>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>4.5.1</version> <!-- Use the latest version -->
+            <scope>test</scope>
+        </dependency>
+</dependencies>
     <build>
+
 <!--         <pluginManagement>-->
-            <plugins>
-                <plugin>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.22.2</version>
-                </plugin>
-                <!-- JaCoCo Plugin -->
-                <plugin>
-                    <groupId>org.jacoco</groupId>
-                    <artifactId>jacoco-maven-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <id>prepare-agent</id>
-                            <goals>
-                                <goal>prepare-agent</goal>
-                            </goals>
-                        </execution>
-                        <execution>
-                            <id>report</id>
-                            <phase>verify</phase>
-                            <goals>
-                                <goal>report</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
 
-                <!-- Ensure Surefire Plugin is set up for your tests -->
-                <!-- Add configuration as needed for your test framework -->
-            </plugins>
+        <plugins>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+                <configuration></configuration>
+            </plugin>
+            <!-- JaCoCo Plugin -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
+            <!-- Ensure Surefire Plugin is set up for your tests -->
+            <!-- Add configuration as needed for your test framework -->
+        </plugins>
 <!--         </pluginManagement>-->
-             
+
 
     </build>
-    <!--<build>-->
-    <!--         <pluginManagement>-->
-    <!--                  <plugins>-->
-    <!--                          &lt;!&ndash; The Surefire Plugin is needed to run JUnit 5 tests with Maven &ndash;&gt;-->
-    <!--                           <plugin>-->
-    <!--                                    <artifactId>maven-surefire-plugin</artifactId>-->
-    <!--                                    <version>2.22.2</version>-->
-    <!--                                    <configuration></configuration>-->
-    <!--                           </plugin>-->
-    <!--                           <plugin>-->
-    <!--                                    <groupId>org.jacoco</groupId>-->
-    <!--                                    <artifactId>jacoco-maven-plugin</artifactId>-->
-    <!--                                    <executions>-->
-    <!--                                             <execution>-->
-    <!--                                                      <goals>-->
-    <!--                                                               <goal>prepare-agent</goal>-->
-    <!--                                                      </goals>-->
-    <!--                                             </execution>-->
-    <!--                                             <execution>-->
-    <!--                                                      <id>report</id>-->
-    <!--                                                      <phase>prepare-package</phase>-->
-    <!--                                                      <goals>-->
-    <!--                                                               <goal>report</goal>-->
-    <!--                                                      </goals>-->
-    <!--                                             </execution>-->
-    <!--                                    </executions>-->
-    <!--                           </plugin>-->
-    <!--                  </plugins>-->
-    <!--         </pluginManagement>-->
-    <!--</build>-->
+<!--<build>-->
+<!--         <pluginManagement>-->
+<!--                  <plugins>-->
+<!--                          &lt;!&ndash; The Surefire Plugin is needed to run JUnit 5 tests with Maven &ndash;&gt;-->
+<!--                           <plugin>-->
+<!--                                    <artifactId>maven-surefire-plugin</artifactId>-->
+<!--                                    <version>2.22.2</version>-->
+<!--                                    <configuration></configuration>-->
+<!--                           </plugin>-->
+<!--                           <plugin>-->
+<!--                                    <groupId>org.jacoco</groupId>-->
+<!--                                    <artifactId>jacoco-maven-plugin</artifactId>-->
+<!--                                    <executions>-->
+<!--                                             <execution>-->
+<!--                                                      <goals>-->
+<!--                                                               <goal>prepare-agent</goal>-->
+<!--                                                      </goals>-->
+<!--                                             </execution>-->
+<!--                                             <execution>-->
+<!--                                                      <id>report</id>-->
+<!--                                                      <phase>prepare-package</phase>-->
+<!--                                                      <goals>-->
+<!--                                                               <goal>report</goal>-->
+<!--                                                      </goals>-->
+<!--                                             </execution>-->
+<!--                                    </executions>-->
+<!--                           </plugin>-->
+<!--                  </plugins>-->
+<!--         </pluginManagement>-->
+<!--</build>-->
 
 </project>

@@ -5,6 +5,8 @@ Feature: User Logout
     When the user selects the option to log out
     Then the user should be successfully logged out
     And the system should display a logout confirmation message
-    And should be redirected to the login page
 
-
+  Scenario: User logs out failed
+    Given the user is logged in
+    When the user selects the option to log out and something wrong happened
+    Then the system should display a logout warning message

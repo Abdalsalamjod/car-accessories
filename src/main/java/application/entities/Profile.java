@@ -43,8 +43,8 @@ public class Profile {
 
 
 
-    public boolean areChangesSaved() {
-        DatabaseService databaseService =new DatabaseService();
+    public boolean areChangesSaved( DatabaseService databaseService) {
+
         try {
             databaseService.updateObject(this,"Profile","profileId");
         } catch (Exception e) {

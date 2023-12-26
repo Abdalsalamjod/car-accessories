@@ -70,7 +70,7 @@
     <build>
 
 
-         <pluginManagement>
+<!--          <pluginManagement> -->
 
         <plugins>
             <plugin>
@@ -100,7 +100,7 @@
 
 
         </plugins>
-      </pluginManagement>
+<!--       </pluginManagement> -->
 
 
     </build>

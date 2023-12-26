@@ -44,62 +44,77 @@ public class User {
         this.email=email;
         this.password=password;
         this.role=role;
-        profile=new Profile();
+        this.profile=new Profile();
         this.profile.setProfileId(profileId);
         this.signInStatus = SignInStatus;
 
     }
 
     public void showDetails(Logger logger) {
-        logger.info("Name: "+this.getProfileObject().getName());
-        logger.info("Location: "+this.getProfileObject().getLocation());
-        logger.info("Phone number: "+this.getProfileObject().getPhoneNumber());
-        logger.info("Email : "+this.getEmail());
+        logger.info("\nName: "+this.getProfileObject().getName());
+        logger.info("\nLocation: "+this.getProfileObject().getLocation());
+        logger.info("\nPhone number: "+this.getProfileObject().getPhoneNumber());
+        logger.info("\nEmail : "+this.getEmail());
     }
     public void editDetails(int optionIn, String newValue, Logger logger) {
+        DatabaseService dbs =new DatabaseService();
         switch (optionIn) {
             case 1 -> {
-                // Update name
                 logger.info("The current name is: " + this.getProfileObject().getName());
                 this.getProfileObject().setName(newValue);
-                logger.info("Updated name to: " + newValue);
+                try {
+                    dbs.updateObject(profile,"Profile","profileId");
+                    logger.info("Updated name to: " + newValue);
+                } catch (Exception e) {
+                   logger.severe("Error: in editDetails\n ");
+                }
             }
             case 2 -> {
-                // Update email after password check
-//                logger.info("Please enter your password for verification: ");
-                // Assume a method 'verifyPassword' that checks the password
-//                if (verifyPassword(newValue)) {
                     logger.info("The current Email is: " + this.getEmail());
-                    // 'newValue' should be the new email in this case
-                    // You might need to adjust how you pass and handle these values
                     if (ValidationUser.isValidEmail(newValue) && !ValidationUser.isExistEmail(newValue, new DatabaseService())) {
                         this.setEmail(newValue);
-                        logger.info("Updated email to: " + newValue);
+                        try {
+                            dbs.updateObject(this,"user","email");
+                            logger.info("Updated email to: " + newValue);
+                        } catch (Exception e) {
+                            logger.severe("Error: in editDetails\n ");
+                        }
                     } else {
                         logger.info("Error: exist or invalid email, try again!");
                     }
-//                } else {
-//                    logger.info("Error: the password you entered not valid, try again!");
-//                }
             }
             case 3 -> {
-                // Update password
-                // Here, you might need a separate method or way to verify the current password first
+
                 logger.info("Updating password...");
                 this.setPassword(newValue);
-                logger.info("Password updated.");
+                try {
+                    dbs.updateObject(this,"user","email");
+                    logger.info("Password updated.");
+
+                } catch (Exception e) {
+                    logger.severe("Error: in editDetails\n ");
+                }
             }
             case 4 -> {
-                // Update location
                 logger.info("The current location is: " + this.getProfileObject().getLocation());
                 this.getProfileObject().setLocation(newValue);
-                logger.info("Updated location to: " + newValue);
+                try {
+                    dbs.updateObject(profile,"Profile","profileId");
+                    logger.info("Updated location to: " + newValue);
+                } catch (Exception e) {
+                    logger.severe("Error: in editDetails\n ");
+                }
+
             }
             case 5 -> {
-                // Update phone number
                 logger.info("The current Phone Number is: " + this.getProfileObject().getPhoneNumber());
                 this.getProfileObject().setPhoneNumber(newValue);
-                logger.info("Updated phone number to: " + newValue);
+                try {
+                    dbs.updateObject(profile,"Profile","profileId");
+                    logger.info("Updated phone number to: " + newValue);
+                } catch (Exception e) {
+                    logger.severe("Error: in editDetails\n ");
+                }
             }
             default -> {
                 // Handle default case

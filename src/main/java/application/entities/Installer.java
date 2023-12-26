@@ -95,7 +95,6 @@ public class Installer extends User{
 
                         try {
                           request.setSelected(1);
-                          request.setDone(1);
                             databaseService.updateObject(request, "Request", "id");
                             continueLoop = false; // Exit loop after successful update
                         } catch (SQLException e) {

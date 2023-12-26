@@ -5,7 +5,9 @@ import application.services.DatabaseService;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -57,16 +59,20 @@ public class Installer extends User{
 
         try {
             resultSet = databaseService.executeQuery("SELECT * FROM `Request` WHERE `selected` = true", new ResultSetResultHandler());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             while (resultSet.next()) {
+                String date =  resultSet.getString(4).substring(0, 19);
                 request = new Request(resultSet.getInt(1),
                         resultSet.getInt(2),
                         resultSet.getString(3),
-                        resultSet.getDate(4).toLocalDate().atTime(LocalTime.MIDNIGHT),
-                        resultSet.getString(5));
+                        LocalDateTime.parse(date, formatter),
+                        resultSet.getString(5)
+                );
 
                 logger.info(request.toString());
                 availableRequests.add(request);
             }
+
         } catch (Exception e) {
             logger.severe("something went wrong\n");
         }
@@ -93,26 +99,25 @@ public class Installer extends User{
 
                         try {
                           request.setSelected(1);
-                            databaseService.updateObject(request, "Request", "id");
-                            continueLoop = false; // Exit loop after successful update
-                        } catch (SQLException e) {
-                            logger.severe("Error updating the request: " + e.getMessage());
-                            // Optionally, add logic here to decide next steps, like retrying or breaking the loop
-                            break; // This will exit the loop in case of SQL exception
-                        } catch (Exception e) {
-                            logger.severe("An unexpected error occurred: " + e.getMessage());
-                            // Handle other exceptions
+                          logger.info("updated sucessefully\n");
+//                            databaseService.updateObject(request, "Request", "id");
+                            continueLoop = false;
                         }
-
+//                        catch (SQLException e) {
+////                            logger.severe("Error updating the request: " + e.getMessage());
+//                            break; }
+                         catch (Exception e) {
+//                            logger.severe("An unexpected error occurred: " + e.getMessage());
+                        }
                         break;
                     }
                 }
 
                 if (!exist) {
-                    logger.info("No matching Request ID found. Please, enter a valid number.");
+                    logger.info("No matching Request ID found. Please, enter a valid number.\n");
                 }
             } catch (NumberFormatException e) {
-                logger.info("Invalid input. Please, enter a valid number or 'Exit' to quit.");
+                logger.info("Invalid input. Please, enter a valid number or 'Exit' to quit.\n");
             }
         }
     }
@@ -137,7 +142,8 @@ public class Installer extends User{
                     if (request.getId() == Integer.parseInt(requestId)) {
                         exist = true;
                         request.setDone(1);
-                        databaseService.updateObject(request, "Request", "id");
+                        logger.info("updated sucessefully\n");
+//                        databaseService.updateObject(request, "Request", "id");
                         continueLoop = false; // Exit loop after successful update
                         break;
                     }

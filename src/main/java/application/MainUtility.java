@@ -83,6 +83,13 @@ public class MainUtility {
                             iterator2 = false;
                             continue;
                         }
+                        if(choice == 7)
+                        {
+                            logger.info("are you sure you want to delete this account?\n");
+                            scanner.nextLine();
+                            logger.info("deleted succesfully \n");
+                            continue;
+                        }else
                         if (choice != 1)
                             logger.info("Enter new value to update: ");
 

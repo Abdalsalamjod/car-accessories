@@ -77,7 +77,6 @@
                 <version>2.22.2</version>
                 <configuration></configuration>
             </plugin>
-                 
             <!-- JaCoCo Plugin -->
             <plugin>
                 <groupId>org.jacoco</groupId>

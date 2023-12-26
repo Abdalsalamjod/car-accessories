@@ -29,7 +29,7 @@ public class Request {
     this.id = id;
     this.productId = productId;
     this.userId = userId;
-    date.format(DateTimeFormatter.ofPattern("%d- %s%n"));
+//    date.format(DateTimeFormatter.ofPattern("%d- %s%n"));
     this.date = date;
     this.description = description;
     this.done=0;
@@ -62,7 +62,7 @@ public class Request {
     this.userId = userId;
   }
   public LocalDateTime getDate() {
-    this.date.format(DateTimeFormatter.ofPattern("%d- %s%n"));
+//    this.date.format(DateTimeFormatter.ofPattern("%d- %s%n"));
     return this.date;
   }
   public void setDate( LocalDateTime date ) {

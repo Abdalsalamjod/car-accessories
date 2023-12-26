@@ -56,17 +56,16 @@ public class Add_Delete_Update_Search {
   public void i_add_a_product_with_duplicated_id_name_category_price_quantity(Integer id, String name, String category, Double price, Integer quantity) {
     this.setProductDetails(id, name, category, price, quantity, tempProductToSend);
     try {
-      dbs.addObject(tempProductToSend, "Product");
-      done = false;
+      done = dbs.addObject(tempProductToSend, "Product");
     } catch ( SQLException e ) {
-     assertTrue(true);
-     done = true;
+       assertTrue(true);
+       done = false;
     }
 
   }
   @Then("the product with this id should not be added to the database")
   public void the_product_with_id_should_not_be_added_to_the_database() {
-    assertTrue(done);
+    assertFalse(done);
   }
 
 

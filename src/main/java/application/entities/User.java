@@ -331,7 +331,7 @@ public class User {
 
 
         }catch ( Exception e ){
-            e.printStackTrace();
+            Main.logger.info(e.getMessage());
             logger.severe("Sorry, something went wrong!\n");
             exit(0);
         }
@@ -369,7 +369,7 @@ public class User {
             EmailSender.sendEmail("s12027747@stu.najah.edu", "Installation Request", "Removed successfully");
 
         }catch ( Exception e ){
-            e.printStackTrace();
+            Main.logger.info(e.getMessage());
             logger.severe("Sorry, something went wrong!");
             exit(0);
         }

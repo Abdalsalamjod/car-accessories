@@ -8,10 +8,6 @@ import application.services.DatabaseService;
 import application.services.EmailSender;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-
-import org.junit.Assert;
-
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -131,6 +127,7 @@ public class InstallationRequest {
     }
 
   }
+
 
 
 

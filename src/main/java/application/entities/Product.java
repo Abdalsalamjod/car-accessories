@@ -1,10 +1,11 @@
 package application.entities;
 
-import application.dataBase.Premetive_Objects.ResultSetResultHandler;
-import application.dataBase.UserDefinedTypes.ProductResultHandler;
+import application.database.premitive_objects.ResultSetResultHandler;
+import application.database.user_defined_types.ProductResultHandler;
 import application.services.DatabaseService;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Product {
 
@@ -81,28 +82,28 @@ public class Product {
   }
 
 
-  public static ResultSet getAllProducts( DatabaseService dbs ) throws Exception{
+  public static ResultSet getAllProducts( DatabaseService dbs ) throws SQLException{
     return dbs.executeQuery("SELECT * FROM Product", new ResultSetResultHandler());
   }
-  public static ResultSet getAllProductsNames( DatabaseService dbs ) throws Exception{
+  public static ResultSet getAllProductsNames( DatabaseService dbs ) throws SQLException{
     return dbs.executeQuery("SELECT id, name FROM Product", new ResultSetResultHandler());
   }
-  public static Product getProductById( int id, DatabaseService dbs ) throws Exception{
+  public static Product getProductById( int id, DatabaseService dbs ) throws SQLException{
     return dbs.executeQuery("SELECT * FROM Product WHERE id=" + id, new ProductResultHandler());
   }
-  public static Product getProductByName( String name, DatabaseService dbs ) throws Exception{
+  public static Product getProductByName( String name, DatabaseService dbs ) throws SQLException{
     return dbs.executeQuery("SELECT * FROM Product WHERE name='" + name + "'", new ProductResultHandler());
   }
-  public static ResultSet getProductsByCategory( String category, DatabaseService dbs ) throws Exception{
+  public static ResultSet getProductsByCategory( String category, DatabaseService dbs ) throws SQLException{
     return dbs.executeQuery("SELECT * FROM Product WHERE category='" + category + "'", new ResultSetResultHandler());
   }
-  public static ResultSet getProductsByPriceRange( double lowerPrice, double upperPrice, DatabaseService dbs ) throws Exception{
+  public static ResultSet getProductsByPriceRange( double lowerPrice, double upperPrice, DatabaseService dbs ) throws SQLException{
     return dbs.executeQuery("SELECT * FROM Product WHERE price BETWEEN " + lowerPrice + " AND " + upperPrice, new ResultSetResultHandler());
   }
 
 
   @Override
   public String toString(){
-    return  "ID: " + this.id + ", Name: " + this.name + ", Category: " + this.category + ", Price: " + this.price + ", Quantity: " + this.quantity;
+    return  "ID: " + this.id + ", Name: " + this.name + ", Category: " + this.category + ", Price: " + this.price + ", Quantity: " + this.quantity + "\n";
   }
 }

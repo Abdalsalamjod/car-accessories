@@ -10,7 +10,7 @@ public class Request {
   private int id;
   private int productId;
   private String userId;
-  public LocalDateTime date;
+  private LocalDateTime date;
   private String description;
   private int done;
   private int selected;
@@ -29,7 +29,6 @@ public class Request {
     this.id = id;
     this.productId = productId;
     this.userId = userId;
-//    date.format(DateTimeFormatter.ofPattern("%d- %s%n"));
     this.date = date;
     this.description = description;
     this.done=0;
@@ -62,7 +61,6 @@ public class Request {
     this.userId = userId;
   }
   public LocalDateTime getDate() {
-//    this.date.format(DateTimeFormatter.ofPattern("%d- %s%n"));
     return this.date;
   }
   public void setDate( LocalDateTime date ) {
@@ -104,8 +102,8 @@ public class Request {
   public static List<String> getDatesArray(){
     return Request.datesArray;
   }
-  public static void setDatesArray(ArrayList<String> datesArray){
-    Request.datesArray = datesArray;
+  public static void setDatesArray(List<String> datesArray){
+    Request.datesArray = ( ArrayList<String> ) datesArray;
   }
 
   public static void initializeDatesArray(){

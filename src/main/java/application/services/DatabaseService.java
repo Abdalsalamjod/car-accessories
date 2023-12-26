@@ -1,16 +1,15 @@
 package application.services;
 
-import application.dataBase.QueryResultHandler;
+import application.database.QueryResultHandler;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.sql.*;
 import java.util.Objects;
-import org.h2.security.SHA256;
 
 
 public class DatabaseService implements Serializable {
 
-  private final String LITERAL_FOR_PROFILE = "profile";
+  private static final String LITERAL_FOR_PROFILE = "profile";
   private static Connection connection;
 
 
@@ -24,20 +23,6 @@ public class DatabaseService implements Serializable {
        System.out.println("\nNot Connected to the database!, try again plz\n");
    }
  }
-
-
-    //  public DatabaseService() {
-    //     String databaseUser = System.getenv("DATABASE_USER");
-    //     String databasePassword = System.getenv("DATABASE_PASSWORD");
-
-    //     try {
-    //         connection = DriverManager.getConnection("jdbc:mysql://sql12.freesqldatabase.com:3306/sql12654012", databaseUser, databasePassword);
-    //     } catch (SQLException e) {
-    //         System.out.println("\nNot Connected to the database! Please try again.\n");
-    //     }
-    // }
-
-
 
 
   public void closeConnection() {
@@ -70,7 +55,6 @@ public class DatabaseService implements Serializable {
 
     StringBuilder insertQuery = new StringBuilder("INSERT INTO " + tableName + " (");
 
-    //get the fields names (class must have getters)
     Field[] fields = object.getClass().getDeclaredFields();
     int fieldsLength = (Objects.equals(tableName, "Request")) ? fields.length - 1 : fields.length;
     for (int i = 0; i < fieldsLength; i++) {
@@ -84,7 +68,6 @@ public class DatabaseService implements Serializable {
     }
 
 
-    //add ? in the VALUES (?, ?, ?) -> PreparedStatement
     insertQuery.append(") VALUES (");
     for (int i = 0; i < fieldsLength; i++) {
       insertQuery.append("?");
@@ -95,21 +78,17 @@ public class DatabaseService implements Serializable {
     insertQuery.append(")");
 
 
-    //replace ? with actual values
+
     try{
 
 
       PreparedStatement statement = connection.prepareStatement(insertQuery.toString());
       for (int i = 0; i < fieldsLength; i++) {
         fields[i].setAccessible(true);
-//          if(fields[i].toString().equals("public Application.Entities.Profile Application.Entities.User.profile"))
             statement.setObject(i + 1, fields[i].get(object).toString());
-//          else
-//            statement.setObject(i + 1, fields[i].get(object).toString());
 
       }
 
-      //execute updates
       statement.executeUpdate();
       statement.close();
       return true;
@@ -139,7 +118,6 @@ public class DatabaseService implements Serializable {
 
     StringBuilder updateQuery = new StringBuilder("UPDATE " + tableName + " SET ");
 
-    //get the fields names (class must have getters)
     Field[] fields = object.getClass().getDeclaredFields();
     int fieldsLength = ( Objects.equals(tableName, "Request") ) ? fields.length-1: fields.length;
     for (int i = 0; i < fieldsLength; i++) {

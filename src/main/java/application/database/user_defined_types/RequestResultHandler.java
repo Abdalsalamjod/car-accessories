@@ -1,6 +1,6 @@
-package application.dataBase.UserDefinedTypes;
+package application.database.user_defined_types;
 
-import application.dataBase.QueryResultHandler;
+import application.database.QueryResultHandler;
 import application.entities.Request;
 import java.sql.ResultSet;
 import java.sql.SQLException;

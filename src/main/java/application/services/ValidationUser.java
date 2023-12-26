@@ -1,10 +1,7 @@
 package application.services;
 
-import application.dataBase.Premetive_Objects.StringResultHandler;
-import application.Main;
+import application.database.premitive_objects.StringResultHandler;
 
-import java.sql.SQLException;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

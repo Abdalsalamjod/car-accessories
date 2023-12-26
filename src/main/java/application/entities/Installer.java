@@ -1,6 +1,6 @@
 package application.entities;
 
-import application.dataBase.Premetive_Objects.ResultSetResultHandler;
+import application.database.premitive_objects.ResultSetResultHandler;
 import application.services.DatabaseService;
 
 import java.sql.ResultSet;

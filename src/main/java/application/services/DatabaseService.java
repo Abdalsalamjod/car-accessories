@@ -1,12 +1,11 @@
 package application.services;
 
-import application.Main;
 import application.dataBase.QueryResultHandler;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.sql.*;
 import java.util.Objects;
-
+import org.h2.security.SHA256;
 
 
 public class DatabaseService implements Serializable {
@@ -25,6 +24,20 @@ public class DatabaseService implements Serializable {
        System.out.println("\nNot Connected to the database!, try again plz\n");
    }
  }
+
+
+    //  public DatabaseService() {
+    //     String databaseUser = System.getenv("DATABASE_USER");
+    //     String databasePassword = System.getenv("DATABASE_PASSWORD");
+
+    //     try {
+    //         connection = DriverManager.getConnection("jdbc:mysql://sql12.freesqldatabase.com:3306/sql12654012", databaseUser, databasePassword);
+    //     } catch (SQLException e) {
+    //         System.out.println("\nNot Connected to the database! Please try again.\n");
+    //     }
+    // }
+
+
 
 
   public void closeConnection() {
@@ -52,11 +65,12 @@ public class DatabaseService implements Serializable {
 
   }
 
+
   public  <T> boolean addObject(T object, String tableName) throws SQLException{
 
     StringBuilder insertQuery = new StringBuilder("INSERT INTO " + tableName + " (");
 
-
+    //get the fields names (class must have getters)
     Field[] fields = object.getClass().getDeclaredFields();
     int fieldsLength = (Objects.equals(tableName, "Request")) ? fields.length - 1 : fields.length;
     for (int i = 0; i < fieldsLength; i++) {
@@ -70,7 +84,7 @@ public class DatabaseService implements Serializable {
     }
 
 
-
+    //add ? in the VALUES (?, ?, ?) -> PreparedStatement
     insertQuery.append(") VALUES (");
     for (int i = 0; i < fieldsLength; i++) {
       insertQuery.append("?");
@@ -80,25 +94,36 @@ public class DatabaseService implements Serializable {
     }
     insertQuery.append(")");
 
-    // try{
+
+    //replace ? with actual values
+    try{
+
+
       PreparedStatement statement = connection.prepareStatement(insertQuery.toString());
       for (int i = 0; i < fieldsLength; i++) {
         fields[i].setAccessible(true);
+//          if(fields[i].toString().equals("public Application.Entities.Profile Application.Entities.User.profile"))
             statement.setObject(i + 1, fields[i].get(object).toString());
+//          else
+//            statement.setObject(i + 1, fields[i].get(object).toString());
+
       }
 
+      //execute updates
       statement.executeUpdate();
       statement.close();
       return true;
 
-    // }catch ( Exception e ){
-    //   e.printStackTrace();
-    //   return false;
-    // }
+    }catch ( Exception e ){
+      return false;
+    }
+
 
   }
 
+
   public boolean deleteObject(int id, String tableName) throws SQLException{
+
 
     String deleteQuery = "DELETE FROM " + tableName + " WHERE id = ?";
     try ( PreparedStatement statement = connection.prepareStatement(deleteQuery) ) {
@@ -130,10 +155,11 @@ public class DatabaseService implements Serializable {
     }
     updateQuery.append(" WHERE ").append(primaryKeyField).append(" = ?");
 
+    PreparedStatement statement ;
 
-    try{
-      PreparedStatement statement;
       statement = connection.prepareStatement(updateQuery.toString());
+
+
       int paramIndex = 1;
       for (Field field : fields) {
         if (!field.getName().equals(primaryKeyField)) {
@@ -153,17 +179,6 @@ public class DatabaseService implements Serializable {
 
       statement.executeUpdate();
       statement.close();
-
-
-
-
-    }catch ( SQLException e ){
-      Main.logger.info(e.getMessage());
-    }
-
-
-
-
     }
 
 }

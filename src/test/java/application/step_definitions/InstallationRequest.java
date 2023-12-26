@@ -17,16 +17,12 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.logging.Logger;
-
-import static application.Main.scanner;
-import static application.services.MessagesGenerator.logger;
 import static org.junit.Assert.*;
 
 public class InstallationRequest {
 
   private final DatabaseService dbs = new DatabaseService();
-  private Request tempRequestToSend = new Request();
+  private final Request tempRequestToSend = new Request();
   private Request tempRequestToReceive = new Request();
 
 
@@ -116,7 +112,8 @@ public class InstallationRequest {
 
       ResultSet rs = dbs.executeQuery("SELECT * FROM Request WHERE userId ='s12027747@stu.najah.edu'", new ResultSetResultHandler());
       while ( rs.next() ){
-        returnedRequests.add(new Request(rs.getInt(1), rs.getInt(2), rs.getString(3), LocalDateTime.parse(rs.getString(4), formatter), rs.getString(5)));
+        String date =  rs.getString(4).substring(0, 19);
+        returnedRequests.add(new Request(rs.getInt(1), rs.getInt(2), rs.getString(3), LocalDateTime.parse(date, formatter), rs.getString(5)));
       }
 
       LocalDateTime removedDate = returnedRequests.get(dateIndex-1).getDate();

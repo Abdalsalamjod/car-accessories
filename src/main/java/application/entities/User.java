@@ -347,13 +347,16 @@ public class User {
             ArrayList<Request> returnedRequests = new ArrayList<>();
             ArrayList<String> datesArray = ( ArrayList<String> ) Request.getDatesArray();
 
-            logger.info("Please enter the request ID you want to remove:\n");
+            logger.info("Please enter the number of the request you want to remove:\n");
             ResultSet rs = databaseService.executeQuery("SELECT * FROM Request WHERE userId ='" + this.getEmail() + "'", new ResultSetResultHandler());
             while ( rs.next() ){
-               returnedRequests.add(new Request(rs.getInt(1), rs.getInt(2), rs.getString(3), LocalDateTime.parse(rs.getString(4), formatter), rs.getString(5)));
+               String date =  rs.getString(4).substring(0, 19);
+               returnedRequests.add(new Request(rs.getInt(1), rs.getInt(2), rs.getString(3), LocalDateTime.parse(date, formatter), rs.getString(5)));
             }
 
             logger.info("\n");
+            for(int j=0; j<returnedRequests.size(); j++)
+                logger.info(j+1 + "- " + returnedRequests.get(j).toString());
             int requestID = scanner.nextInt();
             LocalDateTime removedDate = returnedRequests.get(requestID-1).getDate();
 

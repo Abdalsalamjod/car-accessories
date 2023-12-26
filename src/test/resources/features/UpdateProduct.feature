@@ -8,9 +8,9 @@ Feature: Admin updates a product
 
     Examples:
       | ExistingID |  NewPrice | NewQuantity |
-      | 1          |  199.99   | 10          |
-      | 2          |  29.99    | 20          |
-      | 3          |  50.0     | 8           |
+      | 1          |  150.0    | 15          |
+      | 2          |  39.99    | 30          |
+      | 3          |  40.0     | 8           |
 
 
 

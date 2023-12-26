@@ -29,6 +29,7 @@ public class Request {
     this.id = id;
     this.productId = productId;
     this.userId = userId;
+    date.format(DateTimeFormatter.ofPattern("%d- %s%n"));
     this.date = date;
     this.description = description;
     this.done=0;
@@ -91,11 +92,11 @@ public class Request {
 
   @Override
   public String toString(){
-    return  "ID: " + this.id+
-            "\nDate: " + this.date +
-            "\nUser Email :"+this.userId +
-            "\nProduct Id: " + this.productId +
-            "\nDescription: "+this.description +
+    return  "ID: " + this.id +
+            ",  Date: " + this.date +
+            ",  User Email :"+this.userId +
+            ",  ProductId: " + this.productId +
+            ",  Description: "+this.description +
             "\n\n";
   }
 

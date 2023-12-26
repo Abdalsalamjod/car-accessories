@@ -1,7 +1,7 @@
 package application.services;
 
-import application.dataBase.UserDefinedTypes.ProfileResultHandler;
-import application.dataBase.UserDefinedTypes.UserResultHandler;
+import application.database.user_defined_types.ProfileResultHandler;
+import application.database.user_defined_types.UserResultHandler;
 import application.entities.Admin;
 import application.entities.Installer;
 import application.entities.User;

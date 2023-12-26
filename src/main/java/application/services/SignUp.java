@@ -1,10 +1,8 @@
 package application.services;
 import application.Main;
-import application.dataBase.Premetive_Objects.IntResultHandler;
+import application.database.premitive_objects.IntResultHandler;
 import application.entities.Profile;
 import application.entities.User;
-
-import java.sql.SQLException;
 
 public class SignUp {
 

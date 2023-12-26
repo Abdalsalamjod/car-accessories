@@ -53,7 +53,7 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>2.2.224</version>
-<!--            <scope>test</scope>-->
+
         </dependency>
         <dependency>
             <groupId>com.sun.mail</groupId>
@@ -63,20 +63,19 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>4.5.1</version> <!-- Use the latest version -->
+            <version>4.5.1</version>
             <scope>test</scope>
         </dependency>
 </dependencies>
     <build>
 
 
-<!--         <pluginManagement> -->
+         <pluginManagement>
 
         <plugins>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
-                <configuration></configuration>
             </plugin>
             <!-- JaCoCo Plugin -->
             <plugin>
@@ -99,43 +98,13 @@
                 </executions>
             </plugin>
 
-            <!-- Ensure Surefire Plugin is set up for your tests -->
-            <!-- Add configuration as needed for your test framework -->
+
         </plugins>
-<!--      </pluginManagement> -->
+      </pluginManagement>
 
 
     </build>
-<!--<build>-->
-<!--         <pluginManagement>-->
-<!--                  <plugins>-->
-<!--                          &lt;!&ndash; The Surefire Plugin is needed to run JUnit 5 tests with Maven &ndash;&gt;-->
-<!--                           <plugin>-->
-<!--                                    <artifactId>maven-surefire-plugin</artifactId>-->
-<!--                                    <version>2.22.2</version>-->
-<!--                                    <configuration></configuration>-->
-<!--                           </plugin>-->
-<!--                           <plugin>-->
-<!--                                    <groupId>org.jacoco</groupId>-->
-<!--                                    <artifactId>jacoco-maven-plugin</artifactId>-->
-<!--                                    <executions>-->
-<!--                                             <execution>-->
-<!--                                                      <goals>-->
-<!--                                                               <goal>prepare-agent</goal>-->
-<!--                                                      </goals>-->
-<!--                                             </execution>-->
-<!--                                             <execution>-->
-<!--                                                      <id>report</id>-->
-<!--                                                      <phase>prepare-package</phase>-->
-<!--                                                      <goals>-->
-<!--                                                               <goal>report</goal>-->
-<!--                                                      </goals>-->
-<!--                                             </execution>-->
-<!--                                    </executions>-->
-<!--                           </plugin>-->
-<!--                  </plugins>-->
-<!--         </pluginManagement>-->
-<!--</build>-->
+
          
 
 </project>

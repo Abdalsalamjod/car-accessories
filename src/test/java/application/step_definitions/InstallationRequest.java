@@ -1,7 +1,7 @@
 package application.step_definitions;
 
-import application.dataBase.Premetive_Objects.ResultSetResultHandler;
-import application.dataBase.UserDefinedTypes.RequestResultHandler;
+import application.database.premitive_objects.ResultSetResultHandler;
+import application.database.user_defined_types.RequestResultHandler;
 import application.entities.Installer;
 import application.entities.Request;
 import application.services.DatabaseService;

@@ -1,5 +1,5 @@
-package application.dataBase.UserDefinedTypes;
-import application.dataBase.QueryResultHandler;
+package application.database.user_defined_types;
+import application.database.QueryResultHandler;
 import application.entities.Product;
 
 import java.sql.ResultSet;

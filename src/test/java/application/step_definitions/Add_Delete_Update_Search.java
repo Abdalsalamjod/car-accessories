@@ -1,6 +1,6 @@
 package application.step_definitions;
 
-import application.dataBase.UserDefinedTypes.ProductResultHandler;
+import application.database.user_defined_types.ProductResultHandler;
 import application.entities.Product;
 import application.services.DatabaseService;
 import io.cucumber.java.en.Then;

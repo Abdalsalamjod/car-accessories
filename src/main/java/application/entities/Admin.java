@@ -1,16 +1,13 @@
 package application.entities;
 
 import application.LoggerUtility;
-import application.dataBase.Premetive_Objects.ResultSetResultHandler;
-import application.dataBase.UserDefinedTypes.ProductResultHandler;
-import application.dataBase.UserDefinedTypes.UserResultHandler;
+import application.database.premitive_objects.ResultSetResultHandler;
+import application.database.user_defined_types.ProductResultHandler;
 import application.services.DatabaseService;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import static application.Main.scanner;
 import static application.services.MessagesGenerator.logger;
@@ -43,7 +40,7 @@ public class Admin extends User{
                     rs = Product.getAllProducts(dbs);
                     while ( rs.next() ) {
                         returnedProduct = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getInt(5));
-                        logger.info(returnedProduct + "\n");
+                        logger.info(returnedProduct.toString());
                     }
                 }
                 case 2 -> {

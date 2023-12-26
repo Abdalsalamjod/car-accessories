@@ -63,7 +63,9 @@ public class MainUtility {
                     List<User> users =currentAdmin.viewUsers(databaseService);
 
                     User selectedUser=null ;
-                    logger.info("select user id: ");
+
+                    logger.info("\nselectd user id: ");
+
                     String tempId=scanner.nextLine();
                     for (User user: users)
                         if(user.getEmail().equals(tempId))
@@ -71,20 +73,29 @@ public class MainUtility {
 
 
                     int choice;
-                    while (iterator2){
+                    while (iterator2) {
                         MessagesGenerator.listGenerator("ViewAndManageCustomersAccounts");
                         choice = scanner.nextInt();
-                        if(choice==8){
-                            iterator2=false;
+
+                        scanner.nextLine();
+
+                        if (choice == 8) {
+                            iterator2 = false;
                             continue;
                         }
-                        logger.info("Enter new value to update: ");
-                        String newValue = scanner.nextLine();
-                        if(selectedUser != null)
-                            currentAdmin.manageAcounts(databaseService,selectedUser,choice,newValue);
+                        if (choice != 1)
+                            logger.info("Enter new value to update: ");
+
+                        String newValue = scanner.nextLine();  // Now this should wait for user input
+                        logger.info("\n");
+
+                        if (selectedUser != null)
+                            currentAdmin.manageAcounts(databaseService, selectedUser, choice, newValue);
                         else
                             logger.severe("please enter valid email\n");
+
                     }
+
                 }
                 case 3 -> {
 

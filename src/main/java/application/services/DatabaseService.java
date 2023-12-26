@@ -86,7 +86,6 @@ public class DatabaseService implements Serializable {
       for (int i = 0; i < fieldsLength; i++) {
         fields[i].setAccessible(true);
             statement.setObject(i + 1, fields[i].get(object).toString());
-
       }
 
       statement.executeUpdate();
@@ -96,7 +95,6 @@ public class DatabaseService implements Serializable {
     }catch ( Exception e ){
       return false;
     }
-
 
   }
 
@@ -113,9 +111,6 @@ public class DatabaseService implements Serializable {
   }
 
   public  <T> void updateObject(T object, String tableName, String primaryKeyField) throws Exception {
-
-
-
     StringBuilder updateQuery = new StringBuilder("UPDATE " + tableName + " SET ");
 
     Field[] fields = object.getClass().getDeclaredFields();
@@ -126,7 +121,7 @@ public class DatabaseService implements Serializable {
           updateQuery.append("profileId").append(" = ?");
         else
           updateQuery.append(fields[i].getName()).append(" = ?");
-        if (i < fields.length - 1) {
+        if (i < fieldsLength - 1) {
           updateQuery.append(", ");
         }
       }
@@ -135,28 +130,31 @@ public class DatabaseService implements Serializable {
 
     PreparedStatement statement ;
 
-      statement = connection.prepareStatement(updateQuery.toString());
+    statement = connection.prepareStatement(updateQuery.toString());
 
 
-      int paramIndex = 1;
-      for (Field field : fields) {
-        if (!field.getName().equals(primaryKeyField)) {
-          field.setAccessible(true);
-          if (field.getName().equals(LITERAL_FOR_PROFILE) || field.getName().equals("role"))
-            statement.setObject(paramIndex, field.get(object).toString());
-          else
-            statement.setObject(paramIndex, field.get(object));
-          paramIndex++;
-        }
+    int paramIndex = 1;
+    for(int i=0; i<fieldsLength; i++){
+      if (!fields[i].getName().equals(primaryKeyField)) {
+        fields[i].setAccessible(true);
+        if (fields[i].getName().equals(LITERAL_FOR_PROFILE) || fields[i].getName().equals("role"))
+          statement.setObject(paramIndex, fields[i].get(object).toString());
+        else
+          statement.setObject(paramIndex, fields[i].get(object));
+        paramIndex++;
       }
-
-
-      Field primaryKey = object.getClass().getDeclaredField(primaryKeyField);
-      primaryKey.setAccessible(true);
-      statement.setObject(paramIndex, primaryKey.get(object));
-
-      statement.executeUpdate();
-      statement.close();
     }
+
+
+
+
+
+    Field primaryKey = object.getClass().getDeclaredField(primaryKeyField);
+    primaryKey.setAccessible(true);
+    statement.setObject(paramIndex, primaryKey.get(object));
+
+    statement.executeUpdate();
+    statement.close();
+  }
 
 }

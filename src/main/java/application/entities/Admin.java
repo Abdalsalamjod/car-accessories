@@ -1,6 +1,7 @@
 package application.entities;
 
 import application.LoggerUtility;
+
 import application.database.premitive_objects.ResultSetResultHandler;
 import application.database.user_defined_types.ProductResultHandler;
 import application.services.DatabaseService;
@@ -107,6 +108,7 @@ public class Admin extends User{
     }
 
     public void manageAcounts(DatabaseService dbs, User user ,int option, String newValue) {
+
         switch (option){
 
             case 1 ->{
@@ -143,16 +145,19 @@ public class Admin extends User{
             while ( resultSet.next() ) {
                 user = new User(resultSet.getString("email"),
                         resultSet.getString("password"),
-                        resultSet.getString(role).charAt(0),
+                        resultSet.getString("role").charAt(0),
                         resultSet.getBoolean("signInStatus"),
                         resultSet.getInt("profileId")
                 );
+                Profile profile1 =dbs.executeQuery("SELECT * FROM `Profile` WHERE `profileID` = "+user.getProfile(),new application.database.user_defined_types.ProfileResultHandler());
+                user.setProfile(profile1);
                 users.add(user);
                 user.showDetails(logger);
-                logger.info("Password: "+ user.getPassword());
+                logger.info("\nPassword: "+ user.getPassword()+"\n");
             }
         } catch (SQLException e) {
-            logger.severe("Error: in viewUsers ");
+            logger.severe("Error: in viewUsers \n");
+            e.printStackTrace();
         }
         return users;
     }

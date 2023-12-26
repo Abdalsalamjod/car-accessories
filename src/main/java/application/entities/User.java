@@ -14,7 +14,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-import static application.Main.scanner;
+
+import static application.Main.*;
 import static application.services.MessagesGenerator.logger;
 import static java.lang.System.exit;
 
@@ -62,10 +63,10 @@ public class User {
                 logger.info("The current name is: " + this.getProfileObject().getName());
                 this.getProfileObject().setName(newValue);
                 try {
-                    dbs.updateObject(profile,"Profile","profileId");
+                    dbs.updateObject(profile,PROFILE,PROFILE_ID);
                     logger.info("Updated name to: " + newValue);
                 } catch (Exception e) {
-                   logger.severe("Error: in editDetails\n ");
+                   logger.severe(EDIT_DETAILES_ERROR);
                 }
             }
             case 2 -> {
@@ -76,7 +77,7 @@ public class User {
                             dbs.updateObject(this,"user","email");
                             logger.info("Updated email to: " + newValue);
                         } catch (Exception e) {
-                            logger.severe("Error: in editDetails\n ");
+                            logger.severe(EDIT_DETAILES_ERROR);
                         }
                     } else {
                         logger.info("Error: exist or invalid email, try again!");
@@ -91,17 +92,17 @@ public class User {
                     logger.info("Password updated.");
 
                 } catch (Exception e) {
-                    logger.severe("Error: in editDetails\n ");
+                    logger.severe(EDIT_DETAILES_ERROR);
                 }
             }
             case 4 -> {
                 logger.info("The current location is: " + this.getProfileObject().getLocation());
                 this.getProfileObject().setLocation(newValue);
                 try {
-                    dbs.updateObject(profile,"Profile","profileId");
+                    dbs.updateObject(profile,PROFILE,PROFILE_ID);
                     logger.info("Updated location to: " + newValue);
                 } catch (Exception e) {
-                    logger.severe("Error: in editDetails\n ");
+                    logger.severe(EDIT_DETAILES_ERROR);
                 }
 
             }
@@ -109,10 +110,10 @@ public class User {
                 logger.info("The current Phone Number is: " + this.getProfileObject().getPhoneNumber());
                 this.getProfileObject().setPhoneNumber(newValue);
                 try {
-                    dbs.updateObject(profile,"Profile","profileId");
+                    dbs.updateObject(profile,PROFILE,PROFILE_ID);
                     logger.info("Updated phone number to: " + newValue);
                 } catch (Exception e) {
-                    logger.severe("Error: in editDetails\n ");
+                    logger.severe(EDIT_DETAILES_ERROR);
                 }
             }
             default -> {
@@ -179,12 +180,15 @@ public class User {
         List<Request> availableRequests =new ArrayList<>();
 
         try {
-            resultSet=  databaseService.executeQuery("SELECT * FROM `Request` WHERE `done` =true AND `userId`="+this.email , new ResultSetResultHandler());
+            resultSet=  databaseService.executeQuery("SELECT * FROM `Request` WHERE `done` = true AND `userId`= "+this.email , new ResultSetResultHandler());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
             while ( resultSet.next() ) {
+                String date =  resultSet.getString(4).substring(0, 19);
                 request= new Request(resultSet.getInt(1),
                         resultSet.getInt(2),
                         resultSet.getString(3),
-                        resultSet.getDate(4).toLocalDate().atTime(LocalTime.MIDNIGHT),
+                        LocalDateTime.parse(date, formatter),
                         resultSet.getString(5));
 
                 Main.logger.info(request.toString());
@@ -199,21 +203,27 @@ public class User {
         Request request;
         List<Request> availableRequests =new ArrayList<>();
 
+
         try {
-            resultSet=  databaseService.executeQuery("SELECT * FROM `Request` WHERE `done` =false AND `userId`="+this.email , new ResultSetResultHandler());
-            while ( resultSet.next() ) {
-                request= new Request(resultSet.getInt(1),
+            resultSet = databaseService.executeQuery("SELECT * FROM `Request` WHERE `selected` = true AND `userId`= "+this.email , new ResultSetResultHandler());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            while (resultSet.next()) {
+                String date =  resultSet.getString(4).substring(0, 19);
+                request = new Request(resultSet.getInt(1),
                         resultSet.getInt(2),
                         resultSet.getString(3),
-                        resultSet.getDate(4).toLocalDate().atTime(LocalTime.MIDNIGHT),
-                        resultSet.getString(5));
+                        LocalDateTime.parse(date, formatter),
+                        resultSet.getString(5)
+                );
 
                 Main.logger.info(request.toString());
                 availableRequests.add(request);
             }
-        } catch (SQLException e) {
-            Main.logger.info("something went wrong\n");
+
+        } catch (Exception e) {
+            Main.logger.severe("something went wrong\n");
         }
+
         return availableRequests;
     }
 

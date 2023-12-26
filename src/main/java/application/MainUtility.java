@@ -8,7 +8,7 @@ import static application.services.MessagesGenerator.logger;
 
 
 public class MainUtility {
-
+    private static final String etc ="1, 2, ... 4.\n";
     private static final String PLEASE_ENTER_VALID = "Invalid choice! \nPlease enter ";
     public static void userUtility(DatabaseService databaseService, User currentUser){
 
@@ -101,7 +101,7 @@ public class MainUtility {
 
                 }
                 case 4 -> iterator = false;
-                default -> logger.info(PLEASE_ENTER_VALID + "1, 2, ... 4.\n");
+                default -> logger.info(PLEASE_ENTER_VALID + etc);
             }
 
         }
@@ -120,7 +120,7 @@ public class MainUtility {
                 case "2" -> currentInstaller.ScheduleAppointments(databaseService,scanner,false,"");
                 case "3" -> currentInstaller.markAsDone(databaseService,scanner,false,"");
                 case "4" -> iterator = false;
-                default  -> logger.info( PLEASE_ENTER_VALID + "1, 2, ... 4.\n");
+                default  -> logger.info( PLEASE_ENTER_VALID + etc);
             }
         }
     }
@@ -172,7 +172,7 @@ public class MainUtility {
                     iterator=false;
                     break;
                 default:
-                    logger.info(PLEASE_ENTER_VALID + "1, 2, ... 4.\n");
+                    logger.info(PLEASE_ENTER_VALID + etc);
             }
         }
     }

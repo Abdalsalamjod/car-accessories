@@ -21,11 +21,14 @@ public class ValidationUser {
     public static int validation(String email, String password,DatabaseService dbs) {
         if (email == null || email.isEmpty()) {
             return NULL_EMAIL;
-        }  if (!isValidEmail(email)) {
+        }
+        if (!isValidEmail(email)) {
             return INVALID_EMAIL;
-        }  if (!isExistEmail(email,dbs)) {
+        }
+        if (!isExistEmail(email,dbs)) {
             return EMAIL_NOT_EXIST;
-        }  if (!isExistPassword(email,password,dbs)) {
+        }
+        if (!isExistPassword(email,password,dbs)) {
             return INVALID_PASSWORD;
         }
         return VALID;

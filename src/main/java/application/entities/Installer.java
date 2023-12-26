@@ -11,9 +11,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import static application.Main.*;
 import static application.Main.logger;
 
 public class Installer extends User{
+
     public Installer() {
         super();
     }
@@ -33,7 +36,7 @@ public class Installer extends User{
         availableRequests =new ArrayList<>();
 
         try {
-            resultSet=  dbs.executeQuery("SELECT * FROM `Request` WHERE `done` = false" , new ResultSetResultHandler());
+            resultSet=  dbs.executeQuery("SELECT * FROM `"+ REQUEST +"` WHERE `done` = false" , new ResultSetResultHandler());
             while ( resultSet.next() ) {
                 request= new Request(resultSet.getInt(1),
                         resultSet.getInt(2),
@@ -58,7 +61,7 @@ public class Installer extends User{
         availableRequests.clear();
 
         try {
-            resultSet = databaseService.executeQuery("SELECT * FROM `Request` WHERE `selected` = true", new ResultSetResultHandler());
+            resultSet = databaseService.executeQuery("SELECT * FROM `"+ REQUEST +"` WHERE `selected` = true", new ResultSetResultHandler());
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             while (resultSet.next()) {
                 String date =  resultSet.getString(4).substring(0, 19);
@@ -100,7 +103,7 @@ public class Installer extends User{
                         try {
                           request.setSelected(1);
 //                          logger.info("updated sucessefully\n");
-                            databaseService.updateObject(request, "Request", "id");
+                            databaseService.updateObject(request, REQUEST, "id");
                             continueLoop = false;
                         }
                         catch (SQLException e) {
@@ -143,7 +146,7 @@ public class Installer extends User{
                         exist = true;
                         request.setDone(1);
 //                        logger.info("updated sucessefully\n");
-                        databaseService.updateObject(request, "Request", "id");
+                        databaseService.updateObject(request, REQUEST, "id");
                         continueLoop = false; // Exit loop after successful update
                         break;
                     }
@@ -162,7 +165,7 @@ public class Installer extends User{
     public static void createNewRequest(Request request, DatabaseService dbs){
 
         try {
-            dbs.addObject(request, "Request");
+            dbs.addObject(request, REQUEST);
         } catch ( SQLException e ) {
             logger.info(e.getMessage());
         }
@@ -171,7 +174,7 @@ public class Installer extends User{
 
     public static void deleteExistingRequest(int id, DatabaseService dbs){
         try {
-            dbs.deleteObject(id, "Request");
+            dbs.deleteObject(id, REQUEST);
         } catch ( SQLException e ) {
             logger.info(e.getMessage());
         }

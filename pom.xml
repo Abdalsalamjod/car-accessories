@@ -70,7 +70,6 @@
     <build>
 
 <!--         <pluginManagement>-->
-
         <plugins>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>

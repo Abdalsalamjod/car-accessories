@@ -1,6 +1,10 @@
 package application;
 import application.entities.*;
 import application.services.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static application.Main.scanner;
 import static application.services.MessagesGenerator.logger;
 
@@ -55,8 +59,35 @@ public class MainUtility {
                     currentAdmin.manageProducts(browsOption, databaseService);
                 }
                 case 2 -> {
+                    boolean iterator2 = true;
+                    List<User> users =currentAdmin.viewUsers(databaseService);
+
+                    User selectedUser=null ;
+                    logger.info("selectd user id: ");
+                    String tempId=scanner.nextLine();
+                    for (User user: users)
+                        if(user.getEmail().equals(tempId))
+                            selectedUser = user;
+
+
+                    int choice;
+                    while (iterator2){
+                        MessagesGenerator.listGenerator("ViewAndManageCustomersAccounts");
+                        choice = scanner.nextInt();
+                        if(choice==8){
+                            iterator2=false;
+                            continue;
+                        }
+                        logger.info("Enter new value to update: ");
+                        String newValue = scanner.nextLine();
+                        if(selectedUser != null)
+                            currentAdmin.manageAcounts(databaseService,selectedUser,choice,newValue);
+                        else
+                            logger.severe("pleses entar vaild email\n");
+                    }
                 }
                 case 3 -> {
+
                 }
                 case 4 -> iterator = false;
                 default -> logger.info("Invalid choice! \nPlease enter 1, 2, ... 4.\n");
@@ -104,7 +135,7 @@ public class MainUtility {
         if (validationStatus == ValidationUser.VALID)
         {
             SignIn signIn = new SignIn(email, password, false, validationStatus);
-            return  signIn.performLogIn(new DatabaseService());
+            return signIn.performLogIn(new DatabaseService());
         }
         return null;
     }

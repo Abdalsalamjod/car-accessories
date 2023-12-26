@@ -13,6 +13,7 @@ public class DatabaseService implements Serializable {
   private final String LITERAL_FOR_PROFILE = "profile";
   private static Connection connection;
 
+
  private static final String DATABASE_NAME_AND_USER  = "sql12654012";
  private static final String DATABASE_PASSWORD = "wzRUn4Cfmj";
 
@@ -37,6 +38,7 @@ public class DatabaseService implements Serializable {
     // }
 
    
+
 
   public void closeConnection() {
     if (connection != null) {

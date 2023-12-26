@@ -93,7 +93,6 @@ public class Installer extends User{
                     if (request.getId() == requestIdInt) {
                         exist = true;
 
-                        
                         try {
                           request.setSelected(1);
                           request.setDone(1);

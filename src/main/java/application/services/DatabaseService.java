@@ -52,16 +52,16 @@ public class DatabaseService implements Serializable {
 
   public <T> T executeQuery(String query, QueryResultHandler<T> resultHandler) throws SQLException{
 
-   try{
+   // try{
      ResultSet resultSet;
      PreparedStatement statement ;
 
      statement = connection.prepareStatement(query);
      resultSet = statement.executeQuery();
      return resultHandler.handle(resultSet);
-   }catch ( SQLException e ){
-    return null;
-   }
+   // }catch ( SQLException e ){
+   //  return null;
+   // }
 
   }
 
@@ -94,8 +94,11 @@ public class DatabaseService implements Serializable {
     }
     insertQuery.append(")");
 
+
     //replace ? with actual values
     try{
+
+
       PreparedStatement statement = connection.prepareStatement(insertQuery.toString());
       for (int i = 0; i < fieldsLength; i++) {
         fields[i].setAccessible(true);
@@ -114,6 +117,7 @@ public class DatabaseService implements Serializable {
     }catch ( Exception e ){
       return false;
     }
+
 
   }
 

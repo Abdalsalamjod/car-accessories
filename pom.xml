@@ -70,7 +70,7 @@
     <build>
 
 
-<!--         <pluginManagement>-->
+<!--         <pluginManagement> -->
 
         <plugins>
             <plugin>
@@ -102,7 +102,7 @@
             <!-- Ensure Surefire Plugin is set up for your tests -->
             <!-- Add configuration as needed for your test framework -->
         </plugins>
-<!--      </pluginManagement>-->
+<!--      </pluginManagement> -->
 
 
     </build>

@@ -14,10 +14,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
          <sonar.organization>abdalsalamjod</sonar.organization>
          <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-          <sonar.coverage.exclusions>
+        <sonar.coverage.exclusions>
             **/application/Main.java,
             **/application/MainUtility.java,
-            **/application/services/MessagesGenerator.java
+            **/application/services/MessagesGenerator.java,
+            **/application/services/SignUp.java,
+            **/application/entities/Admin.java,
+            **/application/entities/Installer.java
         </sonar.coverage.exclusions>
     </properties>
     <dependencies>

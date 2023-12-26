@@ -1,4 +1,5 @@
 package application.services;
+import application.Main;
 import application.dataBase.Premetive_Objects.IntResultHandler;
 import application.entities.Profile;
 import application.entities.User;
@@ -29,10 +30,10 @@ public class SignUp {
     }
 
 
-    public void creatAccount() {
+    public void creatAccount(DatabaseService dbs) {
         int lastProfieID;
         if (validationStatus == 0) {
-            DatabaseService dbs =new DatabaseService();
+
             try {
                 lastProfieID= dbs.executeQuery("SELECT MAX(`profileId`) FROM Profile",new IntResultHandler());
                 profile.setProfileId(lastProfieID+1);
@@ -40,8 +41,8 @@ public class SignUp {
                 dbs.addObject(profile,"Profile");
                 dbs.addObject(tempUser,"user");
 
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
+            } catch (Exception e) {
+                Main.logger.severe("Error: in creatAccount\n");
             }
             this.hasAccount = true;
         }
@@ -51,8 +52,8 @@ public class SignUp {
         }
     }
     public User performLogIn() {
-      signIn=new SignIn(email, password, "user", false, validationStatus);
-      return signIn.performLogIn();
+      signIn=new SignIn(email, password, false, validationStatus);
+      return signIn.performLogIn(new DatabaseService());
     }
 
 }

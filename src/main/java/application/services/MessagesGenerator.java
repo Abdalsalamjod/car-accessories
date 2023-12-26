@@ -116,6 +116,18 @@ public class MessagesGenerator {
                 logger.info("4. Exit\n");
                 logger.info(SELECT_OPTION);
             }
+            case "ViewAndManageCustomersAccounts" -> {
+                logger.info(MENU);
+                logger.info("1. View user details\n");
+                logger.info("2. Edit user name\n");
+                logger.info("3. Edit user Email\n");
+                logger.info("4. Edit user password\n");
+                logger.info("5. Edit user location\n");
+                logger.info("6. Edit user contact information\n");
+                logger.info("7. Delete user account\n");
+                logger.info("8. Exit\n");
+                logger.info(SELECT_OPTION);
+            }
             default->{
 
             }

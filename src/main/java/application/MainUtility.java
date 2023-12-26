@@ -1,6 +1,10 @@
 package application;
 import application.entities.*;
 import application.services.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static application.Main.scanner;
 import static application.services.MessagesGenerator.logger;
 
@@ -21,7 +25,11 @@ public class MainUtility {
                    MessagesGenerator.listGenerator("editProfile");
                    int optionIn = scanner.nextInt();
                    scanner.nextLine();  // Consume the newline
-                   currentUser.editDetails(optionIn, logger, scanner);
+//                   currentUser.editDetails(optionIn, logger, scanner);
+//                   for test
+                   logger.info("what is the new value: ");
+                   String newValue =scanner.nextLine();
+                   currentUser.editDetails(optionIn, newValue,logger);
                }
                case "4" -> currentUser.viewInstallationRequests(databaseService);
                case "5" -> currentUser.viewRequisitesHistory(databaseService);
@@ -51,8 +59,35 @@ public class MainUtility {
                     currentAdmin.manageProducts(browsOption, databaseService);
                 }
                 case 2 -> {
+                    boolean iterator2 = true;
+                    List<User> users =currentAdmin.viewUsers(databaseService);
+
+                    User selectedUser=null ;
+                    logger.info("selectd user id: ");
+                    String tempId=scanner.nextLine();
+                    for (User user: users)
+                        if(user.getEmail().equals(tempId))
+                            selectedUser = user;
+
+
+                    int choice;
+                    while (iterator2){
+                        MessagesGenerator.listGenerator("ViewAndManageCustomersAccounts");
+                        choice = scanner.nextInt();
+                        if(choice==8){
+                            iterator2=false;
+                            continue;
+                        }
+                        logger.info("Enter new value to update: ");
+                        String newValue = scanner.nextLine();
+                        if(selectedUser != null)
+                            currentAdmin.manageAcounts(databaseService,selectedUser,choice,newValue);
+                        else
+                            logger.severe("pleses entar vaild email\n");
+                    }
                 }
                 case 3 -> {
+
                 }
                 case 4 -> iterator = false;
                 default -> logger.info("Invalid choice! \nPlease enter 1, 2, ... 4.\n");
@@ -71,8 +106,8 @@ public class MainUtility {
             switch ( option ){
 
                 case "1" -> currentInstaller.viewInstallationRequests(databaseService);
-                case "2" -> currentInstaller.ScheduleAppointments(databaseService);
-                case "3" -> currentInstaller.markAsDone(databaseService);
+                case "2" -> currentInstaller.ScheduleAppointments(databaseService,scanner,false,"");
+                case "3" -> currentInstaller.markAsDone(databaseService,scanner,false,"");
                 case "4" -> iterator = false;
                 default  -> logger.info("Invalid choice! \nPlease enter 1, 2, ... 4.\n");
             }
@@ -81,7 +116,7 @@ public class MainUtility {
 
     public static int signUpUtility(String email,String password){
         String Name,location,phoneNumber;
-        int validationStatus = ValidationUser.validation(email, password);
+        int validationStatus = ValidationUser.validation(email, password,new DatabaseService());
         if (validationStatus == ValidationUser.VALID) {
             logger.info("Please enter your name: ");
             Name=scanner.nextLine();
@@ -91,7 +126,7 @@ public class MainUtility {
             phoneNumber=scanner.nextLine();
             Profile profile=new Profile(-1,Name,phoneNumber,location);
             SignUp signUp = new SignUp(email,password,false,validationStatus,profile);
-            signUp.creatAccount();
+            signUp.creatAccount(new DatabaseService());
         }
         return validationStatus;
     }
@@ -99,8 +134,8 @@ public class MainUtility {
     public static User signInUtility(String email, String password,int validationStatus ){
         if (validationStatus == ValidationUser.VALID)
         {
-            SignIn signIn = new SignIn(email, password, "", false, validationStatus);
-            return  signIn.performLogIn();
+            SignIn signIn = new SignIn(email, password, false, validationStatus);
+            return signIn.performLogIn(new DatabaseService());
         }
         return null;
     }

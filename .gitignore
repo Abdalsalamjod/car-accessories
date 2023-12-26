@@ -22,6 +22,8 @@ target/
 .idea/shelf
 .idea/inspectionProfiles
 .DS_Store
+# Local configuration
+config.properties
 
 ### Eclipse ###
 .apt_generated

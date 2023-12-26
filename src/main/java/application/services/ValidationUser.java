@@ -21,14 +21,14 @@ public class ValidationUser {
     public static final int INVALID = 5;
     public static final int OTHER_ERROR = -1;
 
-    public static int validation(String email, String password) {
+    public static int validation(String email, String password,DatabaseService dbs) {
         if (email == null || email.isEmpty()) {
             return NULL_EMAIL;
-        } else if (!isValidEmail(email)) {
+        }  if (!isValidEmail(email)) {
             return INVALID_EMAIL;
-        } else if (!isExistEmail(email)) {
+        }  if (!isExistEmail(email,dbs)) {
             return EMAIL_NOT_EXIST;
-        } else if (!isExistPassword(email,password)) {
+        }  if (!isExistPassword(email,password,dbs)) {
             return INVALID_PASSWORD;
         }
         return VALID;
@@ -38,30 +38,22 @@ public class ValidationUser {
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
-    public static boolean isExistEmail(String email) {
-        DatabaseService dbs =new DatabaseService();
+    public static boolean isExistEmail(String email,DatabaseService dbs) {
         try {
             String string =dbs.executeQuery("SELECT `password` FROM `user` WHERE `email` = '"+email+"'",new StringResultHandler());
-            if (string.isEmpty()) return false;
-                return true;
-        } catch (SQLException e) {
+            return !string.isEmpty();
+        } catch (Exception e ) {
 
             logger.severe("SQLException in isExistEmail");
-        } finally {
-            dbs.closeConnection();
         }
         return false;
     }
-    public static boolean isExistPassword(String email,String password) {
-        DatabaseService dbs = new DatabaseService();
+    public static boolean isExistPassword(String email,String password,DatabaseService dbs) {
         try {
             String string = dbs.executeQuery("SELECT `password` FROM `user` WHERE `email` = '" + email + "'", new StringResultHandler());
-            if (string.equals(password)) return true;
-            return false;
-        } catch (SQLException e) {
+            return string.equals(password);
+        } catch (Exception e) {
             logger.severe("SQLException in isExistPassword");
-        } finally {
-            dbs.closeConnection();
         }
         return false;
     }

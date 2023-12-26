@@ -1,18 +1,20 @@
 package application.services;
 
+import application.Main;
 import application.entities.User;
 
 public class LogOut {
-        public User performLogout(User user) {
+    public static String goodBayMessage= "Thank you to use our app, Have a nice Day ^_^";
+    public static String warningMessage= "Error: sth wrong happened, try again";
 
-           DatabaseService dbs =new DatabaseService();
+    public User performLogout(User user,DatabaseService dbs) {
            user.setSignInStatus(false);
             try {
                 dbs.updateObject(user,"user","email");
+                user =null;
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                Main.logger.severe(warningMessage);
             }
-            user =null;
            return user;
         }
 }

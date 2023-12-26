@@ -99,15 +99,15 @@ public class Installer extends User{
 
                         try {
                           request.setSelected(1);
-                          logger.info("updated sucessefully\n");
-//                            databaseService.updateObject(request, "Request", "id");
+//                          logger.info("updated sucessefully\n");
+                            databaseService.updateObject(request, "Request", "id");
                             continueLoop = false;
                         }
-//                        catch (SQLException e) {
-////                            logger.severe("Error updating the request: " + e.getMessage());
-//                            break; }
+                        catch (SQLException e) {
+                            logger.severe("Error updating the request: " + e.getMessage());
+                            break; }
                          catch (Exception e) {
-//                            logger.severe("An unexpected error occurred: " + e.getMessage());
+                            logger.severe("An unexpected error occurred: " + e.getMessage());
                         }
                         break;
                     }
@@ -142,8 +142,8 @@ public class Installer extends User{
                     if (request.getId() == Integer.parseInt(requestId)) {
                         exist = true;
                         request.setDone(1);
-                        logger.info("updated sucessefully\n");
-//                        databaseService.updateObject(request, "Request", "id");
+//                        logger.info("updated sucessefully\n");
+                        databaseService.updateObject(request, "Request", "id");
                         continueLoop = false; // Exit loop after successful update
                         break;
                     }

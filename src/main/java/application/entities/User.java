@@ -62,7 +62,7 @@ public class User {
                 logger.info("The current name is: " + this.getProfileObject().getName());
                 this.getProfileObject().setName(newValue);
                 try {
-//                    dbs.updateObject(profile,"Profile","profileId");
+                    dbs.updateObject(profile,"Profile","profileId");
                     logger.info("Updated name to: " + newValue);
                 } catch (Exception e) {
                    logger.severe("Error: in editDetails\n ");
@@ -73,7 +73,7 @@ public class User {
                     if (ValidationUser.isValidEmail(newValue) && !ValidationUser.isExistEmail(newValue, new DatabaseService())) {
                         this.setEmail(newValue);
                         try {
-//                            dbs.updateObject(this,"user","email");
+                            dbs.updateObject(this,"user","email");
                             logger.info("Updated email to: " + newValue);
                         } catch (Exception e) {
                             logger.severe("Error: in editDetails\n ");
@@ -87,7 +87,7 @@ public class User {
                 logger.info("Updating password...");
                 this.setPassword(newValue);
                 try {
-//                    dbs.updateObject(this,"user","email");
+                    dbs.updateObject(this,"user","email");
                     logger.info("Password updated.");
 
                 } catch (Exception e) {
@@ -98,7 +98,7 @@ public class User {
                 logger.info("The current location is: " + this.getProfileObject().getLocation());
                 this.getProfileObject().setLocation(newValue);
                 try {
-//                    dbs.updateObject(profile,"Profile","profileId");
+                    dbs.updateObject(profile,"Profile","profileId");
                     logger.info("Updated location to: " + newValue);
                 } catch (Exception e) {
                     logger.severe("Error: in editDetails\n ");
@@ -109,16 +109,12 @@ public class User {
                 logger.info("The current Phone Number is: " + this.getProfileObject().getPhoneNumber());
                 this.getProfileObject().setPhoneNumber(newValue);
                 try {
-//                    dbs.updateObject(profile,"Profile","profileId");
+                    dbs.updateObject(profile,"Profile","profileId");
                     logger.info("Updated phone number to: " + newValue);
                 } catch (Exception e) {
                     logger.severe("Error: in editDetails\n ");
                 }
             }
-            case 7 -> {
-
-            }
-
             default -> {
                 // Handle default case
                 logger.info("Invalid option.");

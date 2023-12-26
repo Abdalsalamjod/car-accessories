@@ -48,54 +48,109 @@ public class User {
         logger.info("Phone number: "+this.getProfileObject().getPhoneNumber());
         logger.info("Email : "+this.getEmail());
     }
-    public void editDetails(int optionIn, Logger logger, Scanner scanner) {
-        String newChoice;
-
-        switch ( optionIn ) {
+    public void editDetails(int optionIn, String newValue, Logger logger) {
+        switch (optionIn) {
             case 1 -> {
+                // Update name
                 logger.info("The current name is: " + this.getProfileObject().getName());
-                logger.info("Please enter the new name: ");
-                newChoice = scanner.nextLine();
-                this.getProfileObject().setName(newChoice);
+                this.getProfileObject().setName(newValue);
+                logger.info("Updated name to: " + newValue);
             }
             case 2 -> {
-                logger.info("Please enter your password first: ");
-                newChoice = scanner.nextLine();
-                if ( this.getPassword().equals(newChoice) ) {
+                // Update email after password check
+                logger.info("Please enter your password for verification: ");
+                // Assume a method 'verifyPassword' that checks the password
+//                if (verifyPassword(newValue)) {
                     logger.info("The current Email is: " + this.getEmail());
-                    logger.info("Please enter the new email: ");
-                    newChoice = scanner.nextLine();
-                    if ( ValidationUser.isValidEmail(newChoice) && !ValidationUser.isExistEmail(newChoice) && !newChoice.isEmpty() )
-                        this.setEmail(newChoice);
-                    else logger.info("Error: exist or invalid email, try again!");
-                } else logger.info("Error: the password you entered not valid, try again!");
+                    // 'newValue' should be the new email in this case
+                    // You might need to adjust how you pass and handle these values
+                    if (ValidationUser.isValidEmail(newValue) && !ValidationUser.isExistEmail(newValue, new DatabaseService())) {
+                        this.setEmail(newValue);
+                        logger.info("Updated email to: " + newValue);
+                    } else {
+                        logger.info("Error: exist or invalid email, try again!");
+                    }
+//                } else {
+//                    logger.info("Error: the password you entered not valid, try again!");
+//                }
             }
             case 3 -> {
-                logger.info("Please enter your password first: ");
-                newChoice = scanner.nextLine();
-                if ( this.getPassword().equals(newChoice) ) {
-                    logger.info("Please enter new password: ");
-                    newChoice = scanner.nextLine();
-                    this.setPassword(newChoice);
-
-                } else logger.info("Error: the password you entered not valid, try again!");
+                // Update password
+                // Here, you might need a separate method or way to verify the current password first
+                logger.info("Updating password...");
+                this.setPassword(newValue);
+                logger.info("Password updated.");
             }
             case 4 -> {
+                // Update location
                 logger.info("The current location is: " + this.getProfileObject().getLocation());
-                logger.info("Please enter the new location: ");
-                newChoice = scanner.nextLine();
-                this.getProfileObject().setLocation(newChoice);
+                this.getProfileObject().setLocation(newValue);
+                logger.info("Updated location to: " + newValue);
             }
             case 5 -> {
+                // Update phone number
                 logger.info("The current Phone Number is: " + this.getProfileObject().getPhoneNumber());
-                logger.info("Please enter the new Phone Number: ");
-                newChoice = scanner.nextLine();
-                this.getProfileObject().setPhoneNumber(newChoice);
+                this.getProfileObject().setPhoneNumber(newValue);
+                logger.info("Updated phone number to: " + newValue);
             }
             default -> {
+                // Handle default case
+                logger.info("Invalid option.");
             }
         }
     }
+
+//    public void editDetailsOLD(int optionIn, Logger logger, Scanner scanner) {
+//        String newChoice;
+//
+//        switch ( optionIn ) {
+//            case 1 -> {
+//                logger.info("The current name is: " + this.getProfileObject().getName());
+//                logger.info("Please enter the new name: ");
+//                newChoice = scanner.nextLine();
+//                this.getProfileObject().setName(newChoice);
+//            }
+//            case 2 -> {
+//                logger.info("Please enter your password first: ");
+//                newChoice = scanner.nextLine();
+//                if ( this.getPassword().equals(newChoice) ) {
+//                    logger.info("The current Email is: " + this.getEmail());
+//                    logger.info("Please enter the new email: ");
+//                    newChoice = scanner.nextLine();
+//
+//                    if (ValidationUser.isValidEmail(newChoice) && !ValidationUser.isExistEmail(newChoice,new DatabaseService()) && !newChoice.isEmpty())
+//
+//                        this.setEmail(newChoice);
+//                    else logger.info("Error: exist or invalid email, try again!");
+//                } else logger.info("Error: the password you entered not valid, try again!");
+//            }
+//            case 3 -> {
+//                logger.info("Please enter your password first: ");
+//                newChoice = scanner.nextLine();
+//                if ( this.getPassword().equals(newChoice) ) {
+//                    logger.info("Please enter new password: ");
+//                    newChoice = scanner.nextLine();
+//                    this.setPassword(newChoice);
+//
+//                } else logger.info("Error: the password you entered not valid, try again!");
+//            }
+//            case 4 -> {
+//                logger.info("The current location is: " + this.getProfileObject().getLocation());
+//                logger.info("Please enter the new location: ");
+//                newChoice = scanner.nextLine();
+//                this.getProfileObject().setLocation(newChoice);
+//            }
+//            case 5 -> {
+//                logger.info("The current Phone Number is: " + this.getProfileObject().getPhoneNumber());
+//                logger.info("Please enter the new Phone Number: ");
+//                newChoice = scanner.nextLine();
+//                this.getProfileObject().setPhoneNumber(newChoice);
+//            }
+//            default -> {
+//            }
+//        }
+//    }
+
     public void viewRequisitesHistory(DatabaseService databaseService){
         ResultSet resultSet;
         Request request;

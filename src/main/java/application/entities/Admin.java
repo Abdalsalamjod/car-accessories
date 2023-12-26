@@ -1,9 +1,16 @@
 package application.entities;
 
+import application.LoggerUtility;
+import application.dataBase.Premetive_Objects.ResultSetResultHandler;
 import application.dataBase.UserDefinedTypes.ProductResultHandler;
+import application.dataBase.UserDefinedTypes.UserResultHandler;
 import application.services.DatabaseService;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
 
 import static application.Main.scanner;
 import static application.services.MessagesGenerator.logger;
@@ -100,6 +107,57 @@ public class Admin extends User{
             logger.info("Cannot " + errorMsg + ", something went wrong!\n");
         }
 
+    }
+
+    public void manageAcounts(DatabaseService dbs, User user ,int option, String newValue) {
+        switch (option){
+
+            case 1 ->{
+                user.showDetails( LoggerUtility.getLogger());
+            }  case 2 ->{
+                user.editDetails(1,newValue,LoggerUtility.getLogger());
+            }  case 3 ->{
+                user.editDetails(2,newValue,LoggerUtility.getLogger());
+            }  case 4 ->{
+                user.editDetails(3,newValue,LoggerUtility.getLogger());
+            }  case 5 ->{
+                user.editDetails(4,newValue,LoggerUtility.getLogger());
+            }  case 6 ->{
+                user.editDetails(5,newValue,LoggerUtility.getLogger());
+
+            }  case 7 ->{
+//           TODO:     dbs.deleteObject(user.getEmail(),"user");
+            }  case 8->{
+                System.exit(0);
+            }default->{
+                logger.severe("please enter valid input ");
+            }
+
+        }
+
+    }
+    public List<User> viewUsers(DatabaseService dbs)
+    {
+        ResultSet resultSet;
+        ArrayList<User> users= new ArrayList<>();
+        User user;
+        try {
+            resultSet=dbs.executeQuery("SELECT * FROM `user`",new ResultSetResultHandler());
+            while ( resultSet.next() ) {
+                user = new User(resultSet.getString("email"),
+                        resultSet.getString("password"),
+                        resultSet.getString(role).charAt(0),
+                        resultSet.getBoolean("signInStatus"),
+                        resultSet.getInt("profileId")
+                );
+                users.add(user);
+                user.showDetails(logger);
+                logger.info("Password: "+ user.getPassword());
+            }
+        } catch (SQLException e) {
+            logger.severe("Error: in viewUsers ");
+        }
+        return users;
     }
 
 }

@@ -40,7 +40,15 @@ public class User {
         this.signInStatus = SignInStatus;
 
     }
+    public User(String email, String password, char role, boolean SignInStatus,int profileId) {
+        this.email=email;
+        this.password=password;
+        this.role=role;
+        profile=new Profile();
+        this.profile.setProfileId(profileId);
+        this.signInStatus = SignInStatus;
 
+    }
 
     public void showDetails(Logger logger) {
         logger.info("Name: "+this.getProfileObject().getName());
@@ -58,7 +66,7 @@ public class User {
             }
             case 2 -> {
                 // Update email after password check
-                logger.info("Please enter your password for verification: ");
+//                logger.info("Please enter your password for verification: ");
                 // Assume a method 'verifyPassword' that checks the password
 //                if (verifyPassword(newValue)) {
                     logger.info("The current Email is: " + this.getEmail());
@@ -404,6 +412,13 @@ public class User {
     public void setSignInStatus(boolean signInStatus) {
         this.signInStatus = signInStatus;
     }
+//    @Override
+//    public String toString(){
+//        showDetails(Logger.getLogger("logger"));
+//        return "Email: "+this.email+"\n"+
+//                "Password: "+this.password+"\n";
+//
+//    }
 }
 
 

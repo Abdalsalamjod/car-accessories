@@ -29,13 +29,6 @@ public class DatabaseService implements Serializable {
         String databaseUser = System.getenv("DATABASE_USER");
         String databasePassword = System.getenv("DATABASE_PASSWORD");
 
-        // Fallback to local configuration if environment variables are not set
-        if (databaseUser == null || databasePassword == null) {
-            Properties config = loadLocalConfiguration();
-            databaseUser = config.getProperty("DATABASE_USER");
-            databasePassword = config.getProperty("DATABASE_PASSWORD");
-        }
-
         try {
             connection = DriverManager.getConnection("jdbc:mysql://sql12.freesqldatabase.com:3306/sql12654012", databaseUser, databasePassword);
         } catch (SQLException e) {
@@ -43,15 +36,7 @@ public class DatabaseService implements Serializable {
         }
     }
 
-    private Properties loadLocalConfiguration() {
-        Properties config = new Properties();
-        try (InputStream input = new FileInputStream("config.properties")) {
-            config.load(input);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        return config;
-    }
+   
 
   public void closeConnection() {
     if (connection != null) {

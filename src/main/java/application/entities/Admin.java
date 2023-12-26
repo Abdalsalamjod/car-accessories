@@ -1,17 +1,14 @@
 package application.entities;
 
 import application.LoggerUtility;
-import application.dataBase.Premetive_Objects.ResultSetResultHandler;
-import application.dataBase.UserDefinedTypes.ProductResultHandler;
-import application.dataBase.UserDefinedTypes.ProfileResultHandler;
-import application.dataBase.UserDefinedTypes.UserResultHandler;
-import application.services.DatabaseService;
 
+import application.database.premitive_objects.ResultSetResultHandler;
+import application.database.user_defined_types.ProductResultHandler;
+import application.services.DatabaseService;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import static application.Main.scanner;
 import static application.services.MessagesGenerator.logger;
@@ -44,7 +41,7 @@ public class Admin extends User{
                     rs = Product.getAllProducts(dbs);
                     while ( rs.next() ) {
                         returnedProduct = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getInt(5));
-                        logger.info(returnedProduct + "\n");
+                        logger.info(returnedProduct.toString());
                     }
                 }
                 case 2 -> {
@@ -152,7 +149,7 @@ public class Admin extends User{
                         resultSet.getBoolean("signInStatus"),
                         resultSet.getInt("profileId")
                 );
-                Profile profile1 =dbs.executeQuery("SELECT * FROM `Profile` WHERE `profileID` = "+user.getProfile(),new ProfileResultHandler());
+                Profile profile1 =dbs.executeQuery("SELECT * FROM `Profile` WHERE `profileID` = "+user.getProfile(),new application.database.user_defined_types.ProfileResultHandler());
                 user.setProfile(profile1);
                 users.add(user);
                 user.showDetails(logger);

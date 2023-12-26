@@ -1,6 +1,6 @@
 package application.entities;
 
-import application.dataBase.Premetive_Objects.ResultSetResultHandler;
+import application.database.premitive_objects.ResultSetResultHandler;
 import application.services.DatabaseService;
 
 import java.sql.ResultSet;
@@ -9,9 +9,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
 import static application.Main.logger;
-import static application.Main.scanner;
 
 public class Installer extends User{
     public Installer() {
@@ -160,7 +158,7 @@ public class Installer extends User{
         try {
             dbs.addObject(request, "Request");
         } catch ( SQLException e ) {
-            e.printStackTrace();
+            logger.info(e.getMessage());
         }
 
     }
@@ -169,7 +167,7 @@ public class Installer extends User{
         try {
             dbs.deleteObject(id, "Request");
         } catch ( SQLException e ) {
-            e.printStackTrace();
+            logger.info(e.getMessage());
         }
     }
 }

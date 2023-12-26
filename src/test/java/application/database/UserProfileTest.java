@@ -1,4 +1,4 @@
-package application.dataBase;
+package application.database;
 
 import application.entities.Profile;
 import application.entities.User;
@@ -8,10 +8,8 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import java.util.Scanner;
 import java.util.logging.Logger;
 
 import static org.junit.Assert.assertFalse;

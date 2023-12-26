@@ -1,8 +1,6 @@
 package application;
 import application.entities.*;
 import application.services.*;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import static application.Main.scanner;
@@ -10,6 +8,8 @@ import static application.services.MessagesGenerator.logger;
 
 
 public class MainUtility {
+
+    private static final String PLEASE_ENTER_VALID = "Invalid choice! \nPlease enter ";
     public static void userUtility(DatabaseService databaseService, User currentUser){
 
         boolean iterator = true;
@@ -36,7 +36,7 @@ public class MainUtility {
                case "6" -> currentUser.makeRequest(databaseService);
                case "7" -> currentUser.removeRequest(databaseService);
                case "8" -> iterator = false;
-               default -> logger.info("Invalid choice! \nPlease enter 1, 2, ... 8.\n");
+               default -> logger.info(PLEASE_ENTER_VALID + "1, 2, ... 8.\n");
 
            }
         }
@@ -63,7 +63,9 @@ public class MainUtility {
                     List<User> users =currentAdmin.viewUsers(databaseService);
 
                     User selectedUser=null ;
+
                     logger.info("\nselectd user id: ");
+
                     String tempId=scanner.nextLine();
                     for (User user: users)
                         if(user.getEmail().equals(tempId))
@@ -90,7 +92,8 @@ public class MainUtility {
                         if (selectedUser != null)
                             currentAdmin.manageAcounts(databaseService, selectedUser, choice, newValue);
                         else
-                            logger.severe("Please enter a valid email\n");
+                            logger.severe("please enter valid email\n");
+
                     }
 
                 }
@@ -98,7 +101,7 @@ public class MainUtility {
 
                 }
                 case 4 -> iterator = false;
-                default -> logger.info("Invalid choice! \nPlease enter 1, 2, ... 4.\n");
+                default -> logger.info(PLEASE_ENTER_VALID + "1, 2, ... 4.\n");
             }
 
         }
@@ -117,22 +120,24 @@ public class MainUtility {
                 case "2" -> currentInstaller.ScheduleAppointments(databaseService,scanner,false,"");
                 case "3" -> currentInstaller.markAsDone(databaseService,scanner,false,"");
                 case "4" -> iterator = false;
-                default  -> logger.info("Invalid choice! \nPlease enter 1, 2, ... 4.\n");
+                default  -> logger.info( PLEASE_ENTER_VALID + "1, 2, ... 4.\n");
             }
         }
     }
 
     public static int signUpUtility(String email,String password){
-        String Name,location,phoneNumber;
+        String name;
+        String location;
+        String phoneNumber;
         int validationStatus = ValidationUser.validation(email, password,new DatabaseService());
         if (validationStatus == ValidationUser.VALID) {
             logger.info("Please enter your name: ");
-            Name=scanner.nextLine();
+            name=scanner.nextLine();
             logger.info("Please enter your address: ");
             location=scanner.nextLine();
             logger.info("Please enter your phoneNumber: ");
             phoneNumber=scanner.nextLine();
-            Profile profile=new Profile(-1,Name,phoneNumber,location);
+            Profile profile=new Profile(-1,name,phoneNumber,location);
             SignUp signUp = new SignUp(email,password,false,validationStatus,profile);
             signUp.creatAccount(new DatabaseService());
         }
@@ -167,7 +172,7 @@ public class MainUtility {
                     iterator=false;
                     break;
                 default:
-                    logger.info("Invalid choice! \nPlease enter 1, 2, ... 4.\n");
+                    logger.info(PLEASE_ENTER_VALID + "1, 2, ... 4.\n");
             }
         }
     }

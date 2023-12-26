@@ -1,7 +1,7 @@
 package application.entities;
 
 import application.Main;
-import application.dataBase.Premetive_Objects.ResultSetResultHandler;
+import application.database.premitive_objects.ResultSetResultHandler;
 import application.services.DatabaseService;
 import application.services.EmailSender;
 import application.services.MessagesGenerator;
@@ -13,7 +13,6 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.logging.Logger;
 import static application.Main.scanner;
 import static application.services.MessagesGenerator.logger;
@@ -241,7 +240,7 @@ public class User {
                         rs = Product.getAllProducts(dbs);
                         while ( rs.next() ) {
                             returnedProduct = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getInt(5));
-                            logger.info(returnedProduct + "\n");
+                            logger.info(returnedProduct.toString());
                         }
                     }
                     case "2" -> {
@@ -250,7 +249,7 @@ public class User {
                         int id = scanner.nextInt();
                         scanner.nextLine();
                         returnedProduct = Product.getProductById(id, dbs);
-                        logger.info(returnedProduct.toString() + "\n");
+                        logger.info(returnedProduct.toString());
                     }
                     case "3" -> {
                         errorMsg = "by name";
@@ -259,7 +258,7 @@ public class User {
                         if(Product.getProductByName(name, dbs) == null)
                             logger.info("There is no products with the name you entered\n");
                         else
-                            logger.info(Product.getProductByName(name, dbs) + "\n");
+                            logger.info(Product.getProductByName(name, dbs).toString());
                     }
                     case "4" -> {
                         errorMsg = "by category";
@@ -268,7 +267,7 @@ public class User {
                         rs = Product.getProductsByCategory(category, dbs);
                         while ( rs.next() ) {
                             returnedProduct = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getInt(5));
-                            logger.info(returnedProduct + "\n");
+                            logger.info(returnedProduct.toString());
                         }
                     }
                     case "5" -> {
@@ -280,7 +279,7 @@ public class User {
                         rs = Product.getProductsByPriceRange(lower, upper, dbs);
                         while ( rs.next() ) {
                             returnedProduct = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getInt(5));
-                            logger.info(returnedProduct + "\n");
+                            logger.info(returnedProduct.toString());
                         }
                     }
                     case "6" -> iterator = false;
@@ -346,7 +345,7 @@ public class User {
 
 
         }catch ( Exception e ){
-            e.printStackTrace();
+            Main.logger.info(e.getMessage());
             logger.severe("Sorry, something went wrong!\n");
             exit(0);
         }
@@ -384,7 +383,7 @@ public class User {
             EmailSender.sendEmail("s12027747@stu.najah.edu", "Installation Request", "Removed successfully");
 
         }catch ( Exception e ){
-            e.printStackTrace();
+            Main.logger.info(e.getMessage());
             logger.severe("Sorry, something went wrong!");
             exit(0);
         }

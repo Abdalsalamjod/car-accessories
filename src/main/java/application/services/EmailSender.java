@@ -4,6 +4,7 @@ import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import static application.Main.logger;
 
 public class EmailSender {
 
@@ -11,7 +12,7 @@ public class EmailSender {
   private static final String PASSWORD = "eicf ohjt igww owsa";
 
 
-  public static boolean sendEmail(String recipientEmail, String subject, String body) {
+  public static void sendEmail(String recipientEmail, String subject, String body) {
 
     Properties properties = new Properties();
     properties.put("mail.smtp.host", "smtp.gmail.com");
@@ -37,11 +38,10 @@ public class EmailSender {
       message.setText(body);
 
       Transport.send(message);
-      return true;
 
     } catch (MessagingException e) {
-      e.printStackTrace();
-      return false;
+      logger.info(e.getMessage());
+
     }
   }
 

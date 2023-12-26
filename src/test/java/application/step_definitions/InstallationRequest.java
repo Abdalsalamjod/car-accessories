@@ -24,6 +24,7 @@ public class InstallationRequest {
   private final DatabaseService dbs = new DatabaseService();
   private final Request tempRequestToSend = new Request();
   private Request tempRequestToReceive = new Request();
+  String removedDate = "";
 
 
   @When("user make a new installation request with id = {int}, productId = {int}, userId = {string}, description = {string}")
@@ -56,6 +57,8 @@ public class InstallationRequest {
       assertEquals(tempRequestToReceive.getId(), tempRequestToSend.getId());
       assertEquals(tempRequestToReceive.getProductId(), tempRequestToSend.getProductId());
       assertEquals(tempRequestToReceive.getUserId(), tempRequestToSend.getUserId());
+      System.out.println("tempRequestToReceive.getDate(): " + tempRequestToReceive.getDate());
+      System.out.println("tempRequestToSend.getDate()" + tempRequestToSend.getDate());
       assertEquals(tempRequestToReceive.getDate(), tempRequestToSend.getDate());
       assertEquals(tempRequestToReceive.getDescription(), tempRequestToSend.getDescription());
       assertEquals(tempRequestToReceive.getDone(), tempRequestToSend.getDone());
@@ -80,6 +83,7 @@ public class InstallationRequest {
   public void the_date_with_index_should_be_removed_from_dates_array(int dateIndex) {
 
     ArrayList<String> datesArray = ( ArrayList<String> ) Request.getDatesArray();
+    removedDate = datesArray.get(dateIndex);
     datesArray.remove(dateIndex);
     Request.setDatesArray(datesArray);
 
@@ -102,8 +106,10 @@ public class InstallationRequest {
 
   }
 
-  @Then("the date with index = {int} should be available again in the dates array")
-  public void the_date_with_index_should_be_available_again_in_the_dates_array(Integer dateIndex) {
+
+
+  @Then("the removed date should be available again in the dates array")
+  public void the_removed_date_should_be_available_again_in_the_dates_array() {
 
     try{
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -116,8 +122,8 @@ public class InstallationRequest {
         returnedRequests.add(new Request(rs.getInt(1), rs.getInt(2), rs.getString(3), LocalDateTime.parse(date, formatter), rs.getString(5)));
       }
 
-      LocalDateTime removedDate = returnedRequests.get(dateIndex-1).getDate();
-      datesArray.add(String.valueOf(removedDate));
+
+      datesArray.add(this.removedDate);
       Request.setDatesArray(datesArray);
 
     }catch ( Exception e ){

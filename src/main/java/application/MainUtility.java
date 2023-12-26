@@ -104,7 +104,7 @@ public class MainUtility {
         if (validationStatus == ValidationUser.VALID)
         {
             SignIn signIn = new SignIn(email, password, false, validationStatus);
-            return  signIn.performLogIn(new DatabaseService());
+            return signIn.performLogIn(new DatabaseService());
         }
         return null;
     }

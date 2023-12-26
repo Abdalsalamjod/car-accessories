@@ -93,10 +93,9 @@ public class Installer extends User{
                     if (request.getId() == requestIdInt) {
                         exist = true;
 
-                        
                         try {
                           request.setSelected(1);
-                          request1.setDone(1);
+                          request.setDone(1);
                             databaseService.updateObject(request, "Request", "id");
                             continueLoop = false; // Exit loop after successful update
                         } catch (SQLException e) {

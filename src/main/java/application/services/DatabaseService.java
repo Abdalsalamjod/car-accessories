@@ -13,17 +13,6 @@ public class DatabaseService implements Serializable {
   private final String LITERAL_FOR_PROFILE = "profile";
   private static Connection connection;
 
-//  private static final String DATABASE_NAME_AND_USER  = "sql12654012";
-//  private static final String DATABASE_PASSWORD = "wzRUn4Cfmj";
-//
-//  public DatabaseService(){
-//    try{
-//      connection = DriverManager.getConnection("jdbc:mysql://sql12.freesqldatabase.com:3306/sql12654012", DATABASE_NAME_AND_USER , DATABASE_PASSWORD);
-//    } catch ( SQLException e) {
-//        System.out.println("\nNot Connected to the database!, try again plz\n");
-//    }
-//  }
-
 
   public DatabaseService() {
     String databaseUser = System.getenv("DATABASE_USER");
@@ -32,8 +21,9 @@ public class DatabaseService implements Serializable {
     try {
       connection = DriverManager.getConnection("jdbc:mysql://sql12.freesqldatabase.com:3306/sql12654012", databaseUser, databasePassword);
     } catch (SQLException e) {
-      System.out.println("\nNot Connected to the database! Please try again.\n");
-    }
+        e.printStackTrace(); // This will print the stack trace and the SQL error code.
+        System.out.println("\nNot Connected to the database! Please try again.\n");
+  }
   }
 
   public void closeConnection() {

@@ -7,6 +7,8 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import static application.Main.logger;
 import static org.junit.Assert.*;
 
 public class Add_Delete_Update_Search {
@@ -75,10 +77,10 @@ public class Add_Delete_Update_Search {
     errorMessage = tempProductToSend.validInformation();
   }
 
-
   @Then("the product should not be added to the database and the error message {string}")
   public void the_product_should_not_be_added_to_the_database_and_the_error_message(String string) {
     assertEquals(errorMessage, string);
+    logger.info(errorMessage);
   }
 
   //*************************************************************
@@ -167,6 +169,7 @@ public class Add_Delete_Update_Search {
   @Then("the error message should be equals to {string}")
   public void the_error_message_should_be_equals_to(String errorMessage) {
     assertEquals(this.errorMessage, errorMessage);
+    logger.info(errorMessage);
   }
 
   //**************************************************************

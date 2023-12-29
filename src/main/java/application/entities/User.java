@@ -9,7 +9,6 @@ import application.services.ValidationUser;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +65,7 @@ public class User {
                     dbs.updateObject(profile,PROFILE,PROFILE_ID);
                     logger.info("Updated name to: " + newValue);
                 } catch (Exception e) {
-                   logger.severe(EDIT_DETAILES_ERROR);
+                   logger.severe(EDIT_DETAILS_ERROR);
                 }
             }
             case 2 -> {
@@ -77,7 +76,7 @@ public class User {
                             dbs.updateObject(this,"user","email");
                             logger.info("Updated email to: " + newValue);
                         } catch (Exception e) {
-                            logger.severe(EDIT_DETAILES_ERROR);
+                            logger.severe(EDIT_DETAILS_ERROR);
                         }
                     } else {
                         logger.info("Error: exist or invalid email, try again!");
@@ -92,7 +91,7 @@ public class User {
                     logger.info("Password updated.");
 
                 } catch (Exception e) {
-                    logger.severe(EDIT_DETAILES_ERROR);
+                    logger.severe(EDIT_DETAILS_ERROR);
                 }
             }
             case 4 -> {
@@ -102,7 +101,7 @@ public class User {
                     dbs.updateObject(profile,PROFILE,PROFILE_ID);
                     logger.info("Updated location to: " + newValue);
                 } catch (Exception e) {
-                    logger.severe(EDIT_DETAILES_ERROR);
+                    logger.severe(EDIT_DETAILS_ERROR);
                 }
 
             }
@@ -113,7 +112,7 @@ public class User {
                     dbs.updateObject(profile,PROFILE,PROFILE_ID);
                     logger.info("Updated phone number to: " + newValue);
                 } catch (Exception e) {
-                    logger.severe(EDIT_DETAILES_ERROR);
+                    logger.severe(EDIT_DETAILS_ERROR);
                 }
             }
             default -> {

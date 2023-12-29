@@ -20,6 +20,7 @@ public class DatabaseService implements Serializable {
          try {
              connection = DriverManager.getConnection("jdbc:mysql://sql12.freesqldatabase.com:3306/sql12654012", databaseUser, databasePassword);
          } catch (SQLException e) {
+             e.printStackTrace();
              System.out.println("\nNot Connected to the database! Please try again.\n");
          }
      }
@@ -36,16 +37,13 @@ public class DatabaseService implements Serializable {
 
   public <T> T executeQuery(String query, QueryResultHandler<T> resultHandler) throws SQLException{
 
-   // try{
      ResultSet resultSet;
      PreparedStatement statement ;
 
      statement = connection.prepareStatement(query);
      resultSet = statement.executeQuery();
      return resultHandler.handle(resultSet);
-   // }catch ( SQLException e ){
-   //  return null;
-   // }
+
 
   }
 
@@ -77,10 +75,7 @@ public class DatabaseService implements Serializable {
     insertQuery.append(")");
 
 
-
     try{
-
-
       PreparedStatement statement = connection.prepareStatement(insertQuery.toString());
       for (int i = 0; i < fieldsLength; i++) {
         fields[i].setAccessible(true);
@@ -100,7 +95,6 @@ public class DatabaseService implements Serializable {
 
   public boolean deleteObject(int id, String tableName) throws SQLException{
 
-
     String deleteQuery = "DELETE FROM " + tableName + " WHERE id = ?";
     try ( PreparedStatement statement = connection.prepareStatement(deleteQuery) ) {
       statement.setInt(1, id);
@@ -110,6 +104,7 @@ public class DatabaseService implements Serializable {
   }
 
   public  <T> void updateObject(T object, String tableName, String primaryKeyField) throws Exception {
+
     StringBuilder updateQuery = new StringBuilder("UPDATE " + tableName + " SET ");
 
     Field[] fields = object.getClass().getDeclaredFields();

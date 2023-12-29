@@ -1,4 +1,4 @@
-Feature: user request relation
+Feature: user add or remove installation request
 
   Scenario: successful request
     When user make a new installation request with id = 11, productId = 1, userId = "s12027747@stu.najah.edu", description = "TEST"

@@ -11,16 +11,13 @@ import java.util.logging.Logger;
 public class Main {
     public static final Logger logger = LoggerUtility.getLogger();
     public static final Scanner scanner = new Scanner(System.in);
-    public static final String EDIT_DETAILES_ERROR="Error: in editDetails\n";
+    public static final String EDIT_DETAILS_ERROR ="Error: in editDetails\n";
     public static final String PROFILE="Profile";
     public static final String PROFILE_ID="profileId";
     public static final String REQUEST ="Request" ;
     public static void main(String[] args) {
 
-
-       
         User currentUser = null;
-
         String email;
         String password;
         int validationStatus;

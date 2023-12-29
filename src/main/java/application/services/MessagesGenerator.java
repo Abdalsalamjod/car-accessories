@@ -10,7 +10,7 @@ public class MessagesGenerator {
     public static Logger logger = LoggerUtility.getLogger();
     public static final String SELECT_OPTION="Select an option: ";
     public static final String MENU ="\nMenu:\n";
-    public static String SigningMessages(int validationStatus) {
+    public static String signingMessages(int validationStatus) {
         return switch (validationStatus) {
             case NULL_EMAIL -> "Empty, not a valid empty Email\n";
             case INVALID_EMAIL -> "Invalid email address\n";

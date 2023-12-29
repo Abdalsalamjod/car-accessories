@@ -35,7 +35,7 @@ public class Main {
                     logger.info("Enter your password: ");
                     password = scanner.nextLine();
                     validationStatus= MainUtility.signUpUtility(email,password);
-                    logger.info(MessagesGenerator.SigningMessages(validationStatus));
+                    logger.info(MessagesGenerator.signingMessages(validationStatus));
                 }
                 case "2" -> {
                     logger.info("Enter your email: ");
@@ -46,7 +46,7 @@ public class Main {
                     validationStatus = ValidationUser.validation(email, password,new DatabaseService());
                     currentUser=MainUtility.signInUtility(email,password,validationStatus );
 
-                    logger.info(MessagesGenerator.SigningMessages(validationStatus));
+                    logger.info(MessagesGenerator.signingMessages(validationStatus));
 
                     if (currentUser != null && currentUser.isSignInStatus())
                     {
@@ -70,7 +70,7 @@ public class Main {
                     }
                     else
                     {
-                        logger.severe(MessagesGenerator.SigningMessages(5));
+                        logger.severe(MessagesGenerator.signingMessages(5));
                     }
                 }
                 case "3" -> {

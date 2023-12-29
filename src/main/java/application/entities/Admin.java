@@ -15,12 +15,12 @@ import static application.services.MessagesGenerator.logger;
 
 public class Admin extends User{
 
-    public Admin(String email, String password, char role, boolean SignInStatus, Profile profile) {
+    public Admin(String email, String password, char role, boolean signInStatus, Profile profile) {
         this.email=email;
         this.password=password;
         this.role=role;
         this.profile = profile;
-        this.signInStatus = SignInStatus;
+        this.signInStatus = signInStatus;
 
     }
 
@@ -29,9 +29,11 @@ public class Admin extends User{
         ResultSet rs;
         Product returnedProduct;
         String errorMsg = null;
-        int id, quantity;
+        int id;
+        int quantity;
         double price;
-        String name, category;
+        String name;
+        String category;
         String tableName="Product";
 
         try{
@@ -41,7 +43,8 @@ public class Admin extends User{
                     rs = Product.getAllProducts(dbs);
                     while ( rs.next() ) {
                         returnedProduct = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getInt(5));
-                        logger.info(returnedProduct.toString());
+                        if(returnedProduct != null)
+                            logger.info(returnedProduct.toString());
                     }
                 }
                 case 2 -> {

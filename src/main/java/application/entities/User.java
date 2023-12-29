@@ -31,21 +31,21 @@ public class User {
     public User() {
             this.profile=new Profile();
     }
-    public User(String email, String password, char role, boolean SignInStatus,Profile profile) {
+    public User(String email, String password, char role, boolean signInStatus,Profile profile) {
         this.email=email;
         this.password=password;
         this.role=role;
         this.profile = profile;
-        this.signInStatus = SignInStatus;
+        this.signInStatus = signInStatus;
 
     }
-    public User(String email, String password, char role, boolean SignInStatus,int profileId) {
+    public User(String email, String password, char role, boolean signInStatus,int profileId) {
         this.email=email;
         this.password=password;
         this.role=role;
         this.profile=new Profile();
         this.profile.setProfileId(profileId);
-        this.signInStatus = SignInStatus;
+        this.signInStatus = signInStatus;
 
     }
 
@@ -303,8 +303,8 @@ public class User {
 
         }
 
-
     }
+
     public void makeRequest(DatabaseService databaseService){
 
         try{
@@ -378,8 +378,12 @@ public class User {
             }
 
             logger.info("\n");
-            for(int j=0; j<returnedRequests.size(); j++)
-                logger.info(j+1 + "- " + returnedRequests.get(j).toString());
+            String statementToPrint = "";
+            for(int j=0; j<returnedRequests.size(); j++){
+                statementToPrint = j+1 + "- " + returnedRequests.get(j);
+                logger.info(statementToPrint);
+            }
+
             int requestID = scanner.nextInt();
             LocalDateTime removedDate = returnedRequests.get(requestID-1).getDate();
 

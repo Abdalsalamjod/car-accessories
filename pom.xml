@@ -17,10 +17,8 @@
         <sonar.coverage.exclusions>
             **/application/Main.java,
             **/application/MainUtility.java,
-            **/application/services/MessagesGenerator.java,
-            **/application/services/SignUp.java,
-            **/application/entities/Admin.java,
-            **/application/entities/Installer.java
+            **/application/services/MessagesGenerator.java
+
         </sonar.coverage.exclusions>
     </properties>
     <dependencies>

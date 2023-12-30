@@ -21,20 +21,20 @@ public class Installer extends User{
         super();
     }
 
-    public static List<Request> availableRequests;
-    public Installer(String email, String password, char role, Boolean SignInStatus, Profile profile) {
+    protected static List<Request> availableRequests;
+    public Installer(String email, String password, char role, Boolean signInStatus, Profile profile) {
         this.email=email;
         this.password=password;
         this.role=role;
         this.profile = profile;
-        this.signInStatus = SignInStatus;
+        this.signInStatus = signInStatus;
     }
 
     @Override
     public List<Request> viewInstallationRequests(DatabaseService dbs){
         ResultSet resultSet;
         Request request;
-        availableRequests =new ArrayList<>();
+        this.availableRequests =new ArrayList<>();
 
         try {
             resultSet=  dbs.executeQuery("SELECT * FROM `"+ REQUEST +"` WHERE `done` = false" , new ResultSetResultHandler());
@@ -45,8 +45,7 @@ public class Installer extends User{
                          resultSet.getDate(4).toLocalDate().atTime(LocalTime.MIDNIGHT),
                         resultSet.getString(5));
 
-                if(request != null)
-                    logger.info(request.toString());
+                logger.info(request.toString());
                 availableRequests.add(request);
             }
         } catch (Exception e) {
@@ -60,7 +59,7 @@ public class Installer extends User{
 
         ResultSet resultSet;
         Request request;
-        availableRequests.clear();
+       this. availableRequests.clear();
 
         try {
             resultSet = databaseService.executeQuery("SELECT * FROM `"+ REQUEST +"` WHERE `selected` = true", new ResultSetResultHandler());
@@ -84,77 +83,70 @@ public class Installer extends User{
     }
 
     public void scheduleAppointments(DatabaseService databaseService, Scanner scanner, boolean test, String testValue) {
+        this.availableRequests = viewInstallationRequests(databaseService);
+        processRequests(databaseService, scanner, test, testValue);
+    }
+
+    private void processRequests(DatabaseService databaseService, Scanner scanner, boolean test, String testValue) {
         boolean continueLoop = true;
-        availableRequests = viewInstallationRequests(databaseService);
-
         while (continueLoop) {
-            logger.info("Enter Request ID or 'Exit' to quit:");
-            String requestId = (test) ? testValue : scanner.nextLine();
-
+            String requestId = getRequestInput(scanner, test, testValue);
             if (requestId.equalsIgnoreCase("Exit")) {
-                break;
+                return;
             }
 
             try {
                 int requestIdInt = Integer.parseInt(requestId);
-                boolean exist = false;
-                for (Request request : availableRequests) {
-                    if (request.getId() == requestIdInt) {
-                        exist = true;
-
-                        try {
-                          request.setSelected(1);
-//                          logger.info("updated sucessefully\n");
-                            databaseService.updateObject(request, REQUEST, "id");
-                            continueLoop = false;
-                        }
-                        catch (SQLException e) {
-                            logger.severe("Error updating the request: " + e.getMessage());
-                            break; }
-                         catch (Exception e) {
-                            logger.severe("An unexpected error occurred: " + e.getMessage());
-                        }
-                        break;
-                    }
-                }
-
-                if (!exist) {
-                    logger.info("No matching Request ID found. Please, enter a valid number.\n");
-                }
+                continueLoop = handleRequestUpdate(databaseService, requestIdInt);
             } catch (NumberFormatException e) {
                 logger.info("Invalid input. Please, enter a valid number or 'Exit' to quit.\n");
             }
         }
     }
 
+    private String getRequestInput(Scanner scanner, boolean test, String testValue) {
+        logger.info("Enter Request ID or 'Exit' to quit:");
+        return (test) ? testValue : scanner.nextLine();
+    }
+
+    private boolean handleRequestUpdate(DatabaseService databaseService, int requestIdInt) {
+        for (Request request : availableRequests) {
+            if (request.getId() == requestIdInt) {
+                updateRequest(databaseService, request);
+                return false;
+            }
+        }
+        logger.info("No matching Request ID found. Please, enter a valid number.\n");
+        return true;
+    }
+
+    private void updateRequest(DatabaseService databaseService, Request request) {
+        try {
+            request.setSelected(1);
+            databaseService.updateObject(request, REQUEST, "id");
+        } catch (SQLException e) {
+            logger.severe("Error updating the request: " + e.getMessage());
+        } catch (Exception e) {
+            logger.severe("An unexpected error occurred: " + e.getMessage());
+        }
+    }
 
     public void markAsDone(DatabaseService databaseService, Scanner scanner, boolean test, String testValue) {
-        boolean continueLoop = true;
+        populateAvailableRequests(databaseService);
+        processMarkAsDoneRequests(databaseService, scanner, test, testValue);
+    }
 
-        populateAvailableRequests(databaseService); // Loading available requests
-
-        while (continueLoop) {
-            logger.info("Enter Request Id to mark as done or 'Exit' to quit:");
-            String requestId = (test) ? testValue : scanner.nextLine();
-
+    private void processMarkAsDoneRequests(DatabaseService databaseService, Scanner scanner, boolean test, String testValue) {
+        while (true) {
+            String requestId = getRequestInput(scanner, test, testValue);
             if (requestId.equalsIgnoreCase("Exit")) {
-                break;
+                return;
             }
 
             try {
-                boolean exist = false;
-                for (Request request : availableRequests) {
-                    if (request.getId() == Integer.parseInt(requestId)) {
-                        exist = true;
-                        request.setDone(1);
-//                        logger.info("updated sucessefully\n");
-                        databaseService.updateObject(request, REQUEST, "id");
-                        continueLoop = false; // Exit loop after successful update
-                        break;
-                    }
-                }
-                if (!exist) {
-                    logger.severe("Please, enter valid number\n");
+                int requestIdInt = Integer.parseInt(requestId);
+                if (!markRequestAsDone(databaseService, requestIdInt)) {
+                    logger.severe("Please, enter a valid number\n");
                 }
             } catch (NumberFormatException e) {
                 logger.severe("Invalid input. Please, enter a valid number\n");
@@ -162,6 +154,24 @@ public class Installer extends User{
                 logger.severe("An error occurred: " + e.getMessage());
             }
         }
+    }
+
+
+
+    private boolean markRequestAsDone(DatabaseService databaseService, int requestIdInt) {
+        for (Request request : availableRequests) {
+            if (request.getId() == requestIdInt) {
+                request.setDone(1);
+                try {
+                    databaseService.updateObject(request, REQUEST, "id");
+                    return true;
+                } catch (Exception e) {
+                    logger.severe("Error updating the request: " + e.getMessage());
+                    return false;
+                }
+            }
+        }
+        return false;
     }
 
     public static void createNewRequest(Request request, DatabaseService dbs){

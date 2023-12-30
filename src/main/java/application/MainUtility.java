@@ -42,71 +42,80 @@ public class MainUtility {
         }
     }
 
-    public static void adminUtility(DatabaseService databaseService , Admin currentAdmin) {
 
+
+    public static void adminUtility(DatabaseService databaseService , Admin currentAdmin) {
         boolean iterator = true;
         while (iterator) {
-
             MessagesGenerator.listGenerator("adminList");
             int option = scanner.nextInt();
             scanner.nextLine();
 
-            switch ( option ) {
-                case 1 -> {
-                    MessagesGenerator.listGenerator("manageProductsList");
-                    int browsOption = scanner.nextInt();
-                    scanner.nextLine();
-                    currentAdmin.manageProducts(browsOption, databaseService);
-                }
-                case 2 -> {
-                    boolean iterator2 = true;
-                    List<User> users =currentAdmin.viewUsers(databaseService);
-
-                    User selectedUser=null ;
-
-                    logger.info("\nselectd user id: ");
-
-                    String tempId=scanner.nextLine();
-                    for (User user: users)
-                        if(user.getEmail().equals(tempId))
-                            selectedUser = user;
-
-
-                    int choice;
-                    while (iterator2) {
-                        MessagesGenerator.listGenerator("ViewAndManageCustomersAccounts");
-                        choice = scanner.nextInt();
-
-                        scanner.nextLine();
-
-                        if (choice == 8) {
-                            iterator2 = false;
-                            continue;
-                        }
-                        if (choice != 1)
-                            logger.info("Enter new value to update: ");
-
-                        String newValue = scanner.nextLine();  // Now this should wait for user input
-                        logger.info("\n");
-
-                        if (selectedUser != null)
-                            currentAdmin.manageAcounts(databaseService, selectedUser, choice, newValue);
-                        else
-                            logger.severe("please enter valid email\n");
-
-                    }
-
-                }
-                case 3 -> {
-
-                }
-                case 4 -> iterator = false;
+            switch (option) {
+                case 1 -> manageProducts(currentAdmin, databaseService);
+                case 2 -> manageUsers(currentAdmin, databaseService);
+                case 3 -> iterator = false;
                 default -> logger.info(PLEASE_ENTER_VALID + ETC);
             }
-
         }
 
     }
+    private static void manageProducts(Admin currentAdmin, DatabaseService databaseService) {
+        MessagesGenerator.listGenerator("manageProductsList");
+        int browsOption = scanner.nextInt();
+        scanner.nextLine();
+        currentAdmin.manageProducts(browsOption, databaseService);
+    }
+
+    private static void manageUsers(Admin currentAdmin, DatabaseService databaseService) {
+        boolean iterator2 = true;
+        List<User> users = currentAdmin.viewUsers(databaseService);
+        User selectedUser = selectUser(users);
+
+        while (iterator2) {
+            MessagesGenerator.listGenerator("ViewAndManageCustomersAccounts");
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            if (choice == 8) {
+                iterator2 = false;
+                continue;
+            }
+
+            manageUserAccounts(currentAdmin, databaseService, selectedUser, choice);
+        }
+    }
+
+    private static User selectUser(List<User> users) {
+        logger.info("\nselected user email: ");
+        String tempId = scanner.nextLine();
+
+        for (User user : users) {
+            if (user.getEmail().equals(tempId)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    private static void manageUserAccounts(Admin currentAdmin, DatabaseService databaseService, User selectedUser, int choice) {
+        if (choice != 1) {
+            logger.info("Enter new value to update: ");
+        }
+
+        String newValue = scanner.nextLine();
+        logger.info("\n");
+
+        if (selectedUser != null) {
+            currentAdmin.manageAcounts(databaseService, selectedUser, choice, newValue);
+        } else {
+            logger.severe("Please enter valid email\n");
+        }
+    }
+
+
+
+
 
 
     public static void installerUtility(DatabaseService databaseService, Installer currentInstaller) {

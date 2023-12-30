@@ -55,123 +55,82 @@ public class User {
         logger.info("\nPhone number: "+this.getProfileObject().getPhoneNumber());
         logger.info("\nEmail : "+this.getEmail());
     }
-    public void editDetails(int optionIn, String newValue, Logger logger) {
-        DatabaseService dbs =new DatabaseService();
+    public void editDetails(int optionIn, String newValue, Logger logger) {        DatabaseService dbs = new DatabaseService();
+
         switch (optionIn) {
-            case 1 -> {
-                logger.info("The current name is: " + this.getProfileObject().getName());
-                this.getProfileObject().setName(newValue);
-                try {
-                    dbs.updateObject(profile,PROFILE,PROFILE_ID);
-                    logger.info("Updated name to: " + newValue);
-                } catch (Exception e) {
-                   logger.severe(EDIT_DETAILS_ERROR);
-                }
-            }
-            case 2 -> {
-                    logger.info("The current Email is: " + this.getEmail());
-                    if (ValidationUser.isValidEmail(newValue) && !ValidationUser.isExistEmail(newValue, new DatabaseService())) {
-                        this.setEmail(newValue);
-                        try {
-                            dbs.updateObject(this,"user","email");
-                            logger.info("Updated email to: " + newValue);
-                        } catch (Exception e) {
-                            logger.severe(EDIT_DETAILS_ERROR);
-                        }
-                    } else {
-                        logger.info("Error: exist or invalid email, try again!");
-                    }
-            }
-            case 3 -> {
-
-                logger.info("Updating password...");
-                this.setPassword(newValue);
-                try {
-                    dbs.updateObject(this,"user","email");
-                    logger.info("Password updated.");
-
-                } catch (Exception e) {
-                    logger.severe(EDIT_DETAILS_ERROR);
-                }
-            }
-            case 4 -> {
-                logger.info("The current location is: " + this.getProfileObject().getLocation());
-                this.getProfileObject().setLocation(newValue);
-                try {
-                    dbs.updateObject(profile,PROFILE,PROFILE_ID);
-                    logger.info("Updated location to: " + newValue);
-                } catch (Exception e) {
-                    logger.severe(EDIT_DETAILS_ERROR);
-                }
-
-            }
-            case 5 -> {
-                logger.info("The current Phone Number is: " + this.getProfileObject().getPhoneNumber());
-                this.getProfileObject().setPhoneNumber(newValue);
-                try {
-                    dbs.updateObject(profile,PROFILE,PROFILE_ID);
-                    logger.info("Updated phone number to: " + newValue);
-                } catch (Exception e) {
-                    logger.severe(EDIT_DETAILS_ERROR);
-                }
-            }
-            default -> {
-                // Handle default case
+            case 1:
+                updateName(newValue, logger, dbs);
+                break;
+            case 2:
+                updateEmail(newValue, logger, dbs);
+                break;
+            case 3:
+                updatePassword(newValue, logger, dbs);
+                break;
+            case 4:
+                updateLocation(newValue, logger, dbs);
+                break;
+            case 5:
+                updatePhoneNumber(newValue, logger, dbs);
+                break;
+            default:
                 logger.info("Invalid option.");
-            }
+                break;
         }
     }
 
-//    public void editDetailsOLD(int optionIn, Logger logger, Scanner scanner) {
-//        String newChoice;
-//
-//        switch ( optionIn ) {
-//            case 1 -> {
-//                logger.info("The current name is: " + this.getProfileObject().getName());
-//                logger.info("Please enter the new name: ");
-//                newChoice = scanner.nextLine();
-//                this.getProfileObject().setName(newChoice);
-//            }
-//            case 2 -> {
-//                logger.info("Please enter your password first: ");
-//                newChoice = scanner.nextLine();
-//                if ( this.getPassword().equals(newChoice) ) {
-//                    logger.info("The current Email is: " + this.getEmail());
-//                    logger.info("Please enter the new email: ");
-//                    newChoice = scanner.nextLine();
-//
-//                    if (ValidationUser.isValidEmail(newChoice) && !ValidationUser.isExistEmail(newChoice,new DatabaseService()) && !newChoice.isEmpty())
-//
-//                        this.setEmail(newChoice);
-//                    else logger.info("Error: exist or invalid email, try again!");
-//                } else logger.info("Error: the password you entered not valid, try again!");
-//            }
-//            case 3 -> {
-//                logger.info("Please enter your password first: ");
-//                newChoice = scanner.nextLine();
-//                if ( this.getPassword().equals(newChoice) ) {
-//                    logger.info("Please enter new password: ");
-//                    newChoice = scanner.nextLine();
-//                    this.setPassword(newChoice);
-//
-//                } else logger.info("Error: the password you entered not valid, try again!");
-//            }
-//            case 4 -> {
-//                logger.info("The current location is: " + this.getProfileObject().getLocation());
-//                logger.info("Please enter the new location: ");
-//                newChoice = scanner.nextLine();
-//                this.getProfileObject().setLocation(newChoice);
-//            }
-//            case 5 -> {
-//                logger.info("The current Phone Number is: " + this.getProfileObject().getPhoneNumber());
-//                logger.info("Please enter the new Phone Number: ");
-//                newChoice = scanner.nextLine();
-//                this.getProfileObject().setPhoneNumber(newChoice);
-//            }
-//            default -> {
-//            }
-//        }
-//    }
+    private void updateName(String newValue, Logger logger, DatabaseService dbs) {
+        logger.info("The current name is: " + this.getProfileObject().getName());
+        this.getProfileObject().setName(newValue);
+        updateProfileObject(logger, dbs, "Updated name to: " + newValue);
+    }
+
+    private void updateEmail(String newValue, Logger logger, DatabaseService dbs) {
+        logger.info("The current Email is: " + this.getEmail());
+        if (ValidationUser.isValidEmail(newValue) && !ValidationUser.isExistEmail(newValue, dbs)) {
+            this.setEmail(newValue);
+            updateDatabaseObject(this, "user", "email", logger, "Updated email to: " + newValue);
+        } else {
+            logger.info("Error: exist or invalid email, try again!");
+        }
+    }
+
+    private void updatePassword(String newValue, Logger logger, DatabaseService dbs) {
+        logger.info("Updating password...");
+        this.setPassword(newValue);
+        updateDatabaseObject(this, "user", "email", logger, "Password updated.");
+    }
+
+    private void updateLocation(String newValue, Logger logger, DatabaseService dbs) {
+        logger.info("The current location is: " + this.getProfileObject().getLocation());
+        this.getProfileObject().setLocation(newValue);
+        updateProfileObject(logger, dbs, "Updated location to: " + newValue);
+    }
+
+    private void updatePhoneNumber(String newValue, Logger logger, DatabaseService dbs) {
+        logger.info("The current Phone Number is: " + this.getProfileObject().getPhoneNumber());
+        this.getProfileObject().setPhoneNumber(newValue);
+        updateProfileObject(logger, dbs, "Updated phone number to: " + newValue);
+    }
+
+    private void updateDatabaseObject(Object object, String tableName, String columnName, Logger logger, String successMessage) {
+        try {
+            new DatabaseService().updateObject(object, tableName, columnName);
+            logger.info(successMessage);
+        } catch (Exception e) {
+            logger.severe(EDIT_DETAILS_ERROR);
+        }
+    }
+
+    private void updateProfileObject(Logger logger, DatabaseService dbs, String successMessage) {
+        try {
+            dbs.updateObject(profile, PROFILE, PROFILE_ID);
+            logger.info(successMessage);
+        } catch (Exception e) {
+            logger.severe(EDIT_DETAILS_ERROR);
+        }
+    }
+
 
     public void viewRequisitesHistory(DatabaseService databaseService){
         ResultSet resultSet;
@@ -424,10 +383,7 @@ public class User {
 
     }
     public void setEmail(String email) {
-        DatabaseService dbs = new DatabaseService();
-        //todo: connect to db
         this.email = email;
-        dbs=null;
     }
     public void setPassword(String password) {
         this.password = password;
@@ -442,13 +398,7 @@ public class User {
     public void setSignInStatus(boolean signInStatus) {
         this.signInStatus = signInStatus;
     }
-//    @Override
-//    public String toString(){
-//        showDetails(Logger.getLogger("logger"));
-//        return "Email: "+this.email+"\n"+
-//                "Password: "+this.password+"\n";
-//
-//    }
+
 }
 
 

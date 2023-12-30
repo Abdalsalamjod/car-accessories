@@ -91,13 +91,12 @@ public class Request {
   @Override
   public String toString(){
     return  "ID: " + this.id +
-            ",  Date: " + this.date +
             ",  User Email :"+this.userId +
             ",  ProductId: " + this.productId +
+            ",  Date: " + this.date +
             ",  Description: "+this.description +
             "\n\n";
   }
-
 
   public static List<String> getDatesArray(){
     return Request.datesArray;
@@ -105,7 +104,6 @@ public class Request {
   public static void setDatesArray(List<String> datesArray){
     Request.datesArray = ( ArrayList<String> ) datesArray;
   }
-
   public static void initializeDatesArray(){
 
     LocalDateTime currentDateTime = LocalDateTime.now();
@@ -125,19 +123,6 @@ public class Request {
       datesArray.add(i, formattedDateTime);
     }
 
-  }
-
-  public static LocalDateTime databaseFormatDate(String dateAsString){
-
-
-
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-    return LocalDateTime.parse(dateAsString, formatter);
-
-  }
-
-  public static String databaseToStringFormatDate(LocalDateTime date){
-    return (String.valueOf(date));
   }
 
 

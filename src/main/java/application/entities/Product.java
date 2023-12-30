@@ -16,7 +16,6 @@ public class Product {
   private Integer quantity;
 
 
-  //constructors
   public Product(){
     this.id = null;
     this.name = null;
@@ -34,7 +33,6 @@ public class Product {
   }
 
 
-  //check if valid information
   public String validInformation(){
     if(this.name.contains("#"))
       return "Invalid Name!";
@@ -49,7 +47,6 @@ public class Product {
   }
 
 
-  //getters and setters
   public Integer getId() {
     return id;
   }

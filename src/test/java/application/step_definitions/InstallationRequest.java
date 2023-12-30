@@ -1,6 +1,5 @@
 package application.step_definitions;
 
-import application.database.premitive_objects.ResultSetResultHandler;
 import application.database.user_defined_types.RequestResultHandler;
 import application.entities.Installer;
 import application.entities.Request;
@@ -8,7 +7,6 @@ import application.services.DatabaseService;
 import application.services.EmailSender;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -38,7 +36,6 @@ public class InstallationRequest {
     tempRequestToSend.setDescription(description);
     tempRequestToSend.setDone(0);
     tempRequestToSend.setSelected(0);
-    System.out.println(tempRequestToSend);
     Installer.createNewRequest(tempRequestToSend, dbs);
 
   }
@@ -53,8 +50,6 @@ public class InstallationRequest {
       assertEquals(tempRequestToReceive.getId(), tempRequestToSend.getId());
       assertEquals(tempRequestToReceive.getProductId(), tempRequestToSend.getProductId());
       assertEquals(tempRequestToReceive.getUserId(), tempRequestToSend.getUserId());
-      System.out.println("tempRequestToReceive.getDate(): " + tempRequestToReceive.getDate());
-      System.out.println("tempRequestToSend.getDate()" + tempRequestToSend.getDate());
       assertEquals(tempRequestToReceive.getDate(), tempRequestToSend.getDate());
       assertEquals(tempRequestToReceive.getDescription(), tempRequestToSend.getDescription());
       assertEquals(tempRequestToReceive.getDone(), tempRequestToSend.getDone());
@@ -69,7 +64,7 @@ public class InstallationRequest {
   @Then("an email should be send to the installer with email = {string} and user with id= = {string}")
   public void an_email_should_be_send_to_the_installer_with_email_and_user_with_id(String installerEmail, String userEmail) {
     String subject = "Hala-car accessories system";
-    String body = "Done!";
+    String body = "This email is for test cases";
     EmailSender.sendEmail(installerEmail, subject, body);
     EmailSender.sendEmail(userEmail, subject, body);
   }
@@ -103,35 +98,13 @@ public class InstallationRequest {
   }
 
 
-
   @Then("the removed date should be available again in the dates array")
   public void the_removed_date_should_be_available_again_in_the_dates_array() {
 
-    try{
-      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-      ArrayList<Request> returnedRequests = new ArrayList<>();
       ArrayList<String> datesArray = ( ArrayList<String> ) Request.getDatesArray();
-
-      ResultSet rs = dbs.executeQuery("SELECT * FROM Request WHERE userId ='s12027747@stu.najah.edu'", new ResultSetResultHandler());
-      while ( rs.next() ){
-        String date =  rs.getString(4).substring(0, 19);
-        returnedRequests.add(new Request(rs.getInt(1), rs.getInt(2), rs.getString(3), LocalDateTime.parse(date, formatter), rs.getString(5)));
-      }
-
-
       datesArray.add(this.removedDate);
       Request.setDatesArray(datesArray);
-
-    }catch ( Exception e ){
-      e.printStackTrace();
-    }
-
   }
-
-
-
-
-
 
 
 }

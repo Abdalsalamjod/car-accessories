@@ -9,7 +9,6 @@ import application.services.ValidationUser;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,21 +31,21 @@ public class User {
     public User() {
             this.profile=new Profile();
     }
-    public User(String email, String password, char role, boolean SignInStatus,Profile profile) {
+    public User(String email, String password, char role, boolean signInStatus,Profile profile) {
         this.email=email;
         this.password=password;
         this.role=role;
         this.profile = profile;
-        this.signInStatus = SignInStatus;
+        this.signInStatus = signInStatus;
 
     }
-    public User(String email, String password, char role, boolean SignInStatus,int profileId) {
+    public User(String email, String password, char role, boolean signInStatus,int profileId) {
         this.email=email;
         this.password=password;
         this.role=role;
         this.profile=new Profile();
         this.profile.setProfileId(profileId);
-        this.signInStatus = SignInStatus;
+        this.signInStatus = signInStatus;
 
     }
 
@@ -66,7 +65,7 @@ public class User {
                     dbs.updateObject(profile,PROFILE,PROFILE_ID);
                     logger.info("Updated name to: " + newValue);
                 } catch (Exception e) {
-                   logger.severe(EDIT_DETAILES_ERROR);
+                   logger.severe(EDIT_DETAILS_ERROR);
                 }
             }
             case 2 -> {
@@ -77,7 +76,7 @@ public class User {
                             dbs.updateObject(this,"user","email");
                             logger.info("Updated email to: " + newValue);
                         } catch (Exception e) {
-                            logger.severe(EDIT_DETAILES_ERROR);
+                            logger.severe(EDIT_DETAILS_ERROR);
                         }
                     } else {
                         logger.info("Error: exist or invalid email, try again!");
@@ -92,7 +91,7 @@ public class User {
                     logger.info("Password updated.");
 
                 } catch (Exception e) {
-                    logger.severe(EDIT_DETAILES_ERROR);
+                    logger.severe(EDIT_DETAILS_ERROR);
                 }
             }
             case 4 -> {
@@ -102,7 +101,7 @@ public class User {
                     dbs.updateObject(profile,PROFILE,PROFILE_ID);
                     logger.info("Updated location to: " + newValue);
                 } catch (Exception e) {
-                    logger.severe(EDIT_DETAILES_ERROR);
+                    logger.severe(EDIT_DETAILS_ERROR);
                 }
 
             }
@@ -113,7 +112,7 @@ public class User {
                     dbs.updateObject(profile,PROFILE,PROFILE_ID);
                     logger.info("Updated phone number to: " + newValue);
                 } catch (Exception e) {
-                    logger.severe(EDIT_DETAILES_ERROR);
+                    logger.severe(EDIT_DETAILS_ERROR);
                 }
             }
             default -> {
@@ -304,8 +303,8 @@ public class User {
 
         }
 
-
     }
+
     public void makeRequest(DatabaseService databaseService){
 
         try{
@@ -379,8 +378,12 @@ public class User {
             }
 
             logger.info("\n");
-            for(int j=0; j<returnedRequests.size(); j++)
-                logger.info(j+1 + "- " + returnedRequests.get(j).toString());
+            String statementToPrint = "";
+            for(int j=0; j<returnedRequests.size(); j++){
+                statementToPrint = j+1 + "- " + returnedRequests.get(j);
+                logger.info(statementToPrint);
+            }
+
             int requestID = scanner.nextInt();
             LocalDateTime removedDate = returnedRequests.get(requestID-1).getDate();
 

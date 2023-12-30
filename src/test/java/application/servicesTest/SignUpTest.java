@@ -3,7 +3,6 @@ import application.LoggerUtility;
 import application.entities.Profile;
 import application.services.DatabaseService;
 import application.services.MessagesGenerator;
-import application.services.SignIn;
 import application.services.SignUp;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -45,7 +44,7 @@ public class SignUpTest {
     }
     @Then("should receive a confirmation message")
     public void shouldReceiveAConfirmationMessage() {
-        logger.info(MessagesGenerator.SigningMessages(signUp.validationStatus));
+        logger.info(MessagesGenerator.signingMessages(signUp.validationStatus));
     }
     @Then("should be redirected to the user dashboard")
     public void shouldBeRedirectedToTheUserDashboardd() {
@@ -61,7 +60,7 @@ public class SignUpTest {
     }
     @Then("the system should respond with an error message")
     public void theSystemShouldRespondWithAnErrorMessage() {
-        logger.info(MessagesGenerator.SigningMessages(signUp.validationStatus));
+        logger.info(MessagesGenerator.signingMessages(signUp.validationStatus));
     }
     @Then("the user should not be registered")
     public void theUserShouldNotBeRegistered() {

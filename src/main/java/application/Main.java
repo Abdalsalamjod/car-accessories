@@ -11,16 +11,13 @@ import java.util.logging.Logger;
 public class Main {
     public static final Logger logger = LoggerUtility.getLogger();
     public static final Scanner scanner = new Scanner(System.in);
-    public static final String EDIT_DETAILES_ERROR="Error: in editDetails\n";
+    public static final String EDIT_DETAILS_ERROR ="Error: in editDetails\n";
     public static final String PROFILE="Profile";
     public static final String PROFILE_ID="profileId";
     public static final String REQUEST ="Request" ;
     public static void main(String[] args) {
 
-
-       
         User currentUser = null;
-
         String email;
         String password;
         int validationStatus;
@@ -38,7 +35,7 @@ public class Main {
                     logger.info("Enter your password: ");
                     password = scanner.nextLine();
                     validationStatus= MainUtility.signUpUtility(email,password);
-                    logger.info(MessagesGenerator.SigningMessages(validationStatus));
+                    logger.info(MessagesGenerator.signingMessages(validationStatus));
                 }
                 case "2" -> {
                     logger.info("Enter your email: ");
@@ -49,7 +46,7 @@ public class Main {
                     validationStatus = ValidationUser.validation(email, password,new DatabaseService());
                     currentUser=MainUtility.signInUtility(email,password,validationStatus );
 
-                    logger.info(MessagesGenerator.SigningMessages(validationStatus));
+                    logger.info(MessagesGenerator.signingMessages(validationStatus));
 
                     if (currentUser != null && currentUser.isSignInStatus())
                     {
@@ -73,7 +70,7 @@ public class Main {
                     }
                     else
                     {
-                        logger.severe(MessagesGenerator.SigningMessages(5));
+                        logger.severe(MessagesGenerator.signingMessages(5));
                     }
                 }
                 case "3" -> {

@@ -49,7 +49,7 @@ public class SignInTest {
         signIn.validationStatus=0;
         signIn.performLogIn(null);
         assertFalse(signIn.signedIn);
-        logger.info(MessagesGenerator.SigningMessages(signIn.validationStatus));
+        logger.info(MessagesGenerator.signingMessages(signIn.validationStatus));
 
     }
     @When("the user provides valid information {string} , {string} and sth went wrong in sql")
@@ -64,7 +64,7 @@ public class SignInTest {
         signIn.validationStatus=0;
         signIn.performLogIn(new DatabaseService());
         assertFalse(signIn.signedIn);
-        logger.info(MessagesGenerator.SigningMessages(signIn.validationStatus));
+        logger.info(MessagesGenerator.signingMessages(signIn.validationStatus));
     }
 
 
@@ -77,7 +77,7 @@ public class SignInTest {
     }
     @Then("the system should display an error message {string}")
     public void theSystemShouldDisplayAnErrorMessage(String string) {
-        logger.info(MessagesGenerator.SigningMessages(signIn.validationStatus));
+        logger.info(MessagesGenerator.signingMessages(signIn.validationStatus));
     }
 
     @Then("the user should not be logged in")

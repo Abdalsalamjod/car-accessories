@@ -21,7 +21,7 @@ public class Installer extends User{
         super();
     }
 
-    public List<Request> availableRequests ;
+    public static List<Request> availableRequests;
     public Installer(String email, String password, char role, Boolean SignInStatus, Profile profile) {
         this.email=email;
         this.password=password;
@@ -30,6 +30,7 @@ public class Installer extends User{
         this.signInStatus = SignInStatus;
     }
 
+    @Override
     public List<Request> viewInstallationRequests(DatabaseService dbs){
         ResultSet resultSet;
         Request request;
@@ -44,7 +45,8 @@ public class Installer extends User{
                          resultSet.getDate(4).toLocalDate().atTime(LocalTime.MIDNIGHT),
                         resultSet.getString(5));
 
-                logger.info(request.toString());
+                if(request != null)
+                    logger.info(request.toString());
                 availableRequests.add(request);
             }
         } catch (Exception e) {
@@ -81,7 +83,7 @@ public class Installer extends User{
         }
     }
 
-    public void ScheduleAppointments(DatabaseService databaseService, Scanner scanner, boolean test, String testValue) {
+    public void scheduleAppointments(DatabaseService databaseService, Scanner scanner, boolean test, String testValue) {
         boolean continueLoop = true;
         availableRequests = viewInstallationRequests(databaseService);
 

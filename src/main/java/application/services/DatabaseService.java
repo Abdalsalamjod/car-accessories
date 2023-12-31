@@ -7,7 +7,6 @@ import java.sql.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.lang.reflect.AccessibleObject;
 import static application.services.MessagesGenerator.LOGGER;
 
 
@@ -99,9 +98,13 @@ public class DatabaseService implements Serializable {
     Field[] fields = object.getClass().getDeclaredFields();
     for (int i = 0; i < columnNames.length; i++) {
       Field field = fields[i];
+      boolean originalAccessible = field.canAccess(object);
       field.setAccessible(true);
-      statement.setObject(i + 1, field.get(object).toString());
-      field.setAccessible(false);
+      try {
+        statement.setObject(i + 1, field.get(object).toString());
+      } finally {
+        field.setAccessible(originalAccessible);
+      }
     }
   }
 
@@ -111,7 +114,7 @@ public class DatabaseService implements Serializable {
       throw new IllegalArgumentException("Invalid table name");
     }
 
-    String deleteQuery = "DELETE FROM " + tableName + " WHERE id = ?";
+    String deleteQuery = "DELETE FROM " + validateAndQuoteTableName(tableName) + " WHERE id = ?";
 
     try (PreparedStatement statement = connection.prepareStatement(deleteQuery)) {
       statement.setInt(1, id);
@@ -119,6 +122,11 @@ public class DatabaseService implements Serializable {
       return true;
     }
   }
+
+  private String validateAndQuoteTableName(String tableName) {
+    return "`" + tableName + "`";
+  }
+
 
   private boolean isValidTableName(String tableName) {
     List<String> allowedTableNames = Arrays.asList("Product", "Profile", LITERAL_FOR_REQUEST_TABLE, "user");
@@ -160,46 +168,34 @@ public class DatabaseService implements Serializable {
     }
   }
 
-  private <T> void setParameters(PreparedStatement statement, T object, String primaryKeyField) throws IllegalAccessException, NoSuchFieldException, SQLException {
-    Field[] fields = object.getClass().getDeclaredFields();
-    int fieldsLength = (Objects.equals(LITERAL_FOR_REQUEST_TABLE, primaryKeyField)) ? fields.length - 1 : fields.length;
 
-    int paramIndex = 1;
-    for (int i = 0; i < fieldsLength; i++) {
-      if (!fields[i].getName().equals(primaryKeyField)) {
-        setParameter(statement, fields[i], object, paramIndex);
-        paramIndex++;
+
+
+    private <T> void setParameters(PreparedStatement statement, T object, String primaryKeyField)
+      throws IllegalAccessException, NoSuchFieldException, SQLException {
+      Field[] fields = object.getClass().getDeclaredFields();
+      int fieldsLength = (Objects.equals(LITERAL_FOR_REQUEST_TABLE, primaryKeyField)) ? fields.length - 1 : fields.length;
+
+      int paramIndex = 1;
+      for (int i = 0; i < fieldsLength; i++) {
+        Field field = fields[i];
+        if (!field.getName().equals(primaryKeyField)) {
+          setParameter(statement, field, object, paramIndex);
+          paramIndex++;
+        }
       }
+
+      Field primaryKey = object.getClass().getDeclaredField(primaryKeyField);
+      setParameter(statement, primaryKey, object, paramIndex);
     }
 
-    Field primaryKey = object.getClass().getDeclaredField(primaryKeyField);
-
-    AccessibleObject.setAccessible(new AccessibleObject[]{primaryKey}, true); // Set accessibility to true
-
-    try {
-      statement.setObject(paramIndex, primaryKey.get(object));
-    } finally {
-      AccessibleObject.setAccessible(new AccessibleObject[]{primaryKey}, false); // Set accessibility back to false
+    private <T> void setParameter(PreparedStatement statement, Field field, T object, int paramIndex)
+      throws SQLException, IllegalAccessException {
+      field.setAccessible(true);
+      statement.setObject(paramIndex, field.get(object));
+      field.setAccessible(false);
     }
-  }
-
-
-
-  private void setParameter(PreparedStatement statement, Field field, Object object, int paramIndex) throws IllegalAccessException, SQLException {
-    AccessibleObject.setAccessible(new AccessibleObject[]{field}, true); // Set accessibility to true
-
-    try {
-      if (field.getName().equals(LITERAL_FOR_PROFILE) || field.getName().equals("role")) {
-        statement.setObject(paramIndex, field.get(object).toString());
-      } else {
-        statement.setObject(paramIndex, field.get(object));
-      }
-    } finally {
-      AccessibleObject.setAccessible(new AccessibleObject[]{field}, false); // Set accessibility back to false
-    }
-  }
-
-
-
-
 }
+
+
+

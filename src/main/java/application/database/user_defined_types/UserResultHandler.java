@@ -19,6 +19,6 @@ public class UserResultHandler implements QueryResultHandler<User> {
 
       return user;
     }
-    return null; // Return null if no result
+    return null;
   }
 }

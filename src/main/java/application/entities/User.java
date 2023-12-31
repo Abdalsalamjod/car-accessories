@@ -200,7 +200,8 @@ public class User {
             try {
                 handleProductBrowsingOption(option, dbs);
             } catch (Exception e) {
-                LOGGER.severe("Cannot get the product " + option + ", something went wrong!\n");
+                e.printStackTrace();
+                LOGGER.severe("Cannot get the products, something went wrong!\n");
                 exit(0);
             }
         } while (!option.equals("6"));

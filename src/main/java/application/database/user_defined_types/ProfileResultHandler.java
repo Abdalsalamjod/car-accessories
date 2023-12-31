@@ -19,6 +19,6 @@ public class ProfileResultHandler implements QueryResultHandler<Profile> {
             profile.setName(resultSet.getString("name"));
             return profile;
         }
-        return null; // Return null if no result
+        return null;
     }
 }

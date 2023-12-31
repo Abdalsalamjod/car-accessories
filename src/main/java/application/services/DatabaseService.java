@@ -110,22 +110,21 @@ public class DatabaseService implements Serializable {
   }
 
 
+
   public boolean deleteObject(int id, String tableName) throws SQLException {
     if (!isValidTableName(tableName)) {
       throw new IllegalArgumentException("Invalid table name");
     }
-
-    String deleteQuery = "DELETE FROM " + validateAndQuoteTableName(tableName) + " WHERE id = " + id;
-
-    try (Statement statement = connection.createStatement()) {
-        statement.executeUpdate(deleteQuery);
-        return true;
+    String deleteQuery = buildDeleteQuery(tableName);
+    try (PreparedStatement statement = connection.prepareStatement(deleteQuery)) {
+      statement.setInt(1, id);
+      statement.executeUpdate();
+      return true;
     }
   }
 
-
-  private String validateAndQuoteTableName(String tableName) {
-    return "`" + tableName + "`";
+  private String buildDeleteQuery(String tableName) {
+    return "DELETE FROM " + tableName + " WHERE id=?";
   }
 
 
@@ -193,7 +192,6 @@ public class DatabaseService implements Serializable {
       }
     }
   }
-
 
 
   private void setParameter(PreparedStatement statement, Field field, Object object, int paramIndex)

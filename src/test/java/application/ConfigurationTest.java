@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
   features = "src/test/resources/features",
   monochrome = true,
   snippets = CucumberOptions.SnippetType.CAMELCASE,
-  glue = {"application/step_definitions"},
+  glue = {"application"},
   plugin = {"summary", "html:target/cucumber/test-summary.html"}
 )
 public class ConfigurationTest {

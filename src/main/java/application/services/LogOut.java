@@ -4,8 +4,8 @@ import application.Main;
 import application.entities.User;
 
 public class LogOut {
-    public static String goodBayMessage= "Thank you to use our app, Have a nice Day ^_^";
-    public static String warningMessage= "Error: sth wrong happened, try again";
+    public static final String GOOD_BAY_MESSAGE = "Thank you to use our app, Have a nice Day ^_^";
+    public static final String WARNING_MESSAGE = "Error: sth wrong happened, try again";
 
     public User performLogout(User user,DatabaseService dbs) {
            user.setSignInStatus(false);
@@ -13,7 +13,7 @@ public class LogOut {
                 dbs.updateObject(user,"user","email");
                 user =null;
             } catch (Exception e) {
-                Main.logger.severe(warningMessage);
+                Main.logger.severe(WARNING_MESSAGE);
             }
            return user;
         }

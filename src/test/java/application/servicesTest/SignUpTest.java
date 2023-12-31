@@ -24,27 +24,27 @@ public class SignUpTest {
 
     @Given("the user accesses the sign-up command")
     public void theUserAccessesTheSignUpCommand() {
-        assertFalse(signUp.hasAccount);
+        assertFalse(signUp.isHasAccount());
         logger.info("Please Enter your Email and password\n");
     }
     @When("the user provides valid registration information")
     public void theUserProvidesValidRegistrationInformation() {
         Profile profile =new Profile(-1,"test","0000","tset");
-        signUp.email   ="valid@example.com";
-        signUp.password ="validpass";
-        signUp.profile=profile;
-        signUp.validationStatus = validation(signUp.email,signUp.password,new DatabaseService());
-        assertNotEquals(signUp.validationStatus,0);
+        signUp.setEmail("valid@example.com");
+        signUp.setPassword("validpass");
+        signUp.setProfile(profile);
+        signUp.setValidationStatus(validation(signUp.getEmail(), signUp.getPassword(), new DatabaseService()));
+        assertNotEquals(signUp.getValidationStatus(),0);
     }
     @Then("the user should be registered successfully")
     public void theUserShouldBeRegisteredSuccessfully() {
-        signUp.validationStatus=0;
+        signUp.setValidationStatus(0);
         signUp.creatAccount(new DatabaseService());
-        assertTrue( signUp.hasAccount);
+        assertTrue(signUp.isHasAccount());
     }
     @Then("should receive a confirmation message")
     public void shouldReceiveAConfirmationMessage() {
-        logger.info(MessagesGenerator.signingMessages(signUp.validationStatus));
+        logger.info(MessagesGenerator.signingMessages(signUp.getValidationStatus()));
     }
     @Then("should be redirected to the user dashboard")
     public void shouldBeRedirectedToTheUserDashboardd() {
@@ -55,12 +55,12 @@ public class SignUpTest {
 
     @When("the user provides {string}, {string}")
     public void theUserProvides(String Email, String Password)  {
-        signUp.validationStatus =validation(Email,Password,new DatabaseService());
+        signUp.setValidationStatus(validation(Email, Password, new DatabaseService()));
 //        assertNotEquals(signUp.validationStatus,0);
     }
     @Then("the system should respond with an error message")
     public void theSystemShouldRespondWithAnErrorMessage() {
-        logger.info(MessagesGenerator.signingMessages(signUp.validationStatus));
+        logger.info(MessagesGenerator.signingMessages(signUp.getValidationStatus()));
     }
     @Then("the user should not be registered")
     public void theUserShouldNotBeRegistered() {
@@ -69,7 +69,7 @@ public class SignUpTest {
 
     @And("error in validation hapneed")
     public void errorInValidationHapneed() {
-        signUp.validationStatus=5;
+        signUp.setValidationStatus(5);
         signUp.creatAccount(new DatabaseService());
     }
     @When("the user provides valid registration information new constucotr")
@@ -79,8 +79,8 @@ public class SignUpTest {
     }
     @When("the user provides valid registration information and sth went weong")
     public void theUserProvidesValidRegistrationInformationAndSthWentWeong() {
-        signUp.validationStatus=0;
+        signUp.setValidationStatus(0);
         signUp.creatAccount(null);
-        assertTrue( signUp.hasAccount);
+        assertTrue(signUp.isHasAccount());
     }
 }

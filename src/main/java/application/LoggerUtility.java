@@ -1,4 +1,5 @@
 package application;
+
 import java.util.logging.*;
 
 public class LoggerUtility {
@@ -14,23 +15,21 @@ public class LoggerUtility {
         return logger;
     }
 
+    public static boolean isInfoEnabled() {
+        return getLogger().isLoggable(Level.INFO);
+    }
+
     private static void setupLogger() {
         logger.setUseParentHandlers(false);
         SimpleFormatter simpleFormatter = new SimpleFormatter() {
-            private static final String ANSI_BLUE = "\u001B[34m";
-            private static final String ANSI_RED = "\u001B[31m";
-            private static final String ANSI_RESET = "\u001B[0m";
+            private static final String FORMAT_PATTERN = "[%1$tF %1$tT] [%2$s] %3$s %n";
 
             @Override
             public synchronized String format(LogRecord logRecord) {
-                String color = ANSI_BLUE; // Default to blue
-
-                if (logRecord.getLevel().intValue() >= Level.SEVERE.intValue()) {
-                    color = ANSI_RED; // Set to red for severe errors
-                }
-
-                // Apply the color based on the log level, and reset after the message
-                return color + logRecord.getMessage() + ANSI_RESET ;
+                return String.format(FORMAT_PATTERN,
+                        logRecord.getMillis(),
+                        logRecord.getLevel().getLocalizedName(),
+                        logRecord.getMessage());
             }
         };
 

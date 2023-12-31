@@ -12,10 +12,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static application.Main.*;
-import static application.services.MessagesGenerator.logger;
+import static application.services.MessagesGenerator.LOGGER;
 import static java.lang.System.exit;
 
 
@@ -139,7 +140,7 @@ public class User {
 
         try {
             resultSet=  databaseService.executeQuery("SELECT * FROM `Request` WHERE `done` = true AND `userId`= "+this.email , new ResultSetResultHandler());
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
 
             while ( resultSet.next() ) {
                 String date =  resultSet.getString(4).substring(0, 19);
@@ -149,7 +150,9 @@ public class User {
                         LocalDateTime.parse(date, formatter),
                         resultSet.getString(5));
 
-                Main.logger.info(request.toString());
+                if (logger.isLoggable(Level.INFO)) {
+                    logger.info(request.toString());
+                }
                 availableRequests.add(request);
             }
         } catch (SQLException e) {
@@ -164,7 +167,7 @@ public class User {
 
         try {
             resultSet = databaseService.executeQuery("SELECT * FROM `Request` WHERE `selected` = true AND `userId`= "+this.email , new ResultSetResultHandler());
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
             while (resultSet.next()) {
                 String date =  resultSet.getString(4).substring(0, 19);
                 request = new Request(resultSet.getInt(1),
@@ -173,8 +176,9 @@ public class User {
                         LocalDateTime.parse(date, formatter),
                         resultSet.getString(5)
                 );
-
-                Main.logger.info(request.toString());
+                if (logger.isLoggable(Level.INFO)) {
+                    logger.info(request.toString());
+                }
                 availableRequests.add(request);
             }
 
@@ -187,116 +191,138 @@ public class User {
 
 
 
-    public void browsProducts(DatabaseService dbs){
-
-        ResultSet rs;
-        Product returnedProduct;
-        String errorMsg = null;
-
-        boolean iterator = true;
-        while (iterator){
-
+    public void browsProducts(DatabaseService dbs) {
+        String option;
+        do {
             MessagesGenerator.listGenerator("browsProductsList");
-            String option = scanner.nextLine();
-
-            try{
-
-                switch ( option ) {
-
-                    case "1" -> {
-                        errorMsg = "";
-                        rs = Product.getAllProducts(dbs);
-                        while ( rs.next() ) {
-                            returnedProduct = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getInt(5));
-                            logger.info(returnedProduct.toString());
-                        }
-                    }
-                    case "2" -> {
-                        errorMsg = "by ID";
-                        logger.info("\nPlease enter the product ID:");
-                        int id = scanner.nextInt();
-                        scanner.nextLine();
-                        returnedProduct = Product.getProductById(id, dbs);
-                        logger.info(returnedProduct.toString());
-                    }
-                    case "3" -> {
-                        errorMsg = "by name";
-                        logger.info("Please enter the product name:");
-                        String name = scanner.nextLine();
-                        if(Product.getProductByName(name, dbs) == null)
-                            logger.info("There is no products with the name you entered\n");
-                        else
-                            logger.info(Product.getProductByName(name, dbs).toString());
-                    }
-                    case "4" -> {
-                        errorMsg = "by category";
-                        logger.info("Please enter the product category:");
-                        String category = scanner.nextLine();
-                        rs = Product.getProductsByCategory(category, dbs);
-                        while ( rs.next() ) {
-                            returnedProduct = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getInt(5));
-                            logger.info(returnedProduct.toString());
-                        }
-                    }
-                    case "5" -> {
-                        errorMsg = "by price range";
-                        logger.info("Please enter the lower price:");
-                        double lower = scanner.nextDouble();
-                        logger.info("Please enter the upper price:");
-                        double upper = scanner.nextDouble();
-                        rs = Product.getProductsByPriceRange(lower, upper, dbs);
-                        while ( rs.next() ) {
-                            returnedProduct = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getInt(5));
-                            logger.info(returnedProduct.toString());
-                        }
-                    }
-                    case "6" -> iterator = false;
-                    default -> logger.info("Invalid choice! \nPlease enter 1, 2, ... 6.\n");
-
-                }
-
-            }catch ( Exception e){
-                logger.info("Cannot get the product " + errorMsg + ", something went wrong!\n");
+            option = scanner.nextLine();
+            try {
+                handleProductBrowsingOption(option, dbs);
+            } catch (Exception e) {
+                LOGGER.severe("Cannot get the product " + option + ", something went wrong!\n");
                 exit(0);
             }
-
-        }
-
+        } while (!option.equals("6"));
     }
 
+    private void handleProductBrowsingOption(String option, DatabaseService dbs) throws SQLException {
+        switch (option) {
+            case "1":
+                viewAllProducts(dbs);
+                break;
+            case "2":
+                searchProductById(dbs);
+                break;
+            case "3":
+                searchProductByName(dbs);
+                break;
+            case "4":
+                searchProductByCategory(dbs);
+                break;
+            case "5":
+                searchProductByPriceRange(dbs);
+                break;
+            case "6":
+
+                break;
+            default:
+                LOGGER.info("Invalid choice! \nPlease enter 1, 2, ... 6.\n");
+                break;
+        }
+    }
+
+    private void viewAllProducts(DatabaseService dbs) throws SQLException {
+        ResultSet rs = Product.getAllProducts(dbs);
+        while (rs.next()) {
+            Product returnedProduct = new Product(rs.getInt("id"), rs.getString("name"), rs.getString("category"), rs.getDouble("price"), rs.getInt("quantity"));
+            logProductInfo(returnedProduct);
+        }
+    }
+
+    private void searchProductById(DatabaseService dbs) throws SQLException {
+        LOGGER.info("\nPlease enter the product ID:");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        Product returnedProduct = Product.getProductById(id, dbs);
+        logProductInfo(returnedProduct);
+    }
+
+    private void searchProductByName(DatabaseService dbs) {
+        LOGGER.info("Please enter the product name:");
+        String name = scanner.nextLine();
+        Product returnedProduct = null;
+        try {
+            returnedProduct = Product.getProductByName(name, dbs);
+        } catch (SQLException e) {
+            LOGGER.severe("There is no products with the name you entered\n");        }
+        if (returnedProduct == null) {
+            LOGGER.severe("There is no product with the name you entered\n");
+        } else {
+            logProductInfo(returnedProduct);
+        }
+    }
+
+    private void searchProductByCategory(DatabaseService dbs) throws SQLException {
+        LOGGER.info("Please enter the product category:");
+        String category = scanner.nextLine();
+        ResultSet rs = Product.getProductsByCategory(category, dbs);
+        while (rs.next()) {
+            Product returnedProduct = new Product(rs.getInt("id"), rs.getString("name"), rs.getString("category"), rs.getDouble("price"), rs.getInt("quantity"));
+            logProductInfo(returnedProduct);
+        }
+    }
+
+    private void searchProductByPriceRange(DatabaseService dbs) throws SQLException {
+        LOGGER.info("Please enter the lower price:");
+        double lower = scanner.nextDouble();
+        LOGGER.info("Please enter the upper price:");
+        double upper = scanner.nextDouble();
+        scanner.nextLine(); // consume the rest of the line
+        ResultSet rs = Product.getProductsByPriceRange(lower, upper, dbs);
+        while (rs.next()) {
+            Product returnedProduct = new Product(rs.getInt("id"), rs.getString("name"), rs.getString("category"), rs.getDouble("price"), rs.getInt("quantity"));
+            logProductInfo(returnedProduct);
+        }
+    }
+
+    private void logProductInfo(Product product) {
+        if (logger.isLoggable(Level.INFO)) {
+            logger.info(product.toString());
+        }
+    }
     public void makeRequest(DatabaseService databaseService){
 
         try{
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
             Request.initializeDatesArray();
             ArrayList<String> datesArray = ( ArrayList<String> ) Request.getDatesArray();
 
 
-            logger.info("Please enter the request ID: ");
+            LOGGER.info("Please enter the request ID: ");
             int requestID = scanner.nextInt();
 
 
-            logger.info("\nPlease select the product you want to install\n");
+            LOGGER.info("\nPlease select the product you want to install\n");
             ResultSet rs = Product.getAllProductsNames(databaseService);
-            logger.info("ID" + "  " + "Name\n");
+            LOGGER.info("ID" + "  " + "Name\n");
             while ( rs.next() )
-                logger.info(String.format("%d  %s%n", rs.getInt(1), rs.getString(2)));
+                LOGGER.info(String.format("%d  %s%n", rs.getInt(1), rs.getString(2)));
 
 
-            logger.info("\n");
+            LOGGER.info("\n");
             int productID = scanner.nextInt();
 
 
-            logger.info("\nPlease select one of the available dates\n");
+            LOGGER.info("\nPlease select one of the available dates\n");
             for(int i=0; i<datesArray.size(); i++)
-                logger.info(String.format("%d- %s%n", i + 1, datesArray.get(i)));
+                LOGGER.info(String.format("%d- %s%n", i + 1, datesArray.get(i)));
             int dateIndex = scanner.nextInt() - 1;
             String selectedDate = datesArray.get(dateIndex);
             LocalDateTime dateToStore = LocalDateTime.parse(selectedDate, formatter);
 
 
-            logger.info("\nPlease enter the description, what exactly do you want to do:\n");
+            LOGGER.info("\nPlease enter the description, what exactly do you want to do:\n");
             scanner.nextLine();
             String description = scanner.nextLine();
 
@@ -305,7 +331,7 @@ public class User {
             request.setDone(0);
             request.setSelected(0);
             databaseService.addObject(request,"Request");
-            logger.info("\nRequest Added Successfully, you can check your email for further information\n");
+            LOGGER.info("\nRequest Added Successfully, you can check your email for further information\n");
             EmailSender.sendEmail("s12027747@stu.najah.edu", "Installation Request", "Added successfully");
 
             datesArray.remove(dateIndex);
@@ -314,7 +340,7 @@ public class User {
 
         }catch ( Exception e ){
             Main.logger.info(e.getMessage());
-            logger.severe("Sorry, something went wrong!\n");
+            LOGGER.severe("Sorry, something went wrong!\n");
             exit(0);
         }
 
@@ -325,22 +351,22 @@ public class User {
         try{
 
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
             ArrayList<Request> returnedRequests = new ArrayList<>();
             ArrayList<String> datesArray = ( ArrayList<String> ) Request.getDatesArray();
 
-            logger.info("Please enter the number of the request you want to remove:\n");
+            LOGGER.info("Please enter the number of the request you want to remove:\n");
             ResultSet rs = databaseService.executeQuery("SELECT * FROM Request WHERE userId ='" + this.getEmail() + "'", new ResultSetResultHandler());
             while ( rs.next() ){
                String date =  rs.getString(4).substring(0, 19);
                returnedRequests.add(new Request(rs.getInt(1), rs.getInt(2), rs.getString(3), LocalDateTime.parse(date, formatter), rs.getString(5)));
             }
 
-            logger.info("\n");
+            LOGGER.info("\n");
             String statementToPrint = "";
             for(int j=0; j<returnedRequests.size(); j++){
                 statementToPrint = j+1 + "- " + returnedRequests.get(j);
-                logger.info(statementToPrint);
+                LOGGER.info(statementToPrint);
             }
 
             int requestID = scanner.nextInt();
@@ -351,12 +377,12 @@ public class User {
 
 
             databaseService.deleteObject(requestID, "Request");
-            logger.info("\nRequest Removed Successfully, you can check your email for further information\n");
+            LOGGER.info("\nRequest Removed Successfully, you can check your email for further information\n");
             EmailSender.sendEmail("s12027747@stu.najah.edu", "Installation Request", "Removed successfully");
 
         }catch ( Exception e ){
             Main.logger.info(e.getMessage());
-            logger.severe("Sorry, something went wrong!");
+            LOGGER.severe("Sorry, something went wrong!");
             exit(0);
         }
 

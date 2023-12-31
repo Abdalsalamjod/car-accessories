@@ -4,7 +4,7 @@ import application.services.*;
 import java.util.List;
 
 import static application.Main.scanner;
-import static application.services.MessagesGenerator.logger;
+import static application.services.MessagesGenerator.LOGGER;
 
 
 public class MainUtility {
@@ -20,23 +20,23 @@ public class MainUtility {
            switch ( option ){
 
                case "1" -> currentUser.browsProducts(databaseService);
-               case "2" -> currentUser.showDetails(logger);
+               case "2" -> currentUser.showDetails(LOGGER);
                case "3" -> {
                    MessagesGenerator.listGenerator("editProfile");
                    int optionIn = scanner.nextInt();
                    scanner.nextLine();  // Consume the newline
 //                   currentUser.editDetails(optionIn, logger, scanner);
 //                   for test
-                   logger.info("what is the new value: ");
+                   LOGGER.info("what is the new value: ");
                    String newValue =scanner.nextLine();
-                   currentUser.editDetails(optionIn, newValue,logger);
+                   currentUser.editDetails(optionIn, newValue, LOGGER);
                }
                case "4" -> currentUser.viewInstallationRequests(databaseService);
                case "5" -> currentUser.viewRequisitesHistory(databaseService);
                case "6" -> currentUser.makeRequest(databaseService);
                case "7" -> currentUser.removeRequest(databaseService);
                case "8" -> iterator = false;
-               default -> logger.info(PLEASE_ENTER_VALID + "1, 2, ... 8.\n");
+               default -> LOGGER.info(PLEASE_ENTER_VALID + "1, 2, ... 8.\n");
 
            }
         }
@@ -55,7 +55,7 @@ public class MainUtility {
                 case 1 -> manageProducts(currentAdmin, databaseService);
                 case 2 -> manageUsers(currentAdmin, databaseService);
                 case 3 -> iterator = false;
-                default -> logger.info(PLEASE_ENTER_VALID + ETC);
+                default -> LOGGER.info(PLEASE_ENTER_VALID + ETC);
             }
         }
 
@@ -87,7 +87,7 @@ public class MainUtility {
     }
 
     private static User selectUser(List<User> users) {
-        logger.info("\nselected user email: ");
+        LOGGER.info("\nselected user email: ");
         String tempId = scanner.nextLine();
 
         for (User user : users) {
@@ -100,16 +100,16 @@ public class MainUtility {
 
     private static void manageUserAccounts(Admin currentAdmin, DatabaseService databaseService, User selectedUser, int choice) {
         if (choice != 1) {
-            logger.info("Enter new value to update: ");
+            LOGGER.info("Enter new value to update: ");
         }
 
         String newValue = scanner.nextLine();
-        logger.info("\n");
+        LOGGER.info("\n");
 
         if (selectedUser != null) {
             currentAdmin.manageAcounts(databaseService, selectedUser, choice, newValue);
         } else {
-            logger.severe("Please enter valid email\n");
+            LOGGER.severe("Please enter valid email\n");
         }
     }
 
@@ -129,7 +129,7 @@ public class MainUtility {
                 case "2" -> currentInstaller.scheduleAppointments(databaseService,scanner,false,"");
                 case "3" -> currentInstaller.markAsDone(databaseService,scanner,false,"");
                 case "4" -> iterator = false;
-                default  -> logger.info( PLEASE_ENTER_VALID + ETC);
+                default  -> LOGGER.info( PLEASE_ENTER_VALID + ETC);
             }
         }
     }
@@ -140,11 +140,11 @@ public class MainUtility {
         String phoneNumber;
         int validationStatus = ValidationUser.validation(email, password,new DatabaseService());
         if (validationStatus == ValidationUser.VALID) {
-            logger.info("Please enter your name: ");
+            LOGGER.info("Please enter your name: ");
             name=scanner.nextLine();
-            logger.info("Please enter your address: ");
+            LOGGER.info("Please enter your address: ");
             location=scanner.nextLine();
-            logger.info("Please enter your phoneNumber: ");
+            LOGGER.info("Please enter your phoneNumber: ");
             phoneNumber=scanner.nextLine();
             Profile profile=new Profile(-1,name,phoneNumber,location);
             SignUp signUp = new SignUp(email,password,false,validationStatus,profile);
@@ -181,7 +181,7 @@ public class MainUtility {
                     iterator=false;
                     break;
                 default:
-                    logger.info(PLEASE_ENTER_VALID + ETC);
+                    LOGGER.info(PLEASE_ENTER_VALID + ETC);
             }
         }
     }

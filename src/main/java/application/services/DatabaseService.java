@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.sql.*;
 import java.util.Objects;
-import static application.services.MessagesGenerator.logger;
+import static application.services.MessagesGenerator.LOGGER;
 
 
 public class DatabaseService implements Serializable {
@@ -19,7 +19,7 @@ public class DatabaseService implements Serializable {
     try {
       connection = DriverManager.getConnection("jdbc:mysql://sql12.freesqldatabase.com:3306/sql12654012", DATABASE_USER, DATABASE_PASSWORD);
     } catch (SQLException e) {
-      logger.info("\nNot Connected to the database! Please try again.\n");
+      LOGGER.info("\nNot Connected to the database! Please try again.\n");
     }
   }
 
@@ -29,7 +29,7 @@ public class DatabaseService implements Serializable {
       try {
         connection.close();
       } catch ( SQLException e ) {
-        logger.info("\nSomething went wrong, Connection not closed successfully.\n");
+        LOGGER.info("\nSomething went wrong, Connection not closed successfully.\n");
       }
     }
   }

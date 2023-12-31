@@ -7,7 +7,6 @@ import java.sql.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.lang.reflect.AccessibleObject;
 import static application.services.MessagesGenerator.LOGGER;
 
 
@@ -111,8 +110,6 @@ public class DatabaseService implements Serializable {
   }
 
 
-
-
   public boolean deleteObject(int id, String tableName) throws SQLException {
     if (!isValidTableName(tableName)) {
       throw new IllegalArgumentException("Invalid table name");
@@ -172,7 +169,8 @@ public class DatabaseService implements Serializable {
     }
   }
 
-  private <T> void setParameters(PreparedStatement statement, T object, String primaryKeyField) throws IllegalAccessException, NoSuchFieldException, SQLException {
+  private <T> void setParameters(PreparedStatement statement, T object, String primaryKeyField)
+    throws IllegalAccessException, NoSuchFieldException, SQLException {
     Field[] fields = object.getClass().getDeclaredFields();
     int fieldsLength = (Objects.equals(LITERAL_FOR_REQUEST_TABLE, primaryKeyField)) ? fields.length - 1 : fields.length;
 
@@ -186,19 +184,21 @@ public class DatabaseService implements Serializable {
 
     Field primaryKey = object.getClass().getDeclaredField(primaryKeyField);
 
-    AccessibleObject.setAccessible(new AccessibleObject[]{primaryKey}, true); // Set accessibility to true
-
+    boolean wasAccessible = primaryKey.trySetAccessible();
     try {
       statement.setObject(paramIndex, primaryKey.get(object));
     } finally {
-      AccessibleObject.setAccessible(new AccessibleObject[]{primaryKey}, false); // Set accessibility back to false
+      if (wasAccessible) {
+        primaryKey.setAccessible(false);
+      }
     }
   }
 
 
 
-  private void setParameter(PreparedStatement statement, Field field, Object object, int paramIndex) throws IllegalAccessException, SQLException {
-    AccessibleObject.setAccessible(new AccessibleObject[]{field}, true); // Set accessibility to true
+  private void setParameter(PreparedStatement statement, Field field, Object object, int paramIndex)
+    throws IllegalAccessException, SQLException {
+    boolean wasAccessible = field.trySetAccessible();
 
     try {
       if (field.getName().equals(LITERAL_FOR_PROFILE) || field.getName().equals("role")) {
@@ -207,10 +207,11 @@ public class DatabaseService implements Serializable {
         statement.setObject(paramIndex, field.get(object));
       }
     } finally {
-      AccessibleObject.setAccessible(new AccessibleObject[]{field}, false); // Set accessibility back to false
+      if (wasAccessible) {
+        field.setAccessible(false);
+      }
     }
   }
-
 
 
 

@@ -111,14 +111,16 @@ public class DatabaseService implements Serializable {
       throw new IllegalArgumentException("Invalid table name");
     }
 
-    String deleteQuery = "DELETE FROM " + validateAndQuoteTableName(tableName) + " WHERE id = ?";
+    String deleteQuery = "DELETE FROM " + validateAndQuoteTableName(tableName) + " WHERE id = " + id;
 
-    try (PreparedStatement statement = connection.prepareStatement(deleteQuery)) {
-      statement.setInt(1, id);
-      statement.executeUpdate();
+    try (Statement statement = connection.createStatement()) {
+        statement.executeUpdate(deleteQuery);
+
+      // Check if the deletion was successful
       return true;
     }
   }
+
 
   private String validateAndQuoteTableName(String tableName) {
     return "`" + tableName + "`";

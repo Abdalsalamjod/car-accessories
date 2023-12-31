@@ -16,7 +16,7 @@ public class DatabaseService implements Serializable {
   private static final String LITERAL_FOR_PROFILE = "profile";
   private static final String DATABASE_USER = System.getenv("DATABASE_USER");
   private static final String DATABASE_PASSWORD = System.getenv("DATABASE_PASSWORD");
-  private final String LITERAL_FOR_REQUEST_TABLE = "Request";
+  private static final String LITERAL_FOR_REQUEST_TABLE = "Request";
   private static Connection connection;
 
   static {
@@ -49,61 +49,61 @@ public class DatabaseService implements Serializable {
 
 
   }
+
+
   public <T> boolean addObject(T object, String tableName) throws SQLException {
-    StringBuilder insertQuery = new StringBuilder("INSERT INTO " + tableName + " (");
+    String[] columnNames = getColumnNames(object, tableName);
+    String insertQuery = buildInsertQuery(tableName, columnNames);
 
+    try (PreparedStatement statement = connection.prepareStatement(insertQuery)) {
+      setStatementParameters(statement, object, columnNames);
+      statement.executeUpdate();
+      return true;
+    } catch ( SQLException | IllegalAccessException e) {
+      return false;
+    }
+  }
+
+  private <T> String[] getColumnNames(T object, String tableName) {
     Field[] fields = object.getClass().getDeclaredFields();
-    int fieldsLength = (Objects.equals(tableName, "Request")) ? fields.length - 1 : fields.length;
+    int fieldsLength = (Objects.equals(tableName, LITERAL_FOR_REQUEST_TABLE)) ? fields.length - 1 : fields.length;
 
-    boolean[] fieldAccessible = new boolean[fieldsLength];
-
+    String[] columnNames = new String[fieldsLength];
     for (int i = 0; i < fieldsLength; i++) {
-      if (fields[i].getName().equals(LITERAL_FOR_PROFILE)) {
-        insertQuery.append("profileId");
-      } else {
-        insertQuery.append(fields[i].getName());
-      }
+      columnNames[i] = fields[i].getName().equals(LITERAL_FOR_PROFILE) ? "profileId" : fields[i].getName();
+    }
+    return columnNames;
+  }
 
-      fieldAccessible[i] = fields[i].canAccess(object);
-
-      if (i < fieldsLength - 1) {
+  private String buildInsertQuery(String tableName, String[] columnNames) {
+    StringBuilder insertQuery = new StringBuilder("INSERT INTO " + tableName + " (");
+    for (int i = 0; i < columnNames.length; i++) {
+      insertQuery.append(columnNames[i]);
+      if (i < columnNames.length - 1) {
         insertQuery.append(", ");
       }
     }
-
     insertQuery.append(") VALUES (");
-    for (int i = 0; i < fieldsLength; i++) {
+    for (int i = 0; i < columnNames.length; i++) {
       insertQuery.append("?");
-      if (i < fieldsLength - 1) {
+      if (i < columnNames.length - 1) {
         insertQuery.append(", ");
       }
     }
     insertQuery.append(")");
-
-    try {
-      PreparedStatement statement = connection.prepareStatement(insertQuery.toString());
-      for (int i = 0; i < fieldsLength; i++) {
-        if (!fieldAccessible[i]) {
-          fields[i].setAccessible(true);
-        }
-        statement.setObject(i + 1, fields[i].get(object).toString());
-      }
-
-      statement.executeUpdate();
-      statement.close();
-      return true;
-
-    } catch (Exception e) {
-      return false;
-    } finally {
-      for (int i = 0; i < fieldsLength; i++) {
-        if (!fieldAccessible[i]) {
-          fields[i].setAccessible(false);
-        }
-      }
-    }
+    return insertQuery.toString();
   }
 
+  private <T> void setStatementParameters(PreparedStatement statement, T object, String[] columnNames)
+    throws SQLException, IllegalAccessException {
+    Field[] fields = object.getClass().getDeclaredFields();
+    for (int i = 0; i < columnNames.length; i++) {
+      Field field = fields[i];
+      field.setAccessible(true);
+      statement.setObject(i + 1, field.get(object).toString());
+      field.setAccessible(false);
+    }
+  }
 
 
   public boolean deleteObject(int id, String tableName) throws SQLException {
@@ -112,6 +112,7 @@ public class DatabaseService implements Serializable {
     }
 
     String deleteQuery = "DELETE FROM " + tableName + " WHERE id = ?";
+
     try (PreparedStatement statement = connection.prepareStatement(deleteQuery)) {
       statement.setInt(1, id);
       statement.executeUpdate();
@@ -120,7 +121,7 @@ public class DatabaseService implements Serializable {
   }
 
   private boolean isValidTableName(String tableName) {
-    List<String> allowedTableNames = Arrays.asList("Product", "Profile", "Request", "user");
+    List<String> allowedTableNames = Arrays.asList("Product", "Profile", LITERAL_FOR_REQUEST_TABLE, "user");
     return allowedTableNames.contains(tableName);
   }
 

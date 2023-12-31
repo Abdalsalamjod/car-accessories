@@ -3,14 +3,16 @@ package application;
 import java.util.logging.*;
 
 public class LoggerUtility {
-    private static Logger logger;
+    private static final ThreadLocal<Logger> threadLocalLogger = new ThreadLocal<>();
 
     private LoggerUtility() {}
 
     public static Logger getLogger() {
+        Logger logger = threadLocalLogger.get();
         if (logger == null) {
             logger = Logger.getLogger(LoggerUtility.class.getName());
             setupLogger(logger);
+            threadLocalLogger.set(logger);
         }
         return logger;
     }

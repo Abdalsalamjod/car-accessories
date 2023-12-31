@@ -34,9 +34,7 @@ public class Product {
 
 
   public String validInformation(){
-    if(this.name.contains("#"))
-      return "Invalid Name!";
-    else if (!("interior".equals(this.category) || "exterior".equals(this.category) || "electronics".equals(this.category)))
+    if (!("interior".equals(this.category) || "exterior".equals(this.category) || "electronics".equals(this.category)))
       return "Invalid Category!";
     else if(this.price < 0)
       return "Invalid Price!";

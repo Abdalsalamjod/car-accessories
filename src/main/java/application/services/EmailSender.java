@@ -10,9 +10,6 @@ public class EmailSender {
 
   private static final String SENDER_EMAIL = "s12027747@stu.najah.edu";
   private static final String PASSWORD = System.getenv("EMAIL_PASSWORD");
-  private EmailSender() {
-    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated\n");
-  }
 
   public static void sendEmail(String recipientEmail, String subject, String body) {
 

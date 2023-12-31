@@ -59,25 +59,13 @@ public class User {
     public void editDetails(int optionIn, String newValue, Logger logger) {
         DatabaseService dbs = new DatabaseService();
 
-        switch (optionIn) {
-            case 1:
-                updateName(newValue, logger, dbs);
-                break;
-            case 2:
-                updateEmail(newValue, logger, dbs);
-                break;
-            case 3:
-                updatePassword(newValue, logger, dbs);
-                break;
-            case 4:
-                updateLocation(newValue, logger, dbs);
-                break;
-            case 5:
-                updatePhoneNumber(newValue, logger, dbs);
-                break;
-            default:
-                logger.info("Invalid option.");
-                break;
+        switch ( optionIn ) {
+            case 1 -> updateName(newValue, logger, dbs);
+            case 2 -> updateEmail(newValue, logger, dbs);
+            case 3 -> updatePassword(newValue, logger, dbs);
+            case 4 -> updateLocation(newValue, logger, dbs);
+            case 5 -> updatePhoneNumber(newValue, logger, dbs);
+            default -> logger.info("Invalid option.");
         }
     }
 
@@ -133,7 +121,6 @@ public class User {
         }
     }
 
-
     public void viewRequisitesHistory(DatabaseService databaseService){
         ResultSet resultSet;
         Request request;
@@ -160,6 +147,7 @@ public class User {
             Main.logger.info("something went wrong\n");
         }
     }
+
     public List<Request> viewInstallationRequests(DatabaseService databaseService) {
         ResultSet resultSet;
         Request request;
@@ -189,7 +177,6 @@ public class User {
 
         return availableRequests;
     }
-
 
 
     public void browsProducts(DatabaseService dbs) {
@@ -366,7 +353,7 @@ public class User {
             }
 
             LOGGER.info("\n");
-            String statementToPrint = "";
+            String statementToPrint;
             for(int j=0; j<returnedRequests.size(); j++){
                 statementToPrint = j+1 + "- " + returnedRequests.get(j);
                 LOGGER.info(statementToPrint);
@@ -391,7 +378,6 @@ public class User {
 
 
     }
-
 
 
     public boolean isSignInStatus() {return signInStatus;}

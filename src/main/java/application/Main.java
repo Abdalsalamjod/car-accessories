@@ -23,76 +23,82 @@ public class Main {
     public static final String QUANTITY="quantity";
 
     public static void main(String[] args) {
-
         User currentUser = null;
-        String email;
-        String password;
-        int validationStatus;
         boolean iterator = true;
 
         while (iterator) {
             MessagesGenerator.listGenerator("signingList");
             String choice = scanner.nextLine();
+            currentUser = handleUserAction(choice, currentUser);
 
-            switch (choice) {
-
-                case "1" -> {
-                    logger.info("Enter your email: ");
-                    email = scanner.nextLine();
-                    logger.info("Enter your password: ");
-                    password = scanner.nextLine();
-                    validationStatus= MainUtility.signUpUtility(email,password);
-                    if (logger.isLoggable(Level.INFO))
-                         logger.info(MessagesGenerator.signingMessages(validationStatus));
-                }
-                case "2" -> {
-                    logger.info("Enter your email: ");
-                    email = scanner.nextLine();
-                    logger.info("Enter your password: ");
-                    password = scanner.nextLine();
-
-                    validationStatus = ValidationUser.validation(email, password,new DatabaseService());
-                    currentUser=MainUtility.signInUtility(email,password,validationStatus );
-
-                    if (logger.isLoggable(Level.INFO))
-                        logger.info(MessagesGenerator.signingMessages(validationStatus));
-
-                    if (currentUser != null && currentUser.isSignInStatus())
-                    {
-                        DatabaseService databaseService = new DatabaseService();
-                        logger.info("Welcome dear " + currentUser.getProfileObject().getName());
-                        switch (currentUser.getRole()){
-
-                            case 'u' -> MainUtility.userUtility(databaseService,currentUser);
-                            case 'a' ->{
-                                Admin currentAdmin =(Admin) currentUser;
-                                MainUtility.adminUtility(databaseService,currentAdmin);
-                            }
-                            case 'i' ->{
-
-                                Installer currentInstaller =(Installer) currentUser;
-                                MainUtility.installerUtility(databaseService,currentInstaller);
-                            }
-                            default ->
-                              logger.severe("Error: something went wrong, please run application again!\n");
-                        }
-                    }
-                    else
-                    {
-                        if (logger.isLoggable(Level.INFO))
-                            logger.severe(MessagesGenerator.signingMessages(5));
-                    }
-                }
-                case "3" -> {
-                    iterator=false;
-                    logger.info("Good bye, have a nice day.");
-                }
-                case "4" -> {
-                    LogOut logOut =new LogOut();
-                    logOut.performLogout(currentUser,new DatabaseService());
-                }
-                default -> logger.severe("\nInvalid choice!, Please enter 1, 2, or 3.\n");
+            if ("3".equals(choice)) {
+                iterator = false;
+                logger.info("Good bye, have a nice day.");
             }
         }
+    }
+
+    private static User handleUserAction(String choice, User currentUser) {
+        switch (choice) {
+            case "1" -> currentUser = handleSignUp();
+            case "2" -> currentUser = handleSignIn(currentUser);
+            case "4" -> performLogout(currentUser);
+            default -> logger.severe("\nInvalid choice!, Please enter 1, 2, or 3.\n");
+        }
+        return currentUser;
+    }
+
+    private static User handleSignUp() {
+        logger.info("Enter your email: ");
+        String email = scanner.nextLine();
+        logger.info("Enter your password: ");
+        String password = scanner.nextLine();
+        int validationStatus = MainUtility.signUpUtility(email, password);
+        if (logger.isLoggable(Level.INFO))
+            logger.info(MessagesGenerator.signingMessages(validationStatus));
+        return null;
+    }
+
+    private static User handleSignIn(User currentUser) {
+        logger.info("Enter your email: ");
+        String email = scanner.nextLine();
+        logger.info("Enter your password: ");
+        String password = scanner.nextLine();
+
+        int validationStatus = ValidationUser.validation(email, password, new DatabaseService());
+        currentUser = MainUtility.signInUtility(email, password, validationStatus);
+
+        if (logger.isLoggable(Level.INFO))
+            logger.info(MessagesGenerator.signingMessages(validationStatus));
+
+        if (currentUser != null && currentUser.isSignInStatus()) {
+            DatabaseService databaseService = new DatabaseService();
+            logger.info("Welcome dear " + currentUser.getProfileObject().getName());
+            currentUser = handleUserRole(currentUser, databaseService);
+        } else {
+            if (logger.isLoggable(Level.INFO))
+                logger.severe(MessagesGenerator.signingMessages(5));
+        }
+        return currentUser;
+    }
+
+    private static User handleUserRole(User currentUser, DatabaseService databaseService) {
+        switch (currentUser.getRole()) {
+            case 'u' -> MainUtility.userUtility(databaseService, currentUser);
+            case 'a' -> {
+                Admin currentAdmin = (Admin) currentUser;
+                MainUtility.adminUtility(databaseService, currentAdmin);
+            }
+            case 'i' -> {
+                Installer currentInstaller = (Installer) currentUser;
+                MainUtility.installerUtility(databaseService, currentInstaller);
+            }
+            default -> logger.severe("Error: something went wrong, please run application again!\n");
+        }
+        return currentUser;
+    }
+
+    private static void performLogout(User currentUser) {
+        new LogOut().performLogout(currentUser, new DatabaseService());
     }
 }

@@ -4,7 +4,6 @@ import application.LoggerUtility;
 import application.services.DatabaseService;
 import application.services.LogOut;
 import application.entities.User;
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -39,13 +38,13 @@ public class LogOutTest {
     }
     @Then("the system should display a logout confirmation message")
     public void theSystemShouldDisplayALogoutConfirmationMessage() {
-        logger.info(LogOut.goodBayMessage);
+        logger.info(LogOut.GOOD_BAY_MESSAGE);
     }
 
 
     @Then("the system should display a logout warning message")
     public void theSystemShouldDisplayALogoutWarningMessage() {
-        logger.severe(LogOut.warningMessage);
+        logger.severe(LogOut.WARNING_MESSAGE);
     }
 
 

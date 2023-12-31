@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static application.Main.scanner;
-import static application.services.MessagesGenerator.logger;
+import static application.services.MessagesGenerator.LOGGER;
 
 public class Admin extends User{
 
@@ -34,10 +34,14 @@ public class Admin extends User{
                 case 3 -> deleteProduct(dbs, tableName);
                 case 4 -> updateProduct(dbs, tableName);
                 case 5 -> exitApplication();
-                default -> logger.info("Invalid choice! \nPlease enter 1, 2, ... 6.\n");
+                default -> {
+                    if (LoggerUtility.isInfoEnabled())
+                        LOGGER.info("Invalid choice! \nPlease enter 1, 2, ... 6.\n");
+                }
             }
         } catch (Exception e) {
-            logger.info("An error occurred during the operation.\n");
+            if (LoggerUtility.isInfoEnabled())
+                LOGGER.info("An error occurred during the operation.\n");
         }
     }
 
@@ -45,44 +49,45 @@ public class Admin extends User{
         ResultSet rs = Product.getAllProducts(dbs);
         while (rs.next()) {
             Product returnedProduct = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getInt(5));
-            if (returnedProduct != null)
-                logger.info(returnedProduct.toString());
+            if (LoggerUtility.isInfoEnabled()) {
+                LOGGER.info(returnedProduct.toString());
+            }
         }
     }
     private void addProduct(DatabaseService dbs, String tableName) throws SQLException {
-        logger.info("\nPlease enter the product ID: ");
+        LOGGER.info("\nPlease enter the product ID: ");
         int id = scanner.nextInt();
         scanner.nextLine();
-        logger.info("Please enter the product name: ");
+        LOGGER.info("Please enter the product name: ");
         String name = scanner.nextLine();
-        logger.info("Please enter the product category: ");
+        LOGGER.info("Please enter the product category: ");
         String category = scanner.nextLine();
-        logger.info("Please enter the product price: ");
+        LOGGER.info("Please enter the product price: ");
         double price = scanner.nextDouble();
-        logger.info("Please enter the product quantity: ");
+        LOGGER.info("Please enter the product quantity: ");
         int quantity = scanner.nextInt();
         Product product = new Product(id, name, category, price, quantity);
         String valid = product.validInformation();
         if (valid.equals("")) {
             dbs.addObject(product, tableName);
-            logger.info("Product Added successfully!");
+            LOGGER.info("Product Added successfully!");
         } else {
-            logger.severe(valid + "\n");
+            LOGGER.severe(valid + "\n");
         }
     }
     private void deleteProduct(DatabaseService dbs, String tableName) throws SQLException {
-        logger.info("\nPlease enter the product ID: ");
+        LOGGER.info("\nPlease enter the product ID: ");
         int id = scanner.nextInt();
         boolean done = dbs.deleteObject(id, tableName);
         if (done)
-            logger.info("Product Deleted successfully!");
+            LOGGER.info("Product Deleted successfully!");
     }
     private void updateProduct(DatabaseService dbs, String tableName) throws SQLException {
-        logger.info("\nPlease enter the ID of the product to be updated: ");
+        LOGGER.info("\nPlease enter the ID of the product to be updated: ");
         int id = scanner.nextInt();
-        logger.info("\nPlease enter the new price: ");
+        LOGGER.info("\nPlease enter the new price: ");
         double price = scanner.nextDouble();
-        logger.info("\nPlease enter the new quantity: ");
+        LOGGER.info("\nPlease enter the new quantity: ");
         int quantity = scanner.nextInt();
         if (price > 0 && quantity > 0) {
             Product oldProduct = dbs.executeQuery("SELECT * FROM Product WHERE id=" + id, new ProductResultHandler());
@@ -90,15 +95,15 @@ public class Admin extends User{
             try {
                 dbs.updateObject(newProduct, tableName, "id");
             } catch (Exception e) {
-                logger.severe("Error in updating Product\n");
+                LOGGER.severe("Error in updating Product\n");
             }
-            logger.info("Product updated successfully!\n");
+            LOGGER.info("Product updated successfully!\n");
         } else {
-            logger.info("Price and Quantity must be greater than zero!\n");
+            LOGGER.info("Price and Quantity must be greater than zero!\n");
         }
     }
     private void exitApplication() {
-        logger.info("Good bye, have a nice day.");
+        LOGGER.info("Good bye, have a nice day.");
         System.exit(0);
     }
     public void manageAcounts(DatabaseService dbs, User user ,int option, String newValue) {
@@ -123,7 +128,7 @@ public class Admin extends User{
             }  case 8->{
                 System.exit(0);
             }default->{
-                logger.severe("please enter valid input ");
+                LOGGER.severe("please enter valid input ");
             }
 
         }
@@ -147,11 +152,11 @@ public class Admin extends User{
                 Profile profile1 =dbs.executeQuery("SELECT * FROM `Profile` WHERE `profileID` = "+user.getProfile(),new application.database.user_defined_types.ProfileResultHandler());
                 user.setProfile(profile1);
                 users.add(user);
-                user.showDetails(logger);
-                logger.info("\nPassword: "+ user.getPassword()+"\n");
+                user.showDetails(LOGGER);
+                LOGGER.info("\nPassword: "+ user.getPassword()+"\n");
             }
         } catch (SQLException e) {
-            logger.severe("Error: in viewUsers \n");
+            LOGGER.severe("Error: in viewUsers \n");
             e.printStackTrace();
         }
         return users;

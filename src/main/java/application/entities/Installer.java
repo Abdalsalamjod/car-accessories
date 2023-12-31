@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
 
 import static application.Main.*;
 import static application.Main.logger;
@@ -21,7 +22,7 @@ public class Installer extends User{
         super();
     }
 
-    protected static List<Request> availableRequests;
+    protected List<Request> availableRequests;
     public Installer(String email, String password, char role, Boolean signInStatus, Profile profile) {
         this.email=email;
         this.password=password;
@@ -45,7 +46,9 @@ public class Installer extends User{
                          resultSet.getDate(4).toLocalDate().atTime(LocalTime.MIDNIGHT),
                         resultSet.getString(5));
 
-                logger.info(request.toString());
+                if (logger.isLoggable(Level.INFO)) {
+                    logger.info(request.toString());
+                }
                 availableRequests.add(request);
             }
         } catch (Exception e) {
@@ -72,8 +75,9 @@ public class Installer extends User{
                         LocalDateTime.parse(date, formatter),
                         resultSet.getString(5)
                 );
-
-                logger.info(request.toString());
+                if (logger.isLoggable(Level.INFO)) {
+                    logger.info(request.toString());
+                }
                 availableRequests.add(request);
             }
 

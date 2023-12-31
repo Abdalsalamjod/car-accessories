@@ -6,10 +6,13 @@ import java.util.logging.Logger;
 
 import static application.services.ValidationUser.*;
 
-public class MessagesGenerator {
-    public static Logger logger = LoggerUtility.getLogger();
+public  class MessagesGenerator {
+    public static final Logger LOGGER = LoggerUtility.getLogger();
     public static final String SELECT_OPTION="Select an option: ";
     public static final String MENU ="\nMenu:\n";
+    private MessagesGenerator() {
+        throw new IllegalStateException("Utility class");
+    }
     public static String signingMessages(int validationStatus) {
         return switch (validationStatus) {
             case NULL_EMAIL -> "Empty, not a valid empty Email\n";
@@ -27,109 +30,106 @@ public class MessagesGenerator {
 
         switch ( type ) {
             case "signingList" -> {
-                logger.info("   _____________________________________________________  \n");
-                logger.info("|       Welcome to HalaCar accessories System :)          |\n");
-                logger.info("| 1. If you want to SignUp                                |\n");
-                logger.info("| 2. If you want to SignIn                                |\n");
-                logger.info("| 3. Exit                                                 |\n");
-                logger.info("   _____________________________________________________   \n");
-                logger.info(SELECT_OPTION);
+                LOGGER.info("   _____________________________________________________  \n");
+                LOGGER.info("|       Welcome to HalaCar accessories System :)          |\n");
+                LOGGER.info("| 1. If you want to SignUp                                |\n");
+                LOGGER.info("| 2. If you want to SignIn                                |\n");
+                LOGGER.info("| 3. Exit                                                 |\n");
+                LOGGER.info("   _____________________________________________________   \n");
+                LOGGER.info(SELECT_OPTION);
             }
             case "searchTypeList" -> {
-                logger.info(MENU);
-                logger.info("1. Search by ID\n");
-                logger.info("2. Search by name\n");
-                logger.info("3. Search by Category\n");
-                logger.info("4. Search in price range\n");
-                logger.info(EXIT);
-                logger.info(SELECT_OPTION);
+                LOGGER.info(MENU);
+                LOGGER.info("1. Search by ID\n");
+                LOGGER.info("2. Search by name\n");
+                LOGGER.info("3. Search by Category\n");
+                LOGGER.info("4. Search in price range\n");
+                LOGGER.info(EXIT);
+                LOGGER.info(SELECT_OPTION);
             }
             case "userList" -> {
-                logger.info(MENU);
-                logger.info("1. Browse products\n");
-                logger.info("2. View profile\n");
-                logger.info("3. Edit profile\n");
-                logger.info("4. View installations requests\n");
-                logger.info("5. View requests history\n");
-                logger.info("6. Make new installation request\n");
-                logger.info("7. Cancel existing installation request\n");
-                logger.info("8. Exit\n");
-                logger.info(SELECT_OPTION);
+                LOGGER.info(MENU);
+                LOGGER.info("1. Browse products\n");
+                LOGGER.info("2. View profile\n");
+                LOGGER.info("3. Edit profile\n");
+                LOGGER.info("4. View installations requests\n");
+                LOGGER.info("5. View requests history\n");
+                LOGGER.info("6. Make new installation request\n");
+                LOGGER.info("7. Cancel existing installation request\n");
+                LOGGER.info("8. Exit\n");
+                LOGGER.info(SELECT_OPTION);
             }
             case "browsProductsList" -> {
-                logger.info(MENU);
-                logger.info("1. View all products\n");
-                logger.info("2. Search for specific product by ID\n");
-                logger.info("3. Search for specific product by name\n");
-                logger.info("4. Filter the products by category \n");
-                logger.info("5. Filter the products by price range\n");
-                logger.info("6. Exit\n");
-                logger.info(SELECT_OPTION);
+                LOGGER.info(MENU);
+                LOGGER.info("1. View all products\n");
+                LOGGER.info("2. Search for specific product by ID\n");
+                LOGGER.info("3. Search for specific product by name\n");
+                LOGGER.info("4. Filter the products by category \n");
+                LOGGER.info("5. Filter the products by price range\n");
+                LOGGER.info("6. Exit\n");
+                LOGGER.info(SELECT_OPTION);
             }
             case "manageProductsList" -> {
-                logger.info(MENU);
-                logger.info("1. View all products\n");
-                logger.info("2. Add Product\n");
-                logger.info("3. Delete Product\n");
-                logger.info("4. Update Product\n");
-                logger.info(EXIT);
-                logger.info(SELECT_OPTION);
+                LOGGER.info(MENU);
+                LOGGER.info("1. View all products\n");
+                LOGGER.info("2. Add Product\n");
+                LOGGER.info("3. Delete Product\n");
+                LOGGER.info("4. Update Product\n");
+                LOGGER.info(EXIT);
+                LOGGER.info(SELECT_OPTION);
             }
             case "adminList" -> {
-                logger.info(MENU);
-                logger.info("1. View and Manage products\n");
-                logger.info("2. View and Manage customers accounts \n");
-                logger.info("3. Exit\n");
-                logger.info(SELECT_OPTION);
+                LOGGER.info(MENU);
+                LOGGER.info("1. View and Manage products\n");
+                LOGGER.info("2. View and Manage customers accounts \n");
+                LOGGER.info("3. Exit\n");
+                LOGGER.info(SELECT_OPTION);
             }
             case "editProfile" -> {
-                logger.info(MENU);
-                logger.info("1. Edit Name\n");
-                logger.info("2. Edit Email\n");
-                logger.info("3. Edit Password\n");
-                logger.info("4. Edit Location\n");
-                logger.info("5. Edit phone number\n");
-                logger.info("6. Exit\n");
-                logger.info(SELECT_OPTION);
+                LOGGER.info(MENU);
+                LOGGER.info("1. Edit Name\n");
+                LOGGER.info("2. Edit Email\n");
+                LOGGER.info("3. Edit Password\n");
+                LOGGER.info("4. Edit Location\n");
+                LOGGER.info("5. Edit phone number\n");
+                LOGGER.info("6. Exit\n");
+                LOGGER.info(SELECT_OPTION);
             }
             case "adminControlUserList"-> {
-                logger.info(MENU);
-                logger.info("1. View Customer\n");
-                logger.info("2. Create Account\n");
-                logger.info("3. Delete Account\n");
-                logger.info("4. Edit Account\n");
-                logger.info(EXIT);
-                logger.info(SELECT_OPTION);
+                LOGGER.info(MENU);
+                LOGGER.info("1. View Customer\n");
+                LOGGER.info("2. Create Account\n");
+                LOGGER.info("3. Delete Account\n");
+                LOGGER.info("4. Edit Account\n");
+                LOGGER.info(EXIT);
+                LOGGER.info(SELECT_OPTION);
             }
             case "installerList"-> {
-                logger.info(MENU);
-                logger.info("1. View installation requests\n");
-                logger.info("2. Schedule appointments\n");
-                logger.info("3. Exit\n");
-                logger.info(SELECT_OPTION);
+                LOGGER.info(MENU);
+                LOGGER.info("1. View installation requests\n");
+                LOGGER.info("2. Schedule appointments\n");
+                LOGGER.info("3. Exit\n");
+                LOGGER.info(SELECT_OPTION);
             }
             case "InstallationRequests" -> {
-                logger.info(MENU);
-                logger.info("1. View installation request\n");
-                logger.info("2. Approve installation request\n");
-                logger.info("3. Mark installation request as done\n");
-                logger.info("4. Exit\n");
-                logger.info(SELECT_OPTION);
+                LOGGER.info(MENU);
+                LOGGER.info("1. View installation request\n");
+                LOGGER.info("2. Approve installation request\n");
+                LOGGER.info("3. Mark installation request as done\n");
+                LOGGER.info("4. Exit\n");
+                LOGGER.info(SELECT_OPTION);
             }
             case "ViewAndManageCustomersAccounts" -> {
-                logger.info(MENU);
-                logger.info("1. View user details\n");
-                logger.info("2. Edit user name\n");
-                logger.info("3. Edit user Email\n");
-                logger.info("4. Edit user password\n");
-                logger.info("5. Edit user location\n");
-                logger.info("6. Edit user contact information\n");
-                logger.info("7. Delete user account\n");
-                logger.info("8. Exit\n");
-                logger.info(SELECT_OPTION);
-            }
-            default->{
-
+                LOGGER.info(MENU);
+                LOGGER.info("1. View user details\n");
+                LOGGER.info("2. Edit user name\n");
+                LOGGER.info("3. Edit user Email\n");
+                LOGGER.info("4. Edit user password\n");
+                LOGGER.info("5. Edit user location\n");
+                LOGGER.info("6. Edit user contact information\n");
+                LOGGER.info("7. Delete user account\n");
+                LOGGER.info("8. Exit\n");
+                LOGGER.info(SELECT_OPTION);
             }
         }
     }

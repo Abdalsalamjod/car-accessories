@@ -15,6 +15,7 @@ public class Main {
     public static final String PROFILE="Profile";
     public static final String PROFILE_ID="profileId";
     public static final String REQUEST ="Request" ;
+    public static final String DATE_FORMAT="yyyy-MM-dd HH:mm:ss";
     public static void main(String[] args) {
 
         User currentUser = null;

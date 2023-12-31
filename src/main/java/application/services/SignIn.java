@@ -7,12 +7,12 @@ import application.entities.Installer;
 import application.entities.User;
 
 public class SignIn {
-    public String email;
-    public String password;
-    public char role;
-    public int profileid;
-    public boolean signedIn;
-    public int validationStatus;
+    private String email;
+    private String password;
+    private char role;
+    private int profileid;
+    private boolean signedIn;
+    private int validationStatus;
     public SignIn() {
         email=null;
         password=null;
@@ -43,7 +43,6 @@ public class SignIn {
                 dbs.updateObject(tempUser,"user","email");
             } catch ( Exception e) {
                 this.signedIn=false;
-//                return null;
             }
             if(tempUser == null) {
                 tempUser =new User();
@@ -63,5 +62,53 @@ public class SignIn {
             this.signedIn=false;
             return null;
         }
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRole(char role) {
+        this.role = role;
+    }
+
+    public void setProfileid(int profileid) {
+        this.profileid = profileid;
+    }
+
+    public void setSignedIn(boolean signedIn) {
+        this.signedIn = signedIn;
+    }
+
+    public void setValidationStatus(int validationStatus) {
+        this.validationStatus = validationStatus;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public char getRole() {
+        return role;
+    }
+
+    public int getProfileid() {
+        return profileid;
+    }
+
+    public boolean isSignedIn() {
+        return signedIn;
+    }
+
+    public int getValidationStatus() {
+        return validationStatus;
     }
 }

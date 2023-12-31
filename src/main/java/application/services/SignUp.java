@@ -6,11 +6,11 @@ import application.entities.User;
 
 public class SignUp {
 
-    public String email;
-    public String password;
-    public Profile profile;
-    public boolean hasAccount;
-    public int validationStatus;
+    private String email;
+    private String password;
+    private Profile profile;
+    private boolean hasAccount;
+    private int validationStatus;
     SignIn signIn;
     public SignUp() {
         email=null;
@@ -54,4 +54,51 @@ public class SignUp {
       return signIn.performLogIn(new DatabaseService());
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public boolean isHasAccount() {
+        return hasAccount;
+    }
+
+    public int getValidationStatus() {
+        return validationStatus;
+    }
+
+    public SignIn getSignIn() {
+        return signIn;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
+    }
+
+    public void setHasAccount(boolean hasAccount) {
+        this.hasAccount = hasAccount;
+    }
+
+    public void setValidationStatus(int validationStatus) {
+        this.validationStatus = validationStatus;
+    }
+
+    public void setSignIn(SignIn signIn) {
+        this.signIn = signIn;
+    }
 }

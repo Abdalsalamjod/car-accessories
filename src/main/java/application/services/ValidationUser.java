@@ -17,6 +17,9 @@ public class ValidationUser {
     public static final int INVALID_PASSWORD = 4;
     public static final int INVALID = 5;
     public static final int OTHER_ERROR = -1;
+    private ValidationUser() {
+        throw new IllegalStateException("Utility class");
+    }
 
     public static int validation(String email, String password,DatabaseService dbs) {
         if (email == null || email.isEmpty()) {

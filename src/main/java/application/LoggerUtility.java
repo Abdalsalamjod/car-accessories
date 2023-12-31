@@ -10,12 +10,12 @@ public class LoggerUtility {
     public static Logger getLogger() {
         if (logger == null) {
             logger = Logger.getLogger(LoggerUtility.class.getName());
-            setupLogger();
+            setupLogger(logger);
         }
         return logger;
     }
 
-    private static void setupLogger() {
+    private static void setupLogger(Logger logger) {
         logger.setUseParentHandlers(false);
         SimpleFormatter simpleFormatter = new SimpleFormatter() {
             private static final String ANSI_RESET = "\u001B[0m";
@@ -25,18 +25,18 @@ public class LoggerUtility {
 
             @Override
             public synchronized String format(LogRecord logRecord) {
-                String color = ANSI_GREEN; // Default to green for all other levels
+                String color = ANSI_GREEN;
                 if (logRecord.getLevel() == Level.INFO) {
-                    color = ANSI_BLUE; // Blue for INFO
+                    color = ANSI_BLUE;
                 } else if (logRecord.getLevel() == Level.SEVERE) {
-                    color = ANSI_RED; // Red for SEVERE
+                    color = ANSI_RED;
                 }
                 return color + logRecord.getMessage() + ANSI_RESET;
             }
         };
 
         ConsoleHandler consoleHandler = new ConsoleHandler();
-        consoleHandler.setLevel(Level.ALL); // Capture all log levels
+        consoleHandler.setLevel(Level.ALL);
         consoleHandler.setFormatter(simpleFormatter);
         logger.addHandler(consoleHandler);
     }

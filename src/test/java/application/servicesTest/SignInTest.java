@@ -39,7 +39,7 @@ public class SignInTest {
     @When("the user provides valid information {string} , {string} , {string}")
     public void theUserProvidesValidInformationUsernamePasswordRole(String Email, String Password,String Role) {
         signIn.setValidationStatus(validation(Email, Password, new DatabaseService()));
-        assertEquals(signIn.getValidationStatus(),0);
+        assertEquals(0, signIn.getValidationStatus());
         signIn.setEmail(Email);
         signIn.setPassword(Password);
         signIn.setRole(Role.charAt(0));
@@ -55,7 +55,7 @@ public class SignInTest {
     @When("the user provides valid information {string} , {string} and sth went wrong in sql")
     public void theUserProvidesValidInformationAndSthWentWrongInSql(String Email, String Password) {
         signIn.setValidationStatus(validation(Email, Password, null));
-        assertNotEquals(signIn.getValidationStatus(),0);
+        assertNotEquals(0, signIn.getValidationStatus());
         signIn.setEmail(Email);
         signIn.setPassword(Password);
     }
@@ -72,7 +72,7 @@ public class SignInTest {
     @When("the user provides information {string} , {string}")
     public void theUserProvidesInformation(String Email, String Password) {
         signIn.setValidationStatus(validation(Email, Password, new DatabaseService()));
-        assertNotEquals(signIn.getValidationStatus(),0);
+        assertNotEquals(0, signIn.getValidationStatus());
         ValidationUser.isExistPassword(Email,Password,null);
     }
     @Then("the system should display an error message {string}")

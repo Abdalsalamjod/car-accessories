@@ -108,7 +108,7 @@ public class MainUtility {
         LOGGER.info("\n");
 
         if (selectedUser != null) {
-            currentAdmin.manageAcounts( selectedUser, choice, newValue);
+            currentAdmin.manageAccounts( selectedUser, choice, newValue);
         } else {
             LOGGER.severe("Please enter valid email\n");
         }

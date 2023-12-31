@@ -66,12 +66,12 @@ public class Admin extends User{
         LOGGER.info("Please enter the product quantity: ");
         int quantity = scanner.nextInt();
         Product product = new Product(id, name, category, price, quantity);
-        String valid = product.validInformation();
-        if (valid.equals("")) {
+        String valid = product.validInformation() + "\n";
+        if (valid.equals("\n")) {
             dbs.addObject(product, tableName);
             LOGGER.info("Product Added successfully!");
         } else {
-            LOGGER.severe(valid + "\n");
+            LOGGER.severe(valid);
         }
     }
     private void deleteProduct(DatabaseService dbs, String tableName) throws SQLException {
@@ -105,7 +105,7 @@ public class Admin extends User{
         LOGGER.info("Good bye, have a nice day.");
         System.exit(0);
     }
-    public void manageAcounts( User user ,int option, String newValue) {
+    public void manageAccounts( User user , int option, String newValue) {
         Logger logger = LoggerUtility.getLogger();
 
         switch (option) {
@@ -142,7 +142,6 @@ public class Admin extends User{
             }
         } catch (SQLException e) {
             LOGGER.severe("Error: in viewUsers \n");
-            e.printStackTrace();
         }
         return users;
     }

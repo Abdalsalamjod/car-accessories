@@ -10,6 +10,9 @@ import static application.services.MessagesGenerator.LOGGER;
 public class MainUtility {
     private static final String ETC ="1, 2, ... 4.\n";
     private static final String PLEASE_ENTER_VALID = "Invalid choice! \nPlease enter ";
+    private MainUtility() {
+        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated\n");
+    }
     public static void userUtility(DatabaseService databaseService, User currentUser){
 
         boolean iterator = true;
@@ -24,9 +27,7 @@ public class MainUtility {
                case "3" -> {
                    MessagesGenerator.listGenerator("editProfile");
                    int optionIn = scanner.nextInt();
-                   scanner.nextLine();  // Consume the newline
-//                   currentUser.editDetails(optionIn, logger, scanner);
-//                   for test
+                   scanner.nextLine();
                    LOGGER.info("what is the new value: ");
                    String newValue =scanner.nextLine();
                    currentUser.editDetails(optionIn, newValue, LOGGER);
@@ -107,7 +108,7 @@ public class MainUtility {
         LOGGER.info("\n");
 
         if (selectedUser != null) {
-            currentAdmin.manageAcounts(databaseService, selectedUser, choice, newValue);
+            currentAdmin.manageAcounts( selectedUser, choice, newValue);
         } else {
             LOGGER.severe("Please enter valid email\n");
         }
@@ -152,7 +153,6 @@ public class MainUtility {
         }
         return validationStatus;
     }
-
     public static User signInUtility(String email, String password,int validationStatus ){
         if (validationStatus == ValidationUser.VALID)
         {
@@ -160,29 +160,5 @@ public class MainUtility {
             return signIn.performLogIn(new DatabaseService());
         }
         return null;
-    }
-
-
-    private static void adminControlUserUtility( DatabaseService databaseService, Admin currentAdmin) {
-        boolean iterator = true;
-        while (iterator) {
-            MessagesGenerator.listGenerator("adminControlUserList");
-
-            int option = scanner.nextInt();
-            scanner.nextLine();  // Consume the newline
-            switch (option) {
-                case 1:
-
-                    break;
-                case 2:
-
-                    break;
-                case 3:
-                    iterator=false;
-                    break;
-                default:
-                    LOGGER.info(PLEASE_ENTER_VALID + ETC);
-            }
-        }
     }
 }

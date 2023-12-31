@@ -6,6 +6,7 @@ import application.entities.User;
 import application.services.*;
 
 import java.util.Scanner;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Main {
@@ -16,6 +17,11 @@ public class Main {
     public static final String PROFILE_ID="profileId";
     public static final String REQUEST ="Request" ;
     public static final String DATE_FORMAT="yyyy-MM-dd HH:mm:ss";
+    public static final String CATEGORY= "category";
+    public static final String PRICE ="price";
+
+    public static final String QUANTITY="quantity";
+
     public static void main(String[] args) {
 
         User currentUser = null;
@@ -36,7 +42,8 @@ public class Main {
                     logger.info("Enter your password: ");
                     password = scanner.nextLine();
                     validationStatus= MainUtility.signUpUtility(email,password);
-                    logger.info(MessagesGenerator.signingMessages(validationStatus));
+                    if (logger.isLoggable(Level.INFO))
+                         logger.info(MessagesGenerator.signingMessages(validationStatus));
                 }
                 case "2" -> {
                     logger.info("Enter your email: ");
@@ -47,7 +54,8 @@ public class Main {
                     validationStatus = ValidationUser.validation(email, password,new DatabaseService());
                     currentUser=MainUtility.signInUtility(email,password,validationStatus );
 
-                    logger.info(MessagesGenerator.signingMessages(validationStatus));
+                    if (logger.isLoggable(Level.INFO))
+                        logger.info(MessagesGenerator.signingMessages(validationStatus));
 
                     if (currentUser != null && currentUser.isSignInStatus())
                     {
@@ -71,7 +79,8 @@ public class Main {
                     }
                     else
                     {
-                        logger.severe(MessagesGenerator.signingMessages(5));
+                        if (logger.isLoggable(Level.INFO))
+                            logger.severe(MessagesGenerator.signingMessages(5));
                     }
                 }
                 case "3" -> {
@@ -81,8 +90,6 @@ public class Main {
                 case "4" -> {
                     LogOut logOut =new LogOut();
                     logOut.performLogout(currentUser,new DatabaseService());
-//                    logOut.redirecting(currentUser);
-//                    logger.info();
                 }
                 default -> logger.severe("\nInvalid choice!, Please enter 1, 2, or 3.\n");
             }

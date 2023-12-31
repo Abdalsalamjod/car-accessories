@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static application.Main.scanner;
 import static application.services.MessagesGenerator.LOGGER;
@@ -35,12 +37,10 @@ public class Admin extends User{
                 case 4 -> updateProduct(dbs, tableName);
                 case 5 -> exitApplication();
                 default -> {
-                    if (LoggerUtility.isInfoEnabled())
                         LOGGER.info("Invalid choice! \nPlease enter 1, 2, ... 6.\n");
                 }
             }
         } catch (Exception e) {
-            if (LoggerUtility.isInfoEnabled())
                 LOGGER.info("An error occurred during the operation.\n");
         }
     }
@@ -49,9 +49,9 @@ public class Admin extends User{
         ResultSet rs = Product.getAllProducts(dbs);
         while (rs.next()) {
             Product returnedProduct = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getInt(5));
-            if (LoggerUtility.isInfoEnabled()) {
+            if (LOGGER.isLoggable(Level.INFO))
                 LOGGER.info(returnedProduct.toString());
-            }
+
         }
     }
     private void addProduct(DatabaseService dbs, String tableName) throws SQLException {
@@ -106,33 +106,19 @@ public class Admin extends User{
         LOGGER.info("Good bye, have a nice day.");
         System.exit(0);
     }
-    public void manageAcounts(DatabaseService dbs, User user ,int option, String newValue) {
+    public void manageAcounts( User user ,int option, String newValue) {
+        Logger logger = LoggerUtility.getLogger();
 
-        switch (option){
-
-            case 1 ->{
-                user.showDetails( LoggerUtility.getLogger());
-            }  case 2 ->{
-                user.editDetails(1,newValue,LoggerUtility.getLogger());
-            }  case 3 ->{
-                user.editDetails(2,newValue,LoggerUtility.getLogger());
-            }  case 4 ->{
-                user.editDetails(3,newValue,LoggerUtility.getLogger());
-            }  case 5 ->{
-                user.editDetails(4,newValue,LoggerUtility.getLogger());
-            }  case 6 ->{
-                user.editDetails(5,newValue,LoggerUtility.getLogger());
-
-            }  case 7 ->{
-//           TODO:     dbs.deleteObject(user.getEmail(),"user");
-            }  case 8->{
-                System.exit(0);
-            }default->{
-                LOGGER.severe("please enter valid input ");
+        switch (option) {
+            case 1 -> user.showDetails(logger);
+            case 2, 3, 4, 5, 6 -> user.editDetails(option - 1, newValue, logger);
+            case 7 -> {
+                // TODO: Implement the logic for deleting a user here
+                // dbs.deleteObject(user.getEmail(), "user");
             }
-
+            case 8 -> System.exit(0);
+            default -> logger.severe("Please enter a valid input.");
         }
-
     }
 
 

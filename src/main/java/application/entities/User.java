@@ -56,7 +56,8 @@ public class User {
         logger.info("\nPhone number: "+this.getProfileObject().getPhoneNumber());
         logger.info("\nEmail : "+this.getEmail());
     }
-    public void editDetails(int optionIn, String newValue, Logger logger) {        DatabaseService dbs = new DatabaseService();
+    public void editDetails(int optionIn, String newValue, Logger logger) {
+        DatabaseService dbs = new DatabaseService();
 
         switch (optionIn) {
             case 1:
@@ -234,7 +235,7 @@ public class User {
     private void viewAllProducts(DatabaseService dbs) throws SQLException {
         ResultSet rs = Product.getAllProducts(dbs);
         while (rs.next()) {
-            Product returnedProduct = new Product(rs.getInt("id"), rs.getString("name"), rs.getString("category"), rs.getDouble("price"), rs.getInt("quantity"));
+            Product returnedProduct = new Product(rs.getInt("id"), rs.getString("name"), rs.getString(CATEGORY), rs.getDouble(PRICE), rs.getInt(QUANTITY));
             logProductInfo(returnedProduct);
         }
     }
@@ -267,7 +268,7 @@ public class User {
         String category = scanner.nextLine();
         ResultSet rs = Product.getProductsByCategory(category, dbs);
         while (rs.next()) {
-            Product returnedProduct = new Product(rs.getInt("id"), rs.getString("name"), rs.getString("category"), rs.getDouble("price"), rs.getInt("quantity"));
+            Product returnedProduct = new Product(rs.getInt("id"), rs.getString("name"), rs.getString(CATEGORY), rs.getDouble(PRICE), rs.getInt(QUANTITY));
             logProductInfo(returnedProduct);
         }
     }
@@ -280,7 +281,7 @@ public class User {
         scanner.nextLine(); // consume the rest of the line
         ResultSet rs = Product.getProductsByPriceRange(lower, upper, dbs);
         while (rs.next()) {
-            Product returnedProduct = new Product(rs.getInt("id"), rs.getString("name"), rs.getString("category"), rs.getDouble("price"), rs.getInt("quantity"));
+            Product returnedProduct = new Product(rs.getInt("id"), rs.getString("name"), rs.getString(CATEGORY), rs.getDouble(PRICE), rs.getInt(QUANTITY));
             logProductInfo(returnedProduct);
         }
     }
@@ -307,7 +308,8 @@ public class User {
             ResultSet rs = Product.getAllProductsNames(databaseService);
             LOGGER.info("ID" + "  " + "Name\n");
             while ( rs.next() )
-                LOGGER.info(String.format("%d  %s%n", rs.getInt(1), rs.getString(2)));
+                if (LOGGER.isLoggable(Level.INFO))
+                   LOGGER.info(String.format("%d  %s%n", rs.getInt(1), rs.getString(2)));
 
 
             LOGGER.info("\n");
@@ -316,7 +318,8 @@ public class User {
 
             LOGGER.info("\nPlease select one of the available dates\n");
             for(int i=0; i<datesArray.size(); i++)
-                LOGGER.info(String.format("%d- %s%n", i + 1, datesArray.get(i)));
+                if (LOGGER.isLoggable(Level.INFO))
+                    LOGGER.info(String.format("%d- %s%n", i + 1, datesArray.get(i)));
             int dateIndex = scanner.nextInt() - 1;
             String selectedDate = datesArray.get(dateIndex);
             LocalDateTime dateToStore = LocalDateTime.parse(selectedDate, formatter);

@@ -131,6 +131,7 @@ public  class MessagesGenerator {
                 LOGGER.info("8. Exit\n");
                 LOGGER.info(SELECT_OPTION);
             }
+            default -> LOGGER.severe("Error in generating list, try again\n");
         }
     }
 }

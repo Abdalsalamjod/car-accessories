@@ -66,21 +66,25 @@ public class Main {
         String password = scanner.nextLine();
 
         int validationStatus = ValidationUser.validation(email, password, new DatabaseService());
-        currentUser = MainUtility.signInUtility(email, password, validationStatus);
+        User newUser = MainUtility.signInUtility(email, password, validationStatus);
 
-        if (logger.isLoggable(Level.INFO))
+        if (logger.isLoggable(Level.INFO)) {
             logger.info(MessagesGenerator.signingMessages(validationStatus));
-
-        if (currentUser != null && currentUser.isSignInStatus()) {
-            DatabaseService databaseService = new DatabaseService();
-            logger.info("Welcome dear " + currentUser.getProfileObject().getName());
-            currentUser = handleUserRole(currentUser, databaseService);
-        } else {
-            if (logger.isLoggable(Level.INFO))
-                logger.severe(MessagesGenerator.signingMessages(5));
         }
-        return currentUser;
+
+        if (newUser != null && newUser.isSignInStatus()) {
+            DatabaseService databaseService = new DatabaseService();
+            logger.info("Welcome dear " + newUser.getProfileObject().getName());
+            handleUserRole(newUser, databaseService);
+            return newUser; // Return the new user if sign in is successful
+        } else {
+            if (logger.isLoggable(Level.INFO)) {
+                logger.severe(MessagesGenerator.signingMessages(5));
+            }
+            return currentUser;
+        }
     }
+
 
     private static User handleUserRole(User currentUser, DatabaseService databaseService) {
         switch (currentUser.getRole()) {

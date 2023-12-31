@@ -6,7 +6,7 @@ import io.cucumber.java.en.When;
 import static org.junit.Assert.assertTrue;
 
 
-public class EmailSenderRemainingTests {
+public class EmailSenderRemainingCoverage {
 
   private boolean flagForException;
 

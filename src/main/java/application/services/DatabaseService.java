@@ -99,11 +99,18 @@ public class DatabaseService implements Serializable {
     Field[] fields = object.getClass().getDeclaredFields();
     for (int i = 0; i < columnNames.length; i++) {
       Field field = fields[i];
-      field.setAccessible(true);
-      statement.setObject(i + 1, field.get(object).toString());
-      field.setAccessible(false);
+      boolean wasAccessible = field.trySetAccessible();
+      try {
+        statement.setObject(i + 1, field.get(object).toString());
+      } finally {
+        if (wasAccessible) {
+          field.setAccessible(false);
+        }
+      }
     }
   }
+
+
 
 
   public boolean deleteObject(int id, String tableName) throws SQLException {

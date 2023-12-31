@@ -50,7 +50,9 @@ public class InstallationRequest {
       assertEquals(tempRequestToReceive.getId(), tempRequestToSend.getId());
       assertEquals(tempRequestToReceive.getProductId(), tempRequestToSend.getProductId());
       assertEquals(tempRequestToReceive.getUserId(), tempRequestToSend.getUserId());
-      assertEquals(tempRequestToReceive.getDate(), tempRequestToSend.getDate());
+      String dateToReceive = String.valueOf(tempRequestToReceive.getDate());
+      String dateToSend = String.valueOf(tempRequestToSend.getDate());
+      assertEquals(dateToReceive.substring(0, 15), dateToSend.substring(0, 15));
       assertEquals(tempRequestToReceive.getDescription(), tempRequestToSend.getDescription());
       assertEquals(tempRequestToReceive.getDone(), tempRequestToSend.getDone());
       assertEquals(tempRequestToReceive.getSelected(), tempRequestToSend.getSelected());

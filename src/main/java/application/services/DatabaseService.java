@@ -115,9 +115,7 @@ public class DatabaseService implements Serializable {
 
     try (Statement statement = connection.createStatement()) {
         statement.executeUpdate(deleteQuery);
-
-      // Check if the deletion was successful
-      return true;
+        return true;
     }
   }
 

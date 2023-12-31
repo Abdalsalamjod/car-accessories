@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static application.Main.logger;
 import static application.Main.scanner;
 import static application.services.MessagesGenerator.LOGGER;
 
@@ -36,12 +37,10 @@ public class Admin extends User{
                 case 3 -> deleteProduct(dbs, tableName);
                 case 4 -> updateProduct(dbs, tableName);
                 case 5 -> exitApplication();
-                default -> {
-                        LOGGER.info("Invalid choice! \nPlease enter 1, 2, ... 6.\n");
-                }
+                default -> logger.info("Invalid choice! \nPlease enter 1, 2, ... 6.\n");
             }
         } catch (Exception e) {
-                LOGGER.info("An error occurred during the operation.\n");
+                logger.severe("An error occurred during the operation.\n");
         }
     }
 

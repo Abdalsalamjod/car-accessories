@@ -1,7 +1,6 @@
 package application;
 
 import java.util.logging.*;
-
 public class LoggerUtility {
     private static Logger logger;
 
@@ -15,21 +14,24 @@ public class LoggerUtility {
         return logger;
     }
 
-    public static boolean isInfoEnabled() {
-        return getLogger().isLoggable(Level.INFO);
-    }
-
     private static void setupLogger() {
         logger.setUseParentHandlers(false);
         SimpleFormatter simpleFormatter = new SimpleFormatter() {
-            private static final String FORMAT_PATTERN = "[%1$tF %1$tT] [%2$s] %3$s %n";
+            private static final String ANSI_RESET = "\u001B[0m";
+            private static final String ANSI_BLUE = "\u001B[34m";
+            private static final String ANSI_RED = "\u001B[31m";
 
             @Override
             public synchronized String format(LogRecord logRecord) {
-                return String.format(FORMAT_PATTERN,
-                        logRecord.getMillis(),
-                        logRecord.getLevel().getLocalizedName(),
-                        logRecord.getMessage());
+                String color;
+                if (logRecord.getLevel() == Level.INFO) {
+                    color = ANSI_BLUE;
+                } else if (logRecord.getLevel() == Level.SEVERE) {
+                    color = ANSI_RED;
+                } else {
+                    color = ANSI_RESET;
+                }
+                return color + logRecord.getMessage() + ANSI_RESET ;
             }
         };
 

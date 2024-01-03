@@ -26,17 +26,7 @@ public class DatabaseService implements Serializable {
     }
   }
 
-
-  public void closeConnection() {
-    if (connection != null) {
-      try {
-        connection.close();
-      } catch ( SQLException e ) {
-        LOGGER.info("\nSomething went wrong, Connection not closed successfully.\n");
-      }
-    }
-  }
-
+  
   public <T> T executeQuery(String query, QueryResultHandler<T> resultHandler) throws SQLException{
 
     ResultSet resultSet;

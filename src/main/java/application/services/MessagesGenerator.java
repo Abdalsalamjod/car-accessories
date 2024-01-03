@@ -13,18 +13,18 @@ import static application.services.ValidationUser.INVALID;
 
 public class MessagesGenerator {
     public static final Logger LOGGER = LoggerUtility.getLogger();
-    public static final String SELECT_OPTION = "Select an option: ";
+    public static final String SELECT_OPTION = "\nSelect an option: ";
     public static final String MENU = "\nMenu:\n";
     public static final String NEW_LINE = "\n";
     public static final String EXIT_OPTION = "5. Exit" + NEW_LINE;
 
     private static final String HEADER =
-        "   _____________________________________________________  " + NEW_LINE +
+        "   _____________________________________________________   " + NEW_LINE +
         "|       Welcome to HalaCar accessories System :)          |" + NEW_LINE +
         "| 1. If you want to SignUp                                |" + NEW_LINE +
         "| 2. If you want to SignIn                                |" + NEW_LINE +
         "| 3. Exit                                                 |" + NEW_LINE +
-        "   _____________________________________________________    " + NEW_LINE;
+        "   _____________________________________________________   " + NEW_LINE;
     
 
     public static final String SEARCH_TYPE_LIST =

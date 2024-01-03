@@ -13,7 +13,8 @@ Feature: User Operations in User Module
   Scenario: Update profile object
     When the user updates the profile's "location" to "New Location"
     Then the profile's "location" for the user should be updated to "New Location"
-# Failure Scenario for updateProfileObject
+
+  # Failure Scenario for updateProfileObject
   Scenario: Failure Update profile object
     When the user updates the profile's "location" to "New Location" with error
     Then the profile's "location" for the user should not be updated to "New Location"
@@ -32,7 +33,7 @@ Feature: User Operations in User Module
   Scenario: View installation requests
     When the user views their installation requests
     Then the installation requests made by the user are displayed
-# Failure Scenario for viewInstallationRequests
+  # Failure Scenario for viewInstallationRequests
   Scenario: View installation requests
     When the user views their installation requests with error
     Then the installation requests made by the user arenot displayed

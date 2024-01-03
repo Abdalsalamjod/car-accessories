@@ -93,19 +93,22 @@ public class Installer extends User{
 
     private void processRequests(DatabaseService databaseService, Scanner scanner, boolean test, String testValue) {
         boolean continueLoop = true;
+        while (continueLoop)
+        {
 
             String requestId = getRequestInput(scanner, test, testValue);
-            if (requestId.equalsIgnoreCase("Exit")) {
-                return;
-            }
+        if (requestId.equalsIgnoreCase("Exit")) {
+            return;
+        }
 
-            try {
-                int requestIdInt = Integer.parseInt(requestId);
-                continueLoop = handleRequestUpdate(databaseService, requestIdInt);
-            } catch (Exception e) {
-                logger.info("Invalid input. Please, enter a valid number or 'Exit' to quit.\n");
-            }
-
+        try {
+            int requestIdInt = Integer.parseInt(requestId);
+            continueLoop = handleRequestUpdate(databaseService, requestIdInt);
+            continueLoop = test ? false : continueLoop;
+        } catch (Exception e) {
+            logger.info("Invalid input. Please, enter a valid number or 'Exit' to quit.\n");
+        }
+    }
     }
 
     private String getRequestInput(Scanner scanner, boolean test, String testValue) {

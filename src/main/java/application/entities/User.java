@@ -145,7 +145,6 @@ public class User {
             }
         } catch (Exception e) {
             Main.logger.info("something went wrong\n");
-            e.printStackTrace();
         }
     }
 

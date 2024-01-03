@@ -59,25 +59,13 @@ public class User {
     public void editDetails(int optionIn, String newValue, Logger logger) {
         DatabaseService dbs = new DatabaseService();
 
-        switch (optionIn) {
-            case 1:
-                updateName(newValue, logger, dbs);
-                break;
-            case 2:
-                updateEmail(newValue, logger, dbs);
-                break;
-            case 3:
-                updatePassword(newValue, logger, dbs);
-                break;
-            case 4:
-                updateLocation(newValue, logger, dbs);
-                break;
-            case 5:
-                updatePhoneNumber(newValue, logger, dbs);
-                break;
-            default:
-                logger.info("Invalid option.");
-                break;
+        switch ( optionIn ) {
+            case 1 -> updateName(newValue, logger, dbs);
+            case 2 -> updateEmail(newValue, logger, dbs);
+            case 3 -> updatePassword(newValue, logger, dbs);
+            case 4 -> updateLocation(newValue, logger, dbs);
+            case 5 -> updatePhoneNumber(newValue, logger, dbs);
+            default -> logger.info("Invalid option.");
         }
     }
 
@@ -115,7 +103,7 @@ public class User {
         updateProfileObject(logger, dbs, "Updated phone number to: " + newValue);
     }
 
-    private void updateDatabaseObject(Object object, String tableName, String columnName, Logger logger, String successMessage) {
+    public void updateDatabaseObject(Object object, String tableName, String columnName, Logger logger, String successMessage) {
         try {
             new DatabaseService().updateObject(object, tableName, columnName);
             logger.info(successMessage);
@@ -124,7 +112,7 @@ public class User {
         }
     }
 
-    private void updateProfileObject(Logger logger, DatabaseService dbs, String successMessage) {
+    public void updateProfileObject(Logger logger, DatabaseService dbs, String successMessage) {
         try {
             dbs.updateObject(profile, PROFILE, PROFILE_ID);
             logger.info(successMessage);
@@ -133,14 +121,13 @@ public class User {
         }
     }
 
-
     public void viewRequisitesHistory(DatabaseService databaseService){
         ResultSet resultSet;
         Request request;
         List<Request> availableRequests =new ArrayList<>();
 
         try {
-            resultSet=  databaseService.executeQuery("SELECT * FROM `Request` WHERE `done` = true AND `userId`= "+this.email , new ResultSetResultHandler());
+            resultSet=  databaseService.executeQuery("SELECT * FROM `Request` WHERE `done` = true AND `userId`= '"+this.email+"'" , new ResultSetResultHandler());
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
 
             while ( resultSet.next() ) {
@@ -156,10 +143,11 @@ public class User {
                 }
                 availableRequests.add(request);
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             Main.logger.info("something went wrong\n");
         }
     }
+
     public List<Request> viewInstallationRequests(DatabaseService databaseService) {
         ResultSet resultSet;
         Request request;
@@ -167,7 +155,7 @@ public class User {
 
 
         try {
-            resultSet = databaseService.executeQuery("SELECT * FROM `Request` WHERE `selected` = true AND `userId`= "+this.email , new ResultSetResultHandler());
+            resultSet = databaseService.executeQuery("SELECT * FROM `Request` WHERE `selected` = true AND `userId`= '"+this.email+"'" , new ResultSetResultHandler());
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
             while (resultSet.next()) {
                 String date =  resultSet.getString(4).substring(0, 19);
@@ -189,7 +177,6 @@ public class User {
 
         return availableRequests;
     }
-
 
 
     public void browsProducts(DatabaseService dbs) {
@@ -366,7 +353,7 @@ public class User {
             }
 
             LOGGER.info("\n");
-            String statementToPrint = "";
+            String statementToPrint;
             for(int j=0; j<returnedRequests.size(); j++){
                 statementToPrint = j+1 + "- " + returnedRequests.get(j);
                 LOGGER.info(statementToPrint);
@@ -391,7 +378,6 @@ public class User {
 
 
     }
-
 
 
     public boolean isSignInStatus() {return signInStatus;}

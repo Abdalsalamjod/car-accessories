@@ -20,10 +20,8 @@ public class UserProfileTest {
     private Profile profile;
     boolean flag;
 
-    public UserProfileTest(User user, Profile profile) {
-        this.user = user;
-        this.profile = profile;
-        flag = false;
+    public UserProfileTest() {
+
     }
 
     @Before
@@ -31,7 +29,7 @@ public class UserProfileTest {
         // Assume a User and Profile class with necessary methods and properties
         profile = new Profile(1, "valid", "number", "location");
         user = new User("valid@domain.com", "1234", 'u', true, profile);
-
+        flag = false;
         MockitoAnnotations.openMocks(this);
         // Other setup code...
 

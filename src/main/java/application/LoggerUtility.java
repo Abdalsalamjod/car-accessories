@@ -17,6 +17,10 @@ public class LoggerUtility {
         return logger;
     }
 
+    public static void removeLogger() {
+        threadLocalLogger.remove();
+    }
+
     private static void setupLogger(Logger logger) {
         logger.setUseParentHandlers(false);
         SimpleFormatter simpleFormatter = new SimpleFormatter() {
@@ -27,18 +31,45 @@ public class LoggerUtility {
 
             @Override
             public synchronized String format(LogRecord logRecord) {
+                // Sanitize the log message to prevent log injection
+                String message = sanitizeLogMessage(logRecord.getMessage());
+
                 String color = ANSI_GREEN;
                 if (logRecord.getLevel() == Level.INFO) {
                     color = ANSI_BLUE;
                 } else if (logRecord.getLevel() == Level.SEVERE) {
                     color = ANSI_RED;
                 }
-                return color + logRecord.getMessage() + ANSI_RESET;
+                return color + message + ANSI_RESET;
+            }
+
+            private String sanitizeLogMessage(String message) {
+                if (message == null) {
+                    return null;
+                }
+                String[] lines = message.split("\n");
+                for (int i = 0; i < lines.length; i++) {
+                    lines[i] = sanitizeSingleLine(lines[i]);
+                }
+                return String.join("\n", lines);
+            }
+
+            private String sanitizeSingleLine(String line) {
+                line = line.replace("\r", "");
+                line = line.replaceAll("[\\p{Cntrl}&&[^\t]]", "");
+                int maxLength = 1000;
+                if (line.length() > maxLength) {
+                    line = line.substring(0, maxLength) + "...";
+                }
+                return line;
+            }
+            private String sanitizeLogMessageToUse(String message) {
+                 return message;
             }
         };
 
         ConsoleHandler consoleHandler = new ConsoleHandler();
-        consoleHandler.setLevel(Level.ALL);
+        consoleHandler.setLevel(Level.INFO);
         consoleHandler.setFormatter(simpleFormatter);
         logger.addHandler(consoleHandler);
     }

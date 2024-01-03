@@ -62,7 +62,7 @@ public class Installer extends User{
 
         ResultSet resultSet;
         Request request;
-       this. availableRequests.clear();
+       this. availableRequests=new ArrayList<>();
 
         try {
             resultSet = databaseService.executeQuery("SELECT * FROM `"+ REQUEST +"` WHERE `selected` = true", new ResultSetResultHandler());
@@ -93,19 +93,22 @@ public class Installer extends User{
 
     private void processRequests(DatabaseService databaseService, Scanner scanner, boolean test, String testValue) {
         boolean continueLoop = true;
-        while (continueLoop) {
-            String requestId = getRequestInput(scanner, test, testValue);
-            if (requestId.equalsIgnoreCase("Exit")) {
-                return;
-            }
+        while (continueLoop)
+        {
 
-            try {
-                int requestIdInt = Integer.parseInt(requestId);
-                continueLoop = handleRequestUpdate(databaseService, requestIdInt);
-            } catch (NumberFormatException e) {
-                logger.info("Invalid input. Please, enter a valid number or 'Exit' to quit.\n");
-            }
+            String requestId = getRequestInput(scanner, test, testValue);
+        if (requestId.equalsIgnoreCase("Exit")) {
+            return;
         }
+
+        try {
+            int requestIdInt = Integer.parseInt(requestId);
+            continueLoop = handleRequestUpdate(databaseService, requestIdInt);
+            continueLoop = test ? false : continueLoop;
+        } catch (Exception e) {
+            logger.info("Invalid input. Please, enter a valid number or 'Exit' to quit.\n");
+        }
+    }
     }
 
     private String getRequestInput(Scanner scanner, boolean test, String testValue) {
@@ -141,7 +144,7 @@ public class Installer extends User{
     }
 
     private void processMarkAsDoneRequests(DatabaseService databaseService, Scanner scanner, boolean test, String testValue) {
-        while (true) {
+
             String requestId = getRequestInput(scanner, test, testValue);
             if (requestId.equalsIgnoreCase("Exit")) {
                 return;
@@ -157,7 +160,6 @@ public class Installer extends User{
             } catch (Exception e) {
                 logger.severe("An error occurred: " + e.getMessage());
             }
-        }
     }
 
 
@@ -182,7 +184,7 @@ public class Installer extends User{
 
         try {
             dbs.addObject(request, REQUEST);
-        } catch ( SQLException e ) {
+        } catch ( Exception e ) {
             logger.info(e.getMessage());
         }
 
@@ -191,7 +193,7 @@ public class Installer extends User{
     public static void deleteExistingRequest(int id, DatabaseService dbs){
         try {
             dbs.deleteObject(id, REQUEST);
-        } catch ( SQLException e ) {
+        } catch ( Exception e ) {
             logger.info(e.getMessage());
         }
     }

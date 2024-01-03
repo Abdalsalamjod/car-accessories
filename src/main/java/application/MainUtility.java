@@ -1,16 +1,21 @@
 package application;
+import application.database.premitive_objects.ResultSetResultHandler;
 import application.database.user_defined_types.ProductResultHandler;
 import application.entities.*;
 import application.services.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
-import static application.Main.logger;
-import static application.Main.scanner;
+import static application.Main.*;
+import static application.Main.DATE_FORMAT;
 import static application.services.MessagesGenerator.LOGGER;
+import static java.lang.System.exit;
 
 
 public class MainUtility {
@@ -32,7 +37,7 @@ public class MainUtility {
            String option = scanner.nextLine();
            switch ( option ){
 
-               case "1" -> currentUser.browsProducts(databaseService);
+               case "1" -> browsProducts(databaseService);
                case "2" -> currentUser.showDetails(LOGGER);
                case "3" -> {
                    MessagesGenerator.listGenerator("editProfile");
@@ -44,15 +49,14 @@ public class MainUtility {
                }
                case "4" -> currentUser.viewInstallationRequests(databaseService);
                case "5" -> currentUser.viewRequisitesHistory(databaseService);
-               case "6" -> currentUser.makeRequest(databaseService);
-               case "7" -> currentUser.removeRequest(databaseService);
+               case "6" -> makeRequest(databaseService, currentUser);
+               case "7" -> removeRequest(databaseService, currentUser);
                case "8" -> iterator = false;
                default -> LOGGER.info(PLEASE_ENTER_VALID + "1, 2, ... 8.\n");
 
            }
         }
     }
-
     public static void adminUtility(DatabaseService databaseService , Admin currentAdmin) {
         boolean iterator = true;
         while (iterator) {
@@ -69,14 +73,12 @@ public class MainUtility {
         }
 
     }
-
     private static void manageProducts(DatabaseService databaseService) {
         MessagesGenerator.listGenerator("manageProductsList");
         int browsOption = scanner.nextInt();
         scanner.nextLine();
         manageProducts(browsOption, databaseService);
     }
-
     private static void manageUsers(Admin currentAdmin, DatabaseService databaseService) {
         boolean iterator2 = true;
         List<User> users = currentAdmin.viewUsers(databaseService);
@@ -95,7 +97,6 @@ public class MainUtility {
             manageUserAccounts(currentAdmin, selectedUser, choice);
         }
     }
-
     private static User selectUser(List<User> users) {
         LOGGER.info("\nselected user email: ");
         String tempId = scanner.nextLine();
@@ -107,7 +108,6 @@ public class MainUtility {
         }
         return null;
     }
-
     private static void manageUserAccounts(Admin currentAdmin, User selectedUser, int choice) {
         if (choice != 1) {
             LOGGER.info("Enter new value to update: ");
@@ -122,7 +122,6 @@ public class MainUtility {
             LOGGER.severe("Please enter valid email\n");
         }
     }
-
     public static void installerUtility(DatabaseService databaseService, Installer currentInstaller) {
         boolean iterator = true;
         while (iterator) {
@@ -138,7 +137,6 @@ public class MainUtility {
             }
         }
     }
-
     public static int signUpUtility(String email,String password){
         String name;
         String location;
@@ -157,7 +155,6 @@ public class MainUtility {
         }
         return validationStatus;
     }
-
     public static User signInUtility(String email, String password,int validationStatus ){
         if (validationStatus == ValidationUser.VALID)
         {
@@ -246,7 +243,196 @@ public class MainUtility {
     }
 
 
+    public static void browsProducts(DatabaseService dbs) {
+        String option;
+        do {
+            MessagesGenerator.listGenerator("browsProductsList");
+            option = scanner.nextLine();
+            try {
+                handleProductBrowsingOption(option, dbs);
+            } catch (Exception e) {
+                LOGGER.severe("Cannot get the products, something went wrong!\n");
+                exit(0);
+            }
+        } while (!option.equals("6"));
+    }
+    private static void handleProductBrowsingOption(String option, DatabaseService dbs) throws SQLException {
+        switch (option) {
+            case "1":
+                viewAllProducts(dbs);
+                break;
+            case "2":
+                searchProductById(dbs);
+                break;
+            case "3":
+                searchProductByName(dbs);
+                break;
+            case "4":
+                searchProductByCategory(dbs);
+                break;
+            case "5":
+                searchProductByPriceRange(dbs);
+                break;
+            case "6":
 
+                break;
+            default:
+                LOGGER.info("Invalid choice! \nPlease enter 1, 2, ... 6.\n");
+                break;
+        }
+    }
+    private static void viewAllProducts(DatabaseService dbs) throws SQLException {
+        ResultSet rs = Product.getAllProducts(dbs);
+        while (rs.next()) {
+            Product returnedProduct = new Product(rs.getInt("id"), rs.getString("name"), rs.getString(CATEGORY), rs.getDouble(PRICE), rs.getInt(QUANTITY));
+            logProductInfo(returnedProduct);
+        }
+    }
+    private static void searchProductById(DatabaseService dbs) throws SQLException {
+        LOGGER.info("\nPlease enter the product ID:");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        Product returnedProduct = Product.getProductById(id, dbs);
+        logProductInfo(returnedProduct);
+    }
+    private static void searchProductByName(DatabaseService dbs) {
+        LOGGER.info("Please enter the product name:");
+        String name = scanner.nextLine();
+        Product returnedProduct = null;
+        try {
+            returnedProduct = Product.getProductByName(name, dbs);
+        } catch (SQLException e) {
+            LOGGER.severe("There is no products with the name you entered\n");        }
+        if (returnedProduct == null) {
+            LOGGER.severe("There is no product with the name you entered\n");
+        } else {
+            logProductInfo(returnedProduct);
+        }
+    }
+    private static void searchProductByCategory(DatabaseService dbs) throws SQLException {
+        LOGGER.info("Please enter the product category:");
+        String category = scanner.nextLine();
+        ResultSet rs = Product.getProductsByCategory(category, dbs);
+        while (rs.next()) {
+            Product returnedProduct = new Product(rs.getInt("id"), rs.getString("name"), rs.getString(CATEGORY), rs.getDouble(PRICE), rs.getInt(QUANTITY));
+            logProductInfo(returnedProduct);
+        }
+    }
+    private static void searchProductByPriceRange(DatabaseService dbs) throws SQLException {
+        LOGGER.info("Please enter the lower price:");
+        double lower = scanner.nextDouble();
+        LOGGER.info("Please enter the upper price:");
+        double upper = scanner.nextDouble();
+        scanner.nextLine(); // consume the rest of the line
+        ResultSet rs = Product.getProductsByPriceRange(lower, upper, dbs);
+        while (rs.next()) {
+            Product returnedProduct = new Product(rs.getInt("id"), rs.getString("name"), rs.getString(CATEGORY), rs.getDouble(PRICE), rs.getInt(QUANTITY));
+            logProductInfo(returnedProduct);
+        }
+    }
+    private static void logProductInfo(Product product) {
+        if (logger.isLoggable(Level.INFO)) {
+            logger.info(product.toString());
+        }
+    }
+    public static void makeRequest(DatabaseService databaseService, User currentUser){
+
+        try{
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
+            Request.initializeDatesArray();
+            ArrayList<String> datesArray = ( ArrayList<String> ) Request.getDatesArray();
+
+
+            LOGGER.info("Please enter the request ID: ");
+            int requestID = scanner.nextInt();
+
+
+            LOGGER.info("\nPlease select the product you want to install\n");
+            ResultSet rs = Product.getAllProductsNames(databaseService);
+            LOGGER.info("ID" + "  " + "Name\n");
+            while ( rs.next() )
+                if (LOGGER.isLoggable(Level.INFO))
+                    LOGGER.info(String.format("%d  %s%n", rs.getInt(1), rs.getString(2)));
+
+
+            LOGGER.info("\n");
+            int productID = scanner.nextInt();
+
+
+            LOGGER.info("\nPlease select one of the available dates\n");
+            for(int i=0; i<datesArray.size(); i++)
+                if (LOGGER.isLoggable(Level.INFO))
+                    LOGGER.info(String.format("%d- %s%n", i + 1, datesArray.get(i)));
+            int dateIndex = scanner.nextInt() - 1;
+            String selectedDate = datesArray.get(dateIndex);
+            LocalDateTime dateToStore = LocalDateTime.parse(selectedDate, formatter);
+
+
+            LOGGER.info("\nPlease enter the description, what exactly do you want to do:\n");
+            scanner.nextLine();
+            String description = scanner.nextLine();
+
+
+            Request request = new Request(requestID, productID, currentUser.getEmail(), dateToStore, description);
+            request.setDone(0);
+            request.setSelected(0);
+            databaseService.addObject(request,"Request");
+            LOGGER.info("\nRequest Added Successfully, you can check your email for further information\n");
+            EmailSender.sendEmail("s12027747@stu.najah.edu", "Hala-car accessories system", "Your request has been added successfully");
+
+            datesArray.remove(dateIndex);
+            Request.setDatesArray(datesArray);
+
+
+        }catch ( Exception e ){
+            Main.logger.info(e.getMessage());
+            LOGGER.severe("Sorry, something went wrong!\n");
+            exit(0);
+        }
+
+    }
+    public static void removeRequest(DatabaseService databaseService, User currentUser){
+
+        try{
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
+            ArrayList<Request> returnedRequests = new ArrayList<>();
+            ArrayList<String> datesArray = ( ArrayList<String> ) Request.getDatesArray();
+
+            LOGGER.info("Please enter the number of the request you want to remove:\n");
+            ResultSet rs = databaseService.executeQuery("SELECT * FROM Request WHERE userId ='" + currentUser.getEmail() + "'", new ResultSetResultHandler());
+            while ( rs.next() ){
+                String date =  rs.getString(4).substring(0, 19);
+                returnedRequests.add(new Request(rs.getInt(1), rs.getInt(2), rs.getString(3), LocalDateTime.parse(date, formatter), rs.getString(5)));
+            }
+
+            LOGGER.info("\n");
+            String statementToPrint;
+            for(int j=0; j<returnedRequests.size(); j++){
+                statementToPrint = j+1 + "- " + returnedRequests.get(j);
+                LOGGER.info(statementToPrint);
+            }
+
+            int requestNumber = scanner.nextInt();
+            LocalDateTime removedDate = returnedRequests.get(requestNumber-1).getDate();
+
+            datesArray.add(String.valueOf(removedDate));
+            Request.setDatesArray(datesArray);
+
+
+            databaseService.deleteObject(returnedRequests.get(requestNumber-1).getId(), "Request");
+            LOGGER.info("\nRequest Removed Successfully, you can check your email for further information\n");
+            EmailSender.sendEmail("s12027747@stu.najah.edu", "Hala-car accessories system", "Your request has been removed successfully");
+
+        }catch ( Exception e ){
+            Main.logger.info(e.getMessage());
+            LOGGER.severe("Sorry, something went wrong!");
+            exit(0);
+        }
+
+
+    }
 
 
 

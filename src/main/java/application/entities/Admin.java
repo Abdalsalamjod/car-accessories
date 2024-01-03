@@ -3,17 +3,11 @@ package application.entities;
 import application.LoggerUtility;
 
 import application.database.premitive_objects.ResultSetResultHandler;
-import application.database.user_defined_types.ProductResultHandler;
 import application.services.DatabaseService;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import static application.Main.logger;
-import static application.Main.scanner;
 import static application.services.MessagesGenerator.LOGGER;
 
 public class Admin extends User{
@@ -27,11 +21,6 @@ public class Admin extends User{
 
     }
 
-
-    private void exitApplication() {
-        LOGGER.info("Good bye, have a nice day.");
-        System.exit(0);
-    }
     public void manageAccounts( User user , int option, String newValue) {
         Logger logger = LoggerUtility.getLogger();
 

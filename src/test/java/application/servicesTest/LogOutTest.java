@@ -7,6 +7,7 @@ import application.entities.User;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.junit.Before;
 
 import java.util.logging.Logger;
 
@@ -17,8 +18,8 @@ public class LogOutTest {
     LogOut logOut;
     private static Logger logger = LoggerUtility.getLogger();
 
-    public LogOutTest(User user, LogOut logOut) {
-        this.user = user;
+    public LogOutTest( LogOut logOut) {
+        this.user = new User();
         this.logOut = logOut;
     }
 
@@ -52,5 +53,7 @@ public class LogOutTest {
     public void theUserSelectsTheOptionToLogOutAndSomethingWrongHappened() {
         user= logOut.performLogout(user, null);
     }
+
+
 
 }

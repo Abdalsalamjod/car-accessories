@@ -83,7 +83,7 @@ public class MainUtility {
                 continue;
             }
 
-            manageUserAccounts(currentAdmin, databaseService, selectedUser, choice);
+            manageUserAccounts(currentAdmin, selectedUser, choice);
         }
     }
 
@@ -99,7 +99,7 @@ public class MainUtility {
         return null;
     }
 
-    private static void manageUserAccounts(Admin currentAdmin, DatabaseService databaseService, User selectedUser, int choice) {
+    private static void manageUserAccounts(Admin currentAdmin, User selectedUser, int choice) {
         if (choice != 1) {
             LOGGER.info("Enter new value to update: ");
         }

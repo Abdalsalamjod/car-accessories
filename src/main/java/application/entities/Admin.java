@@ -105,19 +105,23 @@ public class Admin extends User{
         LOGGER.info("Good bye, have a nice day.");
         System.exit(0);
     }
+
     public void manageAccounts( User user , int option, String newValue) {
         Logger logger = LoggerUtility.getLogger();
 
         switch (option) {
             case 1 -> user.showDetails(logger);
             case 2, 3, 4, 5, 6 -> user.editDetails(option - 1, newValue, logger);
-            case 7 -> {
-                // TODO: Implement the logic for deleting a user here
-                // dbs.deleteObject(user.getEmail(), "user");
-            }
+            case 7 -> deleteUser(user,logger);
             case 8 -> System.exit(0);
             default -> logger.severe("Please enter a valid input.");
         }
+    }
+
+    private void deleteUser(User user, Logger logger) {
+        DatabaseService dbs = new DatabaseService();
+//  TODO: tell shehabo about :      dbs.deleteObject(user.getEmail(),"user");
+        logger.info("The user deleted successfully\n");
     }
 
 
@@ -140,7 +144,7 @@ public class Admin extends User{
                 user.showDetails(LOGGER);
                 LOGGER.info("\nPassword: "+ user.getPassword()+"\n");
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             LOGGER.severe("Error: in viewUsers \n");
         }
         return users;

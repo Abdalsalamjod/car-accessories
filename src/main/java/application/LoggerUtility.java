@@ -17,6 +17,10 @@ public class LoggerUtility {
         return logger;
     }
 
+    public static void removeLogger() {
+        threadLocalLogger.remove();
+    }
+
     private static void setupLogger(Logger logger) {
         logger.setUseParentHandlers(false);
         SimpleFormatter simpleFormatter = new SimpleFormatter() {
@@ -38,7 +42,8 @@ public class LoggerUtility {
         };
 
         ConsoleHandler consoleHandler = new ConsoleHandler();
-        consoleHandler.setLevel(Level.ALL);
+        // Set to INFO in production or based on environment configuration
+        consoleHandler.setLevel(Level.INFO);
         consoleHandler.setFormatter(simpleFormatter);
         logger.addHandler(consoleHandler);
     }

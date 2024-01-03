@@ -103,7 +103,7 @@ public class User {
         updateProfileObject(logger, dbs, "Updated phone number to: " + newValue);
     }
 
-    private void updateDatabaseObject(Object object, String tableName, String columnName, Logger logger, String successMessage) {
+    public void updateDatabaseObject(Object object, String tableName, String columnName, Logger logger, String successMessage) {
         try {
             new DatabaseService().updateObject(object, tableName, columnName);
             logger.info(successMessage);
@@ -112,7 +112,7 @@ public class User {
         }
     }
 
-    private void updateProfileObject(Logger logger, DatabaseService dbs, String successMessage) {
+    public void updateProfileObject(Logger logger, DatabaseService dbs, String successMessage) {
         try {
             dbs.updateObject(profile, PROFILE, PROFILE_ID);
             logger.info(successMessage);
@@ -127,7 +127,7 @@ public class User {
         List<Request> availableRequests =new ArrayList<>();
 
         try {
-            resultSet=  databaseService.executeQuery("SELECT * FROM `Request` WHERE `done` = true AND `userId`= "+this.email , new ResultSetResultHandler());
+            resultSet=  databaseService.executeQuery("SELECT * FROM `Request` WHERE `done` = true AND `userId`= '"+this.email+"'" , new ResultSetResultHandler());
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
 
             while ( resultSet.next() ) {
@@ -143,8 +143,9 @@ public class User {
                 }
                 availableRequests.add(request);
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             Main.logger.info("something went wrong\n");
+            e.printStackTrace();
         }
     }
 
@@ -155,7 +156,7 @@ public class User {
 
 
         try {
-            resultSet = databaseService.executeQuery("SELECT * FROM `Request` WHERE `selected` = true AND `userId`= "+this.email , new ResultSetResultHandler());
+            resultSet = databaseService.executeQuery("SELECT * FROM `Request` WHERE `selected` = true AND `userId`= '"+this.email+"'" , new ResultSetResultHandler());
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
             while (resultSet.next()) {
                 String date =  resultSet.getString(4).substring(0, 19);

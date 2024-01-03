@@ -18,8 +18,8 @@ public class SignUpTest {
 
     private static final Logger logger = LoggerUtility.getLogger();
     SignUp signUp;
-    public SignUpTest(SignUp signUp) {
-        this.signUp = signUp;
+    public SignUpTest() {
+        this.signUp = new SignUp();
     }
 
     @Given("the user accesses the sign-up command")

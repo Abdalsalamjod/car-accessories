@@ -23,8 +23,8 @@ public class SignInTest {
 //        signIn.password="validpass";
 //    }
 
-    public SignInTest(SignIn signIn) {
-        this.signIn = signIn;
+    public SignInTest() {
+        this.signIn = new SignIn();
     }
 
     @Given("the user accesses the sign-in command")

@@ -1,18 +1,28 @@
 package application;
+import application.database.user_defined_types.ProductResultHandler;
 import application.entities.*;
 import application.services.*;
-import java.util.List;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+
+import static application.Main.logger;
 import static application.Main.scanner;
 import static application.services.MessagesGenerator.LOGGER;
 
 
 public class MainUtility {
+
     private static final String ETC ="1, 2, ... 4.\n";
     private static final String PLEASE_ENTER_VALID = "Invalid choice! \nPlease enter ";
     private MainUtility() {
         throw new UnsupportedOperationException("This is a utility class and cannot be instantiated\n");
     }
+
+
+
     public static void userUtility(DatabaseService databaseService, User currentUser){
 
         boolean iterator = true;
@@ -43,8 +53,6 @@ public class MainUtility {
         }
     }
 
-
-
     public static void adminUtility(DatabaseService databaseService , Admin currentAdmin) {
         boolean iterator = true;
         while (iterator) {
@@ -53,7 +61,7 @@ public class MainUtility {
             scanner.nextLine();
 
             switch (option) {
-                case 1 -> manageProducts(currentAdmin, databaseService);
+                case 1 -> manageProducts(databaseService);
                 case 2 -> manageUsers(currentAdmin, databaseService);
                 case 3 -> iterator = false;
                 default -> LOGGER.info(PLEASE_ENTER_VALID + ETC);
@@ -61,11 +69,12 @@ public class MainUtility {
         }
 
     }
-    private static void manageProducts(Admin currentAdmin, DatabaseService databaseService) {
+
+    private static void manageProducts(DatabaseService databaseService) {
         MessagesGenerator.listGenerator("manageProductsList");
         int browsOption = scanner.nextInt();
         scanner.nextLine();
-        currentAdmin.manageProducts(browsOption, databaseService);
+        manageProducts(browsOption, databaseService);
     }
 
     private static void manageUsers(Admin currentAdmin, DatabaseService databaseService) {
@@ -114,11 +123,6 @@ public class MainUtility {
         }
     }
 
-
-
-
-
-
     public static void installerUtility(DatabaseService databaseService, Installer currentInstaller) {
         boolean iterator = true;
         while (iterator) {
@@ -153,6 +157,7 @@ public class MainUtility {
         }
         return validationStatus;
     }
+
     public static User signInUtility(String email, String password,int validationStatus ){
         if (validationStatus == ValidationUser.VALID)
         {
@@ -161,4 +166,97 @@ public class MainUtility {
         }
         return null;
     }
+
+
+    public static void manageProducts(int option, DatabaseService dbs){
+        String tableName = "Product";
+
+        try {
+            switch (option) {
+                case 1 -> showAllProducts(dbs);
+                case 2 -> addProduct(dbs, tableName);
+                case 3 -> deleteProduct(dbs, tableName);
+                case 4 -> updateProduct(dbs, tableName);
+                case 5 -> exitApplication();
+                default -> logger.info("Invalid choice! \nPlease enter 1, 2, ... 6.\n");
+            }
+        } catch (Exception e) {
+            logger.severe("An error occurred during the operation.\n");
+        }
+    }
+    private static void showAllProducts(DatabaseService dbs) throws SQLException {
+        ResultSet rs = Product.getAllProducts(dbs);
+        while (rs.next()) {
+            Product returnedProduct = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getInt(5));
+            if (LOGGER.isLoggable(Level.INFO))
+                LOGGER.info(returnedProduct.toString());
+        }
+    }
+    private static void addProduct(DatabaseService dbs, String tableName) throws SQLException {
+        LOGGER.info("\nPlease enter the product ID: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        LOGGER.info("Please enter the product name: ");
+        String name = scanner.nextLine();
+        LOGGER.info("Please enter the product category: ");
+        String category = scanner.nextLine();
+        LOGGER.info("Please enter the product price: ");
+        double price = scanner.nextDouble();
+        LOGGER.info("Please enter the product quantity: ");
+        int quantity = scanner.nextInt();
+        Product product = new Product(id, name, category, price, quantity);
+        String valid = product.validInformation() + "\n";
+        if (valid.equals("\n")) {
+            dbs.addObject(product, tableName);
+            LOGGER.info("Product Added successfully!");
+        } else {
+            LOGGER.severe(valid);
+        }
+    }
+    private static void deleteProduct(DatabaseService dbs, String tableName) throws SQLException {
+        LOGGER.info("\nPlease enter the product ID: ");
+        int id = scanner.nextInt();
+        boolean done = dbs.deleteObject(id, tableName);
+        if (done)
+            LOGGER.info("Product Deleted successfully!");
+    }
+    private static void updateProduct(DatabaseService dbs, String tableName) throws SQLException {
+        LOGGER.info("\nPlease enter the ID of the product to be updated: ");
+        int id = scanner.nextInt();
+        LOGGER.info("\nPlease enter the new price: ");
+        double price = scanner.nextDouble();
+        LOGGER.info("\nPlease enter the new quantity: ");
+        int quantity = scanner.nextInt();
+        if (price > 0 && quantity > 0) {
+            Product oldProduct = dbs.executeQuery("SELECT * FROM Product WHERE id=" + id, new ProductResultHandler());
+            Product newProduct = new Product(oldProduct.getId(), oldProduct.getName(), oldProduct.getCategory(), price, quantity);
+            try {
+                dbs.updateObject(newProduct, tableName, "id");
+            } catch (Exception e) {
+                LOGGER.severe("Error in updating Product\n");
+            }
+            LOGGER.info("Product updated successfully!\n");
+        } else {
+            LOGGER.info("Price and Quantity must be greater than zero!\n");
+        }
+    }
+    private static void exitApplication() {
+        LOGGER.info("Good bye, have a nice day.");
+        System.exit(0);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

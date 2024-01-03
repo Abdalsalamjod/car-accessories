@@ -31,7 +31,6 @@ public class LoggerUtility {
 
             @Override
             public synchronized String format(LogRecord logRecord) {
-                // Sanitize the log message to prevent log injection
                 String message = sanitizeLogMessage(logRecord.getMessage());
 
                 String color = ANSI_GREEN;

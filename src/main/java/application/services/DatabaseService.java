@@ -93,6 +93,7 @@ public class DatabaseService implements Serializable {
     return insertQuery.toString();
   }
 
+
   private <T> void setStatementParameters(PreparedStatement statement, T object, String[] columnNames)
     throws SQLException, IllegalAccessException {
     Field[] fields = object.getClass().getDeclaredFields();
@@ -115,17 +116,21 @@ public class DatabaseService implements Serializable {
     if (!isValidTableName(tableName)) {
       throw new IllegalArgumentException("Invalid table name");
     }
+
     String deleteQuery = buildDeleteQuery(tableName);
     try (PreparedStatement statement = connection.prepareStatement(deleteQuery)) {
       statement.setInt(1, id);
       statement.executeUpdate();
+
       return true;
     }
   }
 
+
   private String buildDeleteQuery(String tableName) {
     return "DELETE FROM " + tableName + " WHERE id=?";
   }
+
 
 
   private boolean isValidTableName(String tableName) {

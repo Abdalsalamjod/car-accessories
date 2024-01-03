@@ -12,15 +12,14 @@ import java.util.logging.Logger;
 public class Main {
     public static final Logger logger = LoggerUtility.getLogger();
     public static final Scanner scanner = new Scanner(System.in);
-    public static final String EDIT_DETAILS_ERROR ="Error: in editDetails\n";
-    public static final String PROFILE="Profile";
-    public static final String PROFILE_ID="profileId";
-    public static final String REQUEST ="Request" ;
-    public static final String DATE_FORMAT="yyyy-MM-dd HH:mm:ss";
-    public static final String CATEGORY= "category";
-    public static final String PRICE ="price";
-
-    public static final String QUANTITY="quantity";
+    public static final String EDIT_DETAILS_ERROR = "Error: in editDetails\n";
+    public static final String PROFILE = "Profile";
+    public static final String PROFILE_ID = "profileId";
+    public static final String REQUEST = "Request" ;
+    public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    public static final String CATEGORY = "category";
+    public static final String PRICE = "price";
+    public static final String QUANTITY = "quantity";
 
     public static void main(String[] args) {
         User currentUser = null;
@@ -76,7 +75,7 @@ public class Main {
             DatabaseService databaseService = new DatabaseService();
             logger.info("Welcome dear " + newUser.getProfileObject().getName());
             handleUserRole(newUser, databaseService);
-            return newUser; // Return the new user if sign in is successful
+            return newUser;
         } else {
             if (logger.isLoggable(Level.INFO)) {
                 logger.severe(MessagesGenerator.signingMessages(5));
@@ -86,7 +85,7 @@ public class Main {
     }
 
 
-    private static User handleUserRole(User currentUser, DatabaseService databaseService) {
+    private static void handleUserRole(User currentUser, DatabaseService databaseService) {
         switch (currentUser.getRole()) {
             case 'u' -> MainUtility.userUtility(databaseService, currentUser);
             case 'a' -> {
@@ -99,7 +98,6 @@ public class Main {
             }
             default -> logger.severe("Error: something went wrong, please run application again!\n");
         }
-        return currentUser;
     }
 
     private static void performLogout(User currentUser) {

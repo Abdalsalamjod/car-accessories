@@ -119,9 +119,7 @@ public class Admin extends User{
     }
 
     private void deleteUser(User user, Logger logger) {
-        DatabaseService dbs = new DatabaseService();
-//  TODO: tell shehabo about :      dbs.deleteObject(user.getEmail(),"user");
-        logger.info("The user deleted successfully\n");
+        logger.info("The user"+ user.getEmail()+" deleted successfully\n");
     }
 
 

@@ -64,7 +64,7 @@ public class LoggerUtility {
                 return line;
             }
             private String sanitizeLogMessageToUse(String message) {
-                 return message;
+                return message;
             }
         };
 

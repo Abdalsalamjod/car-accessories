@@ -15,12 +15,12 @@ import java.util.logging.Logger;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class UserProfileTest {
+public class UserProfileStepDefinitions {
     private User user;
     private Profile profile;
     boolean flag;
 
-    public UserProfileTest() {
+    public UserProfileStepDefinitions() {
 
     }
 

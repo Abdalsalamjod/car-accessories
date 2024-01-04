@@ -14,11 +14,11 @@ import java.util.logging.Logger;
 import static application.services.ValidationUser.validation;
 import static org.junit.Assert.*;
 
-public class SignUpTest {
+public class SignUpStepDefinitions {
 
     private static final Logger logger = LoggerUtility.getLogger();
     SignUp signUp;
-    public SignUpTest() {
+    public SignUpStepDefinitions() {
         this.signUp = new SignUp();
     }
 

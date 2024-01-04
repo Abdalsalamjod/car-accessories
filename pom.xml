@@ -18,8 +18,13 @@
             **/application/Main.java,
             **/application/MainUtility.java,
             **/application/services/MessagesGenerator.java
-
         </sonar.coverage.exclusions>
+        <sonar.coverage.exclusions>
+            **/application/Main.java,
+            **/application/MainUtility.java,
+            **/application/services/MessagesGenerator.java
+        </sonar.coverage.exclusions>
+
     </properties>
     <dependencies>
         <dependency>

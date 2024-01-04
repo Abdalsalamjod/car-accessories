@@ -64,7 +64,7 @@ public class Main {
         logger.info("Enter your password: ");
         String password = scanner.nextLine();
 
-        int validationStatus = ValidationUser.validation(email, password, new DatabaseService());
+        int validationStatus = ValidationUser.validation(email, password, new DatabaseService(),"SIGN_IN");
         User newUser = MainUtility.signInUtility(email, password, validationStatus);
 
         if (logger.isLoggable(Level.INFO)) {

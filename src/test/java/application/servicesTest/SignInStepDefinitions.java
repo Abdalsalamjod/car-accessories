@@ -74,6 +74,7 @@ public class SignInStepDefinitions {
         signIn.setValidationStatus(validation(Email, Password, new DatabaseService()));
         assertNotEquals(0, signIn.getValidationStatus());
         ValidationUser.isExistPassword(Email,Password,null);
+
     }
     @Then("the system should display an error message {string}")
     public void theSystemShouldDisplayAnErrorMessage(String string) {
@@ -84,6 +85,13 @@ public class SignInStepDefinitions {
     public void theUserShouldNotBeLoggedIn() {
         signIn.performLogIn(new DatabaseService());
         assertFalse(signIn.isSignedIn());
+        try {
+            ValidationUser validationUser =new ValidationUser();
+
+        }
+        catch (Exception e){
+            logger.severe("error 404\n");
+        }
     }
 
 

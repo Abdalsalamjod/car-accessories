@@ -17,7 +17,7 @@ public class ValidationUser {
     public static final int INVALID_PASSWORD = 4;
     public static final int INVALID = 5;
     public static final int OTHER_ERROR = -1;
-    private ValidationUser() {
+    public ValidationUser() {
         throw new IllegalStateException("Utility class");
     }
 

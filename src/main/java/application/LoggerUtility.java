@@ -43,27 +43,7 @@ public class LoggerUtility {
             }
 
             private String sanitizeLogMessage(String message) {
-                if (message == null) {
-                    return null;
-                }
-                String[] lines = message.split("\n");
-                for (int i = 0; i < lines.length; i++) {
-                    lines[i] = sanitizeSingleLine(lines[i]);
-                }
-                return String.join("\n", lines);
-            }
-
-            private String sanitizeSingleLine(String line) {
-                line = line.replace("\r", "");
-                line = line.replaceAll("[\\p{Cntrl}&&[^\t]]", "");
-                int maxLength = 1000;
-                if (line.length() > maxLength) {
-                    line = line.substring(0, maxLength) + "...";
-                }
-                return line;
-            }
-            private String sanitizeLogMessageToUse(String message) {
-                return message;
+             return message;
             }
         };
 

@@ -141,8 +141,8 @@ public class MainUtility {
         String name;
         String location;
         String phoneNumber;
-        int validationStatus = ValidationUser.validation(email, password,new DatabaseService());
-        if (validationStatus == ValidationUser.VALID) {
+        int validationStatus = ValidationUser.validation(email, password,new DatabaseService(),"SIGN_UP");
+        if (validationStatus == ValidationUser.VALID ) {
             LOGGER.info("Please enter your name: ");
             name=scanner.nextLine();
             LOGGER.info("Please enter your address: ");

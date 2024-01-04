@@ -4,6 +4,7 @@ import application.database.premitive_objects.ResultSetResultHandler;
 import application.services.DatabaseService;
 import application.services.ValidationUser;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -114,14 +115,17 @@ public class User {
             logger.severe(EDIT_DETAILS_ERROR);
         }
     }
+    public static ResultSet getRequest( String query, DatabaseService dbs ) throws SQLException {
+        return dbs.executeQuery(query, new ResultSetResultHandler());
+    }
     private List<Request> fetchRequests(DatabaseService databaseService, String query, Level logLevel) {
         List<Request> availableRequests = new ArrayList<>();
-        ResultSet resultSet;
+
         Request request;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
 
         try {
-            resultSet = databaseService.executeQuery(query, new ResultSetResultHandler());
+            ResultSet resultSet =getRequest(query,databaseService);
             while (resultSet.next()) {
                 String date = resultSet.getString(4).substring(0, 19);
                 request = new Request(resultSet.getInt(1),

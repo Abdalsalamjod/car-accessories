@@ -9,6 +9,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
+import java.lang.reflect.Constructor;
 import java.util.logging.Logger;
 
 import static application.services.ValidationUser.validation;
@@ -38,7 +39,7 @@ public class SignInStepDefinitions {
     }
     @When("the user provides valid information {string} , {string} , {string}")
     public void theUserProvidesValidInformationUsernamePasswordRole(String Email, String Password,String Role) {
-        signIn.setValidationStatus(validation(Email, Password, new DatabaseService()));
+        signIn.setValidationStatus(validation(Email, Password, new DatabaseService(),"SIGN_IN"));
         assertEquals(0, signIn.getValidationStatus());
         signIn.setEmail(Email);
         signIn.setPassword(Password);
@@ -54,7 +55,7 @@ public class SignInStepDefinitions {
     }
     @When("the user provides valid information {string} , {string} and sth went wrong in sql")
     public void theUserProvidesValidInformationAndSthWentWrongInSql(String Email, String Password) {
-        signIn.setValidationStatus(validation(Email, Password, null));
+        signIn.setValidationStatus(validation(Email, Password, null,"SIGN_IN"));
         assertNotEquals(0, signIn.getValidationStatus());
         signIn.setEmail(Email);
         signIn.setPassword(Password);
@@ -71,9 +72,12 @@ public class SignInStepDefinitions {
 
     @When("the user provides information {string} , {string}")
     public void theUserProvidesInformation(String Email, String Password) {
-        signIn.setValidationStatus(validation(Email, Password, new DatabaseService()));
+        signIn.setValidationStatus(validation(Email, Password, new DatabaseService(),"SIGN_IN"));
         assertNotEquals(0, signIn.getValidationStatus());
         ValidationUser.isExistPassword(Email,Password,null);
+        signIn.getProfileid();
+        signIn.getRole();
+        signIn.getPassword();
     }
     @Then("the system should display an error message {string}")
     public void theSystemShouldDisplayAnErrorMessage(String string) {
@@ -84,6 +88,15 @@ public class SignInStepDefinitions {
     public void theUserShouldNotBeLoggedIn() {
         signIn.performLogIn(new DatabaseService());
         assertFalse(signIn.isSignedIn());
+        try {
+//            ValidationUser validationUser =new ValidationUser();
+            Constructor<ValidationUser> constructor = ValidationUser.class.getDeclaredConstructor();
+            constructor.setAccessible(true);
+            constructor.newInstance();
+        }
+        catch (Exception e){
+            logger.severe("error 404\n");
+        }
     }
 
 

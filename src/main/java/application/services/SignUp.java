@@ -62,9 +62,7 @@ public class SignUp {
         return password;
     }
 
-    public Profile getProfile() {
-        return profile;
-    }
+
 
     public boolean isHasAccount() {
         return hasAccount;
@@ -74,9 +72,6 @@ public class SignUp {
         return validationStatus;
     }
 
-    public SignIn getSignIn() {
-        return signIn;
-    }
 
     public void setEmail(String email) {
         this.email = email;
@@ -90,15 +85,8 @@ public class SignUp {
         this.profile = profile;
     }
 
-    public void setHasAccount(boolean hasAccount) {
-        this.hasAccount = hasAccount;
-    }
-
     public void setValidationStatus(int validationStatus) {
         this.validationStatus = validationStatus;
     }
 
-    public void setSignIn(SignIn signIn) {
-        this.signIn = signIn;
-    }
 }

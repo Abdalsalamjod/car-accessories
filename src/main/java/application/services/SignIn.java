@@ -76,32 +76,23 @@ public class SignIn {
         this.role = role;
     }
 
-    public void setProfileid(int profileid) {
-        this.profileid = profileid;
-    }
-
-    public void setSignedIn(boolean signedIn) {
-        this.signedIn = signedIn;
-    }
 
     public void setValidationStatus(int validationStatus) {
         this.validationStatus = validationStatus;
     }
 
-    public String getEmail() {
-        return email;
-    }
+
 
     public String getPassword() {
         return password;
     }
 
-    public char getRole() {
-        return role;
-    }
-
     public int getProfileid() {
         return profileid;
+    }
+
+    public char getRole() {
+        return role;
     }
 
     public boolean isSignedIn() {

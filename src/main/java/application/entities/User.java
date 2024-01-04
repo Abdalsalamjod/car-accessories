@@ -120,12 +120,12 @@ public class User {
     }
     private List<Request> fetchRequests(DatabaseService databaseService, String query, Level logLevel) {
         List<Request> availableRequests = new ArrayList<>();
-        ResultSet resultSet;
+
         Request request;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
 
         try {
-            resultSet =getRequest(query,databaseService);
+            ResultSet resultSet =getRequest(query,databaseService);
             while (resultSet.next()) {
                 String date = resultSet.getString(4).substring(0, 19);
                 request = new Request(resultSet.getInt(1),

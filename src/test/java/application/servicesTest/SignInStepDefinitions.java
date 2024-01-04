@@ -74,7 +74,9 @@ public class SignInStepDefinitions {
         signIn.setValidationStatus(validation(Email, Password, new DatabaseService()));
         assertNotEquals(0, signIn.getValidationStatus());
         ValidationUser.isExistPassword(Email,Password,null);
-
+        signIn.getProfileid();
+        signIn.getRole();
+        signIn.getPassword();
     }
     @Then("the system should display an error message {string}")
     public void theSystemShouldDisplayAnErrorMessage(String string) {

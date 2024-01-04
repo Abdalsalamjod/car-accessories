@@ -4,7 +4,6 @@ import application.database.premitive_objects.ResultSetResultHandler;
 import application.services.DatabaseService;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;

@@ -104,7 +104,7 @@ public class Installer extends User{
         try {
             int requestIdInt = Integer.parseInt(requestId);
             continueLoop = handleRequestUpdate(databaseService, requestIdInt);
-            continueLoop = test ? false : continueLoop;
+            continueLoop = !test && continueLoop;
         } catch (Exception e) {
             logger.info("Invalid input. Please, enter a valid number or 'Exit' to quit.\n");
         }

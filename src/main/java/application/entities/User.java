@@ -1,6 +1,5 @@
 package application.entities;
 
-import application.Main;
 import application.database.premitive_objects.ResultSetResultHandler;
 import application.services.DatabaseService;
 import application.services.ValidationUser;
@@ -143,7 +142,7 @@ public class User {
 
     public void viewRequisitesHistory(DatabaseService databaseService) {
         String query = "SELECT * FROM `Request` WHERE `done` = true AND `userId`= '" + this.email + "'";
-        List<Request> availableRequests = fetchRequests(databaseService, query, Level.INFO);
+        fetchRequests(databaseService, query, Level.INFO);
     }
 
     public List<Request> viewInstallationRequests(DatabaseService databaseService) {

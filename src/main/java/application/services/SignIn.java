@@ -83,6 +83,18 @@ public class SignIn {
 
 
 
+    public String getPassword() {
+        return password;
+    }
+
+    public int getProfileid() {
+        return profileid;
+    }
+
+    public char getRole() {
+        return role;
+    }
+
     public boolean isSignedIn() {
         return signedIn;
     }

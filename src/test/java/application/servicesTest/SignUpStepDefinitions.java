@@ -34,7 +34,7 @@ public class SignUpStepDefinitions {
         signUp.setPassword("validpass");
         signUp.setProfile(profile);
         signUp.setValidationStatus(validation(signUp.getEmail(), signUp.getPassword(), new DatabaseService(),"SIGN_UP"));
-        assertEquals(signUp.getValidationStatus(),0);
+        assertEquals(0,signUp.getValidationStatus());
     }
     @Then("the user should be registered successfully")
     public void theUserShouldBeRegisteredSuccessfully() {

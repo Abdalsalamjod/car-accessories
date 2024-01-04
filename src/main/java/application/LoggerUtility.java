@@ -45,11 +45,6 @@ public class LoggerUtility {
             private String sanitizeLogMessage(String message) {
              return message;
             }
-
-
-            private String sanitizeLogMessageToUse(String message) {
-                return message;
-            }
         };
 
         ConsoleHandler consoleHandler = new ConsoleHandler();

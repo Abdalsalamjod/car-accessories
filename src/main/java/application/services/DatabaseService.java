@@ -26,18 +26,22 @@ public class DatabaseService implements Serializable {
     }
   }
 
-  
-  public <T> T executeQuery(String query, QueryResultHandler<T> resultHandler) throws SQLException{
 
+  public <T> T executeQuery(String query, QueryResultHandler<T> resultHandler) throws SQLException {
     ResultSet resultSet;
-    PreparedStatement statement ;
+    PreparedStatement statement = null;
 
-    statement = connection.prepareStatement(query);
-    resultSet = statement.executeQuery();
-    return resultHandler.handle(resultSet);
-
-
+    try {
+      statement = connection.prepareStatement(query);
+      resultSet = statement.executeQuery();
+      return resultHandler.handle(resultSet);
+    } finally {
+      if (statement != null) {
+        statement.close();
+      }
+    }
   }
+
 
 
   public <T> boolean addObject(T object, String tableName) throws SQLException {

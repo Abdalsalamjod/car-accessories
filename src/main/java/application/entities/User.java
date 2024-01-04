@@ -57,7 +57,7 @@ public class User {
         switch ( optionIn ) {
             case 1 -> updateName(newValue, logger, dbs);
             case 2 -> updateEmail(newValue, logger, dbs);
-            case 3 -> updatePassword(newValue, logger, dbs);
+            case 3 -> updatePassword(newValue, logger);
             case 4 -> updateLocation(newValue, logger, dbs);
             case 5 -> updatePhoneNumber(newValue, logger, dbs);
             default -> logger.info("Invalid option.");
@@ -80,7 +80,7 @@ public class User {
         }
     }
 
-    private void updatePassword(String newValue, Logger logger, DatabaseService dbs) {
+    private void updatePassword(String newValue, Logger logger) {
         logger.info("Updating password...");
         this.setPassword(newValue);
         updateDatabaseObject(this, "user", "email", logger, "Password updated.");
@@ -115,62 +115,40 @@ public class User {
             logger.severe(EDIT_DETAILS_ERROR);
         }
     }
-
-    public void viewRequisitesHistory(DatabaseService databaseService){
+    private List<Request> fetchRequests(DatabaseService databaseService, String query, Level logLevel) {
+        List<Request> availableRequests = new ArrayList<>();
         ResultSet resultSet;
         Request request;
-        List<Request> availableRequests =new ArrayList<>();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
 
         try {
-            resultSet=  databaseService.executeQuery("SELECT * FROM `Request` WHERE `done` = true AND `userId`= '"+this.email+"'" , new ResultSetResultHandler());
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
-
-            while ( resultSet.next() ) {
-                String date =  resultSet.getString(4).substring(0, 19);
-                request= new Request(resultSet.getInt(1),
-                        resultSet.getInt(2),
-                        resultSet.getString(3),
-                        LocalDateTime.parse(date, formatter),
-                        resultSet.getString(5));
-
-                if (logger.isLoggable(Level.INFO)) {
-                    logger.info(request.toString());
-                }
-                availableRequests.add(request);
-            }
-        } catch (Exception e) {
-            Main.logger.info("something went wrong\n");
-        }
-    }
-
-    public List<Request> viewInstallationRequests(DatabaseService databaseService) {
-        ResultSet resultSet;
-        Request request;
-        List<Request> availableRequests =new ArrayList<>();
-
-
-        try {
-            resultSet = databaseService.executeQuery("SELECT * FROM `Request` WHERE `selected` = true AND `userId`= '"+this.email+"'" , new ResultSetResultHandler());
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
+            resultSet = databaseService.executeQuery(query, new ResultSetResultHandler());
             while (resultSet.next()) {
-                String date =  resultSet.getString(4).substring(0, 19);
+                String date = resultSet.getString(4).substring(0, 19);
                 request = new Request(resultSet.getInt(1),
                         resultSet.getInt(2),
                         resultSet.getString(3),
                         LocalDateTime.parse(date, formatter),
-                        resultSet.getString(5)
-                );
-                if (logger.isLoggable(Level.INFO)) {
-                    logger.info(request.toString());
+                        resultSet.getString(5));
+                if (logger.isLoggable(logLevel)) {
+                    logger.log(logLevel, request.toString());
                 }
                 availableRequests.add(request);
             }
-
         } catch (Exception e) {
-            Main.logger.severe("something went wrong\n");
+            logger.log(Level.SEVERE, "something went wrong\n");
         }
-
         return availableRequests;
+    }
+
+    public void viewRequisitesHistory(DatabaseService databaseService) {
+        String query = "SELECT * FROM `Request` WHERE `done` = true AND `userId`= '" + this.email + "'";
+        List<Request> availableRequests = fetchRequests(databaseService, query, Level.INFO);
+    }
+
+    public List<Request> viewInstallationRequests(DatabaseService databaseService) {
+        String query = "SELECT * FROM `Request` WHERE `selected` = true AND `userId`= '" + this.email + "'";
+        return fetchRequests(databaseService, query, Level.INFO);
     }
 
 

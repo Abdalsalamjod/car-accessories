@@ -14,16 +14,16 @@ import java.util.logging.Logger;
 import static application.services.ValidationUser.validation;
 import static org.junit.Assert.*;
 
-public class SignInTest {
+public class SignInStepDefinitions {
     private static Logger logger = LoggerUtility.getLogger();
     SignIn signIn ;
-//    public SignInTest() {
+//    public SignInStepDefinitions() {
 //        signIn=new SignIn();
 //        signIn.email="valid@example.com";
 //        signIn.password="validpass";
 //    }
 
-    public SignInTest() {
+    public SignInStepDefinitions() {
         this.signIn = new SignIn();
     }
 

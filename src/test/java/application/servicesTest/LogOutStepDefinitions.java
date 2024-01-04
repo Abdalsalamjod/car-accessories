@@ -7,18 +7,17 @@ import application.entities.User;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.junit.Before;
 
 import java.util.logging.Logger;
 
 import static org.junit.Assert.*;
 
-public class LogOutTest {
+public class LogOutStepDefinitions {
     User user;
     LogOut logOut;
     private static Logger logger = LoggerUtility.getLogger();
 
-    public LogOutTest( LogOut logOut) {
+    public LogOutStepDefinitions(LogOut logOut) {
         this.user = new User();
         this.logOut = logOut;
     }

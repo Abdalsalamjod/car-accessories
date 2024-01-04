@@ -7,16 +7,14 @@
  import io.cucumber.java.en.Then;
  import io.cucumber.java.en.When;
 
- import java.sql.SQLException;
  import java.util.Scanner;
 
  import static org.mockito.Mockito.mock;
- import static org.mockito.Mockito.when;
 
- public class installerTest {
+ public class installerStepDefinitions {
 
      public Installer installer;
-     public installerTest(Installer installer) {
+     public installerStepDefinitions(Installer installer) {
          this.installer = installer;
      }
 

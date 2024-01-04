@@ -28,17 +28,11 @@ public class DatabaseService implements Serializable {
 
 
   public <T> T executeQuery(String query, QueryResultHandler<T> resultHandler) throws SQLException {
-    ResultSet resultSet;
-    PreparedStatement statement = null;
 
     try {
-      statement = connection.prepareStatement(query);
-      resultSet = statement.executeQuery();
-      return resultHandler.handle(resultSet);
+      return resultHandler.handle(connection.prepareStatement(query).executeQuery());
     } finally {
-      if (statement != null) {
-        statement.close();
-      }
+        connection.prepareStatement(query).close();
     }
   }
 

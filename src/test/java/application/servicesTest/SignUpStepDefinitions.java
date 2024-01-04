@@ -33,8 +33,8 @@ public class SignUpStepDefinitions {
         signUp.setEmail("valid@example.com");
         signUp.setPassword("validpass");
         signUp.setProfile(profile);
-        signUp.setValidationStatus(validation(signUp.getEmail(), signUp.getPassword(), new DatabaseService()));
-        assertNotEquals(signUp.getValidationStatus(),0);
+        signUp.setValidationStatus(validation(signUp.getEmail(), signUp.getPassword(), new DatabaseService(),"SIGN_UP"));
+        assertEquals(signUp.getValidationStatus(),0);
     }
     @Then("the user should be registered successfully")
     public void theUserShouldBeRegisteredSuccessfully() {
@@ -55,7 +55,7 @@ public class SignUpStepDefinitions {
 
     @When("the user provides {string}, {string}")
     public void theUserProvides(String Email, String Password)  {
-        signUp.setValidationStatus(validation(Email, Password, new DatabaseService()));
+        signUp.setValidationStatus(validation(Email, Password, new DatabaseService(),"SIGN_UP"));
 //        assertNotEquals(signUp.validationStatus,0);
     }
     @Then("the system should respond with an error message")
@@ -82,5 +82,6 @@ public class SignUpStepDefinitions {
         signUp.setValidationStatus(0);
         signUp.creatAccount(null);
         assertTrue(signUp.isHasAccount());
+        validation("asd@gmail.com","132",new DatabaseService(),"SIGN_UP");
     }
 }

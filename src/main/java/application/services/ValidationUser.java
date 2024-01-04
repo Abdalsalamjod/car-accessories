@@ -17,22 +17,28 @@ public class ValidationUser {
     public static final int INVALID_PASSWORD = 4;
     public static final int INVALID = 5;
     public static final int OTHER_ERROR = -1;
-    public ValidationUser() {
+    private ValidationUser() {
         throw new IllegalStateException("Utility class");
     }
 
-    public static int validation(String email, String password,DatabaseService dbs) {
+    public static int validation(String email, String password,DatabaseService dbs,String context) {
         if (email == null || email.isEmpty()) {
             return NULL_EMAIL;
         }
         if (!isValidEmail(email)) {
             return INVALID_EMAIL;
         }
-        if (!isExistEmail(email,dbs)) {
-            return EMAIL_NOT_EXIST;
-        }
-        if (!isExistPassword(email,password,dbs)) {
-            return INVALID_PASSWORD;
+        if ("SIGN_UP".equals(context)) {
+            if (isExistEmail(email, dbs)) {
+                return EMAIL_NOT_EXIST;
+            }
+        } else if ("SIGN_IN".equals(context)) {
+            if (!isExistEmail(email, dbs)) {
+                return EMAIL_NOT_EXIST;
+            }
+            if (!isExistPassword(email, password, dbs)) {
+                return INVALID_PASSWORD;
+            }
         }
         return VALID;
     }

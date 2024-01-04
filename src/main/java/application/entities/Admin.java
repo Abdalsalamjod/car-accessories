@@ -54,6 +54,7 @@ public class Admin extends User{
                 user.showDetails(LOGGER);
                 LOGGER.info("\nPassword: "+ user.getPassword()+"\n");
             }
+            resultSet.close();
         } catch (Exception e) {
             LOGGER.severe("Error: in viewUsers \n");
         }

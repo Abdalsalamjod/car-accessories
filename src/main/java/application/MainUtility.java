@@ -233,9 +233,12 @@ public class MainUtility {
                 LOGGER.severe("Error in updating Product\n");
             }
             LOGGER.info("Product updated successfully!\n");
+
         } else {
             LOGGER.info("Price and Quantity must be greater than zero!\n");
         }
+
+
     }
     private static void exitApplication() {
         LOGGER.info("Good bye, have a nice day.");
@@ -424,7 +427,7 @@ public class MainUtility {
             databaseService.deleteObject(returnedRequests.get(requestNumber-1).getId(), "Request");
             LOGGER.info("\nRequest Removed Successfully, you can check your email for further information\n");
             EmailSender.sendEmail("s12027747@stu.najah.edu", "Hala-car accessories system", "Your request has been removed successfully");
-
+            rs.close();
         }catch ( Exception e ){
             Main.logger.info(e.getMessage());
             LOGGER.severe("Sorry, something went wrong!");

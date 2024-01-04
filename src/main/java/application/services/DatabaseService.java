@@ -29,11 +29,8 @@ public class DatabaseService implements Serializable {
 
   public <T> T executeQuery(String query, QueryResultHandler<T> resultHandler) throws SQLException {
 
-    try {
       return resultHandler.handle(connection.prepareStatement(query).executeQuery());
-    } finally {
-        connection.prepareStatement(query).close();
-    }
+
   }
 
 

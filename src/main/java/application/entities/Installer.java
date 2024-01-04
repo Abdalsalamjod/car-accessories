@@ -38,7 +38,8 @@ public class Installer extends User{
         this.availableRequests =new ArrayList<>();
 
         try {
-            resultSet=  dbs.executeQuery("SELECT * FROM `"+ REQUEST +"` WHERE `done` = false" , new ResultSetResultHandler());
+            resultSet = dbs.executeQuery("SELECT * FROM `" + REQUEST + "` WHERE `done` = false", new ResultSetResultHandler());
+
             while ( resultSet.next() ) {
                 request= new Request(resultSet.getInt(1),
                         resultSet.getInt(2),
@@ -51,6 +52,7 @@ public class Installer extends User{
                 }
                 availableRequests.add(request);
             }
+            resultSet.close();
         } catch (Exception e) {
             logger.info("something went wrong\n");
         }
@@ -80,6 +82,7 @@ public class Installer extends User{
                 }
                 availableRequests.add(request);
             }
+            resultSet.close();
 
         } catch (Exception e) {
             logger.severe("something went wrong\n");

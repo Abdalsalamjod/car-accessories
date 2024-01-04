@@ -134,6 +134,7 @@ public class User {
                 }
                 availableRequests.add(request);
             }
+            resultSet.close();
         } catch (Exception e) {
             logger.log(Level.SEVERE, "something went wrong\n");
         }

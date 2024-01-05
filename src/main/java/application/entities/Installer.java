@@ -34,16 +34,16 @@ public class Installer extends User{
     public List<Request> viewInstallationRequests(DatabaseService dbs){
         ResultSet resultSet;
         Request request;
-        this.availableRequests =new ArrayList<>();
+        this.availableRequests = new ArrayList<>();
 
         try {
             resultSet = dbs.executeQuery("SELECT * FROM `" + REQUEST + "` WHERE `done` = false", new ResultSetResultHandler());
 
             while ( resultSet.next() ) {
-                request= new Request(resultSet.getInt(1),
+                request = new Request(resultSet.getInt(1),
                         resultSet.getInt(2),
                         resultSet.getString(3),
-                         resultSet.getDate(4).toLocalDate().atTime(LocalTime.MIDNIGHT),
+                        resultSet.getDate(4).toLocalDate().atTime(LocalTime.MIDNIGHT),
                         resultSet.getString(5));
 
                 if (logger.isLoggable(Level.INFO)) {

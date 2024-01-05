@@ -125,7 +125,7 @@ public class DatabaseService implements Serializable {
   public <T> void updateObject(T object, String tableName, String primaryKeyField) throws SQLException, NoSuchFieldException, IllegalAccessException {
     String updateQuery = buildUpdateQuery(object, tableName, primaryKeyField);
     try (PreparedStatement statement = connection.prepareStatement(updateQuery)) {
-      setParameters(statement, object, primaryKeyField);
+      setParameters(statement, object, primaryKeyField, tableName);
       statement.executeUpdate();
     }
   }
@@ -139,12 +139,15 @@ public class DatabaseService implements Serializable {
     for (int i = 0; i < fieldsLength; i++) {
       if (!fields[i].getName().equals(primaryKeyField)) {
         appendFieldToQuery(updateQuery, fields[i]);
-        if (i < fieldsLength - 1) {
+        int deference = (tableName.equals("Profile")) ? 2 : 1;
+        if (i < fieldsLength - deference) {
           updateQuery.append(", ");
         }
       }
     }
+
     return updateQuery.append(" WHERE ").append(primaryKeyField).append(" = ?").toString();
+
   }
 
   private void appendFieldToQuery(StringBuilder query, Field field) {
@@ -154,9 +157,10 @@ public class DatabaseService implements Serializable {
     } else {
       query.append(fieldName).append(" = ?");
     }
+
   }
 
-  private <T> void setParameters(PreparedStatement statement, T object, String primaryKeyField)
+  private <T> void setParameters(PreparedStatement statement, T object, String primaryKeyField, String tableName)
     throws IllegalAccessException, NoSuchFieldException, SQLException {
     Field[] fields = object.getClass().getDeclaredFields();
     int fieldsLength = (Objects.equals(LITERAL_FOR_REQUEST_TABLE, primaryKeyField)) ? fields.length - 1 : fields.length;
@@ -168,6 +172,8 @@ public class DatabaseService implements Serializable {
         paramIndex++;
       }
     }
+    if(tableName.equals(LITERAL_FOR_REQUEST_TABLE))
+      paramIndex--;
 
     Field primaryKey = object.getClass().getDeclaredField(primaryKeyField);
 
@@ -202,3 +208,7 @@ public class DatabaseService implements Serializable {
 
 
 }
+
+
+
+

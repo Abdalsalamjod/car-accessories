@@ -28,12 +28,12 @@ public class Main {
         while (iterator) {
             MessagesGenerator.listGenerator("signingList");
             String choice = scanner.nextLine();
-            currentUser = handleUserAction(choice, currentUser);
-
             if ("3".equals(choice)) {
                 iterator = false;
                 logger.info("Good bye, have a nice day.");
+                continue;
             }
+            currentUser = handleUserAction(choice, currentUser);
         }
     }
 
@@ -41,7 +41,6 @@ public class Main {
         switch (choice) {
             case "1" -> currentUser = handleSignUp();
             case "2" -> currentUser = handleSignIn(currentUser);
-            case "4" -> performLogout(currentUser);
             default -> logger.severe("\nInvalid choice!, Please enter 1, 2, or 3.\n");
         }
         return currentUser;

@@ -37,7 +37,7 @@ public class Installer extends User{
         this.availableRequests = new ArrayList<>();
 
         try {
-            resultSet = dbs.executeQuery("SELECT * FROM `" + REQUEST + "` WHERE `done` = false", new ResultSetResultHandler());
+            resultSet = dbs.executeQuery("SELECT * FROM `" + REQUEST + "` WHERE `selected` = false AND `done` = false", new ResultSetResultHandler());
 
             while ( resultSet.next() ) {
                 request = new Request(resultSet.getInt(1),
@@ -66,7 +66,7 @@ public class Installer extends User{
        this. availableRequests=new ArrayList<>();
 
         try {
-            resultSet = databaseService.executeQuery("SELECT * FROM `"+ REQUEST +"` WHERE `selected` = true", new ResultSetResultHandler());
+            resultSet = databaseService.executeQuery("SELECT * FROM `"+ REQUEST +"` WHERE `selected` = true AND `done` = false", new ResultSetResultHandler());
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             while (resultSet.next()) {
                 String date =  resultSet.getString(4).substring(0, 19);
@@ -160,11 +160,19 @@ public class Installer extends User{
             }
     }
 
-
-
     public void markRequestAsDone(DatabaseService databaseService, int requestIdInt) {
         for (Request request : availableRequests) {
             if (request.getId() == requestIdInt) {
+//                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//                String selectedDate = request.getDate().toString().replace("T"," ");
+////                String subSring1 =selectedDate
+////                String subSring2 =
+////                String totalSring1 =
+//                System.out.println("'"+selectedDate+"'");
+//                LocalDateTime dateToStore = LocalDateTime.parse(selectedDate, formatter);
+//                System.out.println("'"+dateToStore+"'");
+//                System.out.println("'"+LocalDateTime.parse(selectedDate)+"'");
+//                request.setDate(LocalDateTime.parse(selectedDate));
                 request.setDone(1);
                 try {
                     databaseService.updateObject(request, REQUEST, "id");

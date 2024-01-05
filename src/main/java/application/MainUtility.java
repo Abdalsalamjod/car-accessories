@@ -435,6 +435,14 @@ public class MainUtility {
 
     }
 
+    public static String buildUpdateForDone( int requestId){
+        return "UPDATE Request SET done=1 WHERE id=" + requestId;
+    }
+    public static String buildUpdateForSelected( int requestId){
+        return "UPDATE Request SET selected=1 WHERE id=" + requestId;
+    }
+
+
 
 
 

@@ -37,7 +37,7 @@ public class Installer extends User{
         this.availableRequests = new ArrayList<>();
 
         try {
-            resultSet = dbs.executeQuery("SELECT * FROM `" + REQUEST + "` WHERE `done` = false", new ResultSetResultHandler());
+            resultSet = dbs.executeQuery("SELECT * FROM `" + REQUEST + "` WHERE `selected` = false AND `done` = false", new ResultSetResultHandler());
 
             while ( resultSet.next() ) {
                 request = new Request(resultSet.getInt(1),
@@ -65,7 +65,7 @@ public class Installer extends User{
         this. availableRequests=new ArrayList<>();
 
         try {
-            resultSet = databaseService.executeQuery("SELECT * FROM `"+ REQUEST +"` WHERE `selected` = true", new ResultSetResultHandler());
+            resultSet = databaseService.executeQuery("SELECT * FROM `"+ REQUEST +"` WHERE `selected` = true AND `done` = false", new ResultSetResultHandler());
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             while (resultSet.next()) {
                 String date =  resultSet.getString(4).substring(0, 19);

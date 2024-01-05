@@ -19,8 +19,8 @@ public class User {
 
     protected String email;
     protected String password;
-    protected Profile profile;
     protected char role;
+    protected Profile profile;
     protected boolean signInStatus;
 
 
@@ -119,7 +119,7 @@ public class User {
     public static ResultSet getRequest( String query, DatabaseService dbs ) throws SQLException {
         return dbs.executeQuery(query, new ResultSetResultHandler());
     }
-    private List<Request> fetchRequests(DatabaseService databaseService, String query, Level logLevel) {
+    private List<Request> fetchRequests(DatabaseService databaseService, String query ) {
         List<Request> availableRequests = new ArrayList<>();
 
         Request request;
@@ -134,8 +134,8 @@ public class User {
                         resultSet.getString(3),
                         LocalDateTime.parse(date, formatter),
                         resultSet.getString(5));
-                if (logger.isLoggable(logLevel)) {
-                    logger.log(logLevel, request.toString());
+                if (logger.isLoggable(Level.INFO)) {
+                    logger.log(Level.INFO, request.toString());
                 }
                 availableRequests.add(request);
             }
@@ -148,12 +148,12 @@ public class User {
 
     public void viewRequisitesHistory(DatabaseService databaseService) {
         String query = "SELECT * FROM `Request` WHERE `done` = true AND `userId`= '" + this.email + "'";
-        fetchRequests(databaseService, query, Level.INFO);
+        fetchRequests(databaseService, query);
     }
 
     public List<Request> viewInstallationRequests(DatabaseService databaseService) {
         String query = "SELECT * FROM `Request` WHERE `selected` = true AND `userId`= '" + this.email + "'";
-        return fetchRequests(databaseService, query, Level.INFO);
+        return fetchRequests(databaseService, query);
     }
 
 

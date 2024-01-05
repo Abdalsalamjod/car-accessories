@@ -27,10 +27,10 @@ public class DatabaseService implements Serializable {
   }
 
 
+  @SuppressWarnings("java:S2095")
   public <T> T executeQuery(String query, QueryResultHandler<T> resultHandler) throws SQLException {
       return resultHandler.handle(connection.prepareStatement(query).executeQuery());
   }
-
 
 
   public <T> boolean addObject(T object, String tableName) throws SQLException {

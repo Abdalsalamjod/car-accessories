@@ -130,11 +130,9 @@ public class Installer extends User{
     }
 
     private void updateRequest(DatabaseService databaseService, Request request) {
-        try {
+        try(Statement smt = databaseService.getConnection().createStatement()) {
             String query = "UPDATE Request SET selected=1 WHERE id=" + request.getId();
-            Statement smt = databaseService.getConnection().createStatement();
             smt.executeUpdate(query);
-            smt.close();
         }  catch (Exception e) {
             logger.severe("An unexpected error occurred: " + e.getMessage());
         }
@@ -161,15 +159,13 @@ public class Installer extends User{
             }
     }
 
-    
+
     public void markRequestAsDone(DatabaseService databaseService, int requestIdInt) {
         for (Request request : availableRequests) {
             if (request.getId() == requestIdInt) {
-                try {
+                try(Statement smt = databaseService.getConnection().createStatement()) {
                     String query = "UPDATE Request SET done=1 WHERE id=" + requestIdInt;
-                    Statement smt = databaseService.getConnection().createStatement();
                     smt.executeUpdate(query);
-                    smt.close();
                 } catch (Exception e) {
                     logger.severe("Error updating the request: " + e.getMessage());
                     logger.severe("\nPlease, enter a valid number\n");

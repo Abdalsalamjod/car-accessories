@@ -4,6 +4,7 @@ import application.database.premitive_objects.ResultSetResultHandler;
 import application.services.DatabaseService;
 
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -11,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
-
 import static application.Main.*;
 import static application.Main.logger;
 
@@ -60,10 +60,9 @@ public class Installer extends User{
 
 
     private void populateAvailableRequests(DatabaseService databaseService) {
-
         ResultSet resultSet;
         Request request;
-       this. availableRequests=new ArrayList<>();
+        this. availableRequests=new ArrayList<>();
 
         try {
             resultSet = databaseService.executeQuery("SELECT * FROM `"+ REQUEST +"` WHERE `selected` = true AND `done` = false", new ResultSetResultHandler());
@@ -132,8 +131,10 @@ public class Installer extends User{
 
     private void updateRequest(DatabaseService databaseService, Request request) {
         try {
-            request.setSelected(1);
-            databaseService.updateObject(request, REQUEST, "id");
+            String query = "UPDATE Request SET selected=1 WHERE id=" + request.getId();
+            Statement smt = databaseService.getConnection().createStatement();
+            smt.executeUpdate(query);
+            smt.close();
         }  catch (Exception e) {
             logger.severe("An unexpected error occurred: " + e.getMessage());
         }
@@ -160,29 +161,24 @@ public class Installer extends User{
             }
     }
 
+
+    
     public void markRequestAsDone(DatabaseService databaseService, int requestIdInt) {
         for (Request request : availableRequests) {
             if (request.getId() == requestIdInt) {
-//                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//                String selectedDate = request.getDate().toString().replace("T"," ");
-////                String subSring1 =selectedDate
-////                String subSring2 =
-////                String totalSring1 =
-//                System.out.println("'"+selectedDate+"'");
-//                LocalDateTime dateToStore = LocalDateTime.parse(selectedDate, formatter);
-//                System.out.println("'"+dateToStore+"'");
-//                System.out.println("'"+LocalDateTime.parse(selectedDate)+"'");
-//                request.setDate(LocalDateTime.parse(selectedDate));
                 request.setDone(1);
                 try {
-                    databaseService.updateObject(request, REQUEST, "id");
+                    String query = "UPDATE Request SET done=1 WHERE id=" + requestIdInt;
+                    Statement smt = databaseService.getConnection().createStatement();
+                    smt.executeUpdate(query);
+                    smt.close();
                 } catch (Exception e) {
                     logger.severe("Error updating the request: " + e.getMessage());
-                    logger.severe("Please, enter a valid number\n");
+                    logger.severe("\nPlease, enter a valid number\n");
                 }
             }
         }
-        logger.severe("Please, enter a valid number\n");
+
     }
 
     public static void createNewRequest(Request request, DatabaseService dbs){

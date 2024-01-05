@@ -205,7 +205,9 @@ public class DatabaseService implements Serializable {
     }
   }
 
-
+  public Connection getConnection(){
+    return connection;
+  }
 
 }
 

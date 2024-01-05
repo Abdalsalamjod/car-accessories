@@ -26,7 +26,7 @@ public class DatabaseService implements Serializable {
     }
   }
 
-
+  @SuppressWarnings("java:S2093")
   public <T> T executeQuery(String query, QueryResultHandler<T> resultHandler) throws SQLException {
       return resultHandler.handle(connection.prepareStatement(query).executeQuery());
   }

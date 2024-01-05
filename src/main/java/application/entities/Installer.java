@@ -1,5 +1,6 @@
 package application.entities;
 
+import application.MainUtility;
 import application.database.premitive_objects.ResultSetResultHandler;
 import application.services.DatabaseService;
 
@@ -131,8 +132,7 @@ public class Installer extends User{
 
     private void updateRequest(DatabaseService databaseService, Request request) {
         try(Statement smt = databaseService.getConnection().createStatement()) {
-            String query = "UPDATE Request SET selected=1 WHERE id=" + request.getId();
-            smt.executeUpdate(query);
+            smt.executeUpdate(MainUtility.buildUpdateForSelected(request.getId()));
         }  catch (Exception e) {
             logger.severe("An unexpected error occurred: " + e.getMessage());
         }
@@ -164,8 +164,7 @@ public class Installer extends User{
         for (Request request : availableRequests) {
             if (request.getId() == requestIdInt) {
                 try(Statement smt = databaseService.getConnection().createStatement()) {
-                    String query = "UPDATE Request SET done=1 WHERE id=" + requestIdInt;
-                    smt.executeUpdate(query);
+                    smt.executeUpdate(MainUtility.buildUpdateForDone(requestIdInt));
                 } catch (Exception e) {
                     logger.severe("Error updating the request: " + e.getMessage());
                     logger.severe("\nPlease, enter a valid number\n");
@@ -174,6 +173,7 @@ public class Installer extends User{
         }
 
     }
+
 
     public static void createNewRequest(Request request, DatabaseService dbs){
 

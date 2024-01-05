@@ -113,7 +113,6 @@ public class User {
             logger.info(successMessage);
         } catch (Exception e) {
             logger.severe(EDIT_DETAILS_ERROR);
-            e.printStackTrace();
         }
     }
     public static ResultSet getRequest( String query, DatabaseService dbs ) throws SQLException {

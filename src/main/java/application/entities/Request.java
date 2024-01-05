@@ -39,9 +39,6 @@ public class Request {
   public void setSelected(int selected) {
     this.selected = selected;
   }
-  public int isSelected() {
-    return selected;
-  }
   public int getId() {
     return id;
   }
@@ -72,16 +69,11 @@ public class Request {
   public void setDescription( String description ) {
     this.description = description;
   }
-
   public void setDone(int done) {
     this.done = done;
   }
   public int getDone(){
     return this.done;
-  }
-
-  public int isDone() {
-    return done;
   }
 
   public int getSelected(){

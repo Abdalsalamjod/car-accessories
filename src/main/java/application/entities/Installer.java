@@ -37,7 +37,7 @@ public class Installer extends User{
         this.availableRequests =new ArrayList<>();
 
         try {
-            resultSet = dbs.executeQuery("SELECT * FROM `" + REQUEST + "` WHERE `done` = false", new ResultSetResultHandler());
+            resultSet = dbs.executeQuery("SELECT * FROM `" + REQUEST + "` WHERE `selected` = false", new ResultSetResultHandler());
 
             while ( resultSet.next() ) {
                 request= new Request(resultSet.getInt(1),
@@ -159,8 +159,6 @@ public class Installer extends User{
                 logger.severe("An error occurred: " + e.getMessage());
             }
     }
-
-
 
     public void markRequestAsDone(DatabaseService databaseService, int requestIdInt) {
         for (Request request : availableRequests) {

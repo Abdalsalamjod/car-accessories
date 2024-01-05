@@ -99,7 +99,4 @@ public class Main {
         }
     }
 
-    private static void performLogout(User currentUser) {
-        new LogOut().performLogout(currentUser, new DatabaseService());
-    }
 }

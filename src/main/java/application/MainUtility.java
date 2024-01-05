@@ -3,7 +3,6 @@ import application.database.premitive_objects.ResultSetResultHandler;
 import application.database.user_defined_types.ProductResultHandler;
 import application.entities.*;
 import application.services.*;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -11,7 +10,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
-
 import static application.Main.*;
 import static application.Main.DATE_FORMAT;
 import static application.services.MessagesGenerator.LOGGER;
